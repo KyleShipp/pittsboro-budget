@@ -1,14 +1,14 @@
-# Pittsboro Budget Explorer
+# Pittsboro, NC Budget
 
-An interactive, citizen-facing budget transparency tool for the Town of Pittsboro, NC. Explore the General Fund budget by department, revenue source, and line item. Compare fiscal years, see how your property tax bill breaks down, and browse the 5-year Capital Improvement Plan.
+An interactive budget transparency tool for the Town of Pittsboro, NC. Explore the General Fund budget by department, revenue source, and line item. Compare fiscal years, see how your property tax bill breaks down, and browse the 5-year Capital Improvement Plan.
 
-**Live:** http://localhost:3002 (dev)
+**Live:** https://kyleshipp.github.io/pittsboro-budget/
 
 ## Features
 
 - **Overview Dashboard** — Total budget, per-capita spending, revenue breakdown by source, expenditures by department with drilldown
-- **Compare Years** — Side-by-side comparison of any two fiscal years with biggest changes highlighted
-- **Your Receipt** — Slide in your home's assessed value and see exactly how your property tax is distributed across Town services
+- **Compare Years** — Side-by-side comparison across all three fiscal years with biggest changes highlighted
+- **Your Receipt** — Look up your property by address (live Chatham County GIS lookup) to see your tax bill split between Town and County, with a per-department breakdown
 - **Capital Plan** — 5-year Capital Improvement Plan ($37.2M in projects + $3.5M in vehicles) with department filtering
 - **Fee Schedule** — Searchable General Fund fee schedule including facility rentals, athletic fees, and admin charges
 - **About & Methodology** — Data sources, limitations, and links to official documents
@@ -23,18 +23,18 @@ An interactive, citizen-facing budget transparency tool for the Town of Pittsbor
 
 ## Tech Stack
 
-- **Next.js 14** with App Router and static export (`output: 'export'`)
+- **Next.js 14** with App Router and static export
 - **React 18** + **TypeScript**
 - **Recharts** for interactive charts (bar, pie)
 - **Tailwind CSS** for styling
-- No backend — all data from JSON files in `public/data/`
+- **Chatham County GIS API** for real-time property lookups
+- No backend — all budget data from JSON files in `public/data/`
 
 ## Running Locally
 
 ```bash
-cd "Chatham Dynamics/BudgetExplorer"
 npm install
-npm run dev        # http://localhost:3002
+npm run dev        # http://localhost:3000
 npm run build      # Static export to out/
 ```
 
@@ -44,24 +44,18 @@ npm run build      # Static export to out/
 public/data/       JSON data files (budget, CIP, fees, debt, metadata)
 src/app/           Next.js App Router pages
 src/components/    Reusable chart and UI components
-src/lib/           Data loading, formatting, calculations
+src/lib/           Data loading, formatting, GIS queries
 src/types/         TypeScript interfaces
 ```
 
-## Data Pipeline
+## Updating Data
 
-Budget data is extracted from published PDF budget documents and structured into JSON. The ingestion can be done via the LedgerTown platform (`Chatham Dynamics/LedgerTown/`) or manually curated. CIP and fee schedule data are hand-structured from the source PDFs.
+Budget data is extracted from published PDF budget documents and structured into JSON.
 
-To update data for a new fiscal year:
+To update for a new fiscal year:
 1. Add the new fiscal year's line items to `public/data/budget.json`
 2. Update `public/data/summary.json` and `public/data/meta.json`
-3. Rebuild: `npm run build`
-
-## Architecture Notes
-
-- Designed as single-town app with multi-town reuse in mind (data files are the only town-specific content)
-- Fully static — deploy to Vercel, GitHub Pages, or any CDN
-- No authentication or user accounts — fully public
+3. Push to `main` — GitHub Actions auto-deploys
 
 ## Not An Official Publication
 
