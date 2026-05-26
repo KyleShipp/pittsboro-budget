@@ -1,0 +1,50 @@
+{
+  "fiscalYears": {
+    "FY24-25": {
+      "totalRevenue": 12911613,
+      "totalExpenditures": 10875830,
+      "taxRate": 0.44,
+      "valueOfPenny": 171266,
+      "collectionRate": 0.985,
+      "fundBalanceAppropriated": 0
+    },
+    "FY25-26": {
+      "totalRevenue": 14101878,
+      "totalExpenditures": 14101878,
+      "taxRate": 0.44,
+      "valueOfPenny": 170186,
+      "collectionRate": 0.988,
+      "fundBalanceAppropriated": 1218878,
+      "revenueNeutralRate": 0.3449
+    },
+    "FY26-27": {
+      "totalRevenue": 13800300,
+      "totalExpenditures": 13800300,
+      "taxRate": 0.44,
+      "valueOfPenny": 185261,
+      "collectionRate": 0.985,
+      "fundBalanceAppropriated": 0,
+      "status": "recommended",
+      "statusLabel": "Manager's Recommended Budget — Not Yet Adopted",
+      "statusDetail": "This budget was presented to the Board of Commissioners on May 11, 2026. A public hearing was held the same evening. The Board is expected to vote on adoption at the June 8, 2026 meeting. Until adopted, these figures may change.",
+      "timeline": [
+        { "date": "2025-12-03", "event": "Board Budget Scoping Session", "status": "complete" },
+        { "date": "2026-01-13", "event": "Budget request forms to Department Heads", "status": "complete" },
+        { "date": "2026-02-06", "event": "Department requests returned to Town Manager", "status": "complete" },
+        { "date": "2026-03-01", "event": "Budget reviews with Department Directors", "status": "complete" },
+        { "date": "2026-04-07", "event": "Board of Commissioners Budget Retreat", "status": "complete" },
+        { "date": "2026-04-30", "event": "Budget available online and at Administrative Offices", "status": "complete" },
+        { "date": "2026-05-11", "event": "Manager's Presentation & Public Hearing", "status": "complete" },
+        { "date": "2026-06-08", "event": "Budget Adoption Vote", "status": "upcoming" }
+      ],
+      "highlights": [
+        "Balanced without using fund balance for operating costs",
+        "3% Cost-of-Living Adjustment effective July 1, 2026",
+        "2% merit bonus based on evaluation",
+        "New positions: Assistant Project Manager, Downtown Events Coordinator, Development Services Division Manager, Senior Planner",
+        "Solid waste rates increase 2.4% due to CPI",
+        "Health insurance estimated 18% increase"
+      ]
+    }
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "revenues": [
+    { "code": "4100-41000", "description": "Ad Valorem Taxes", "category": "Property Tax", "FY24-25": 4887800, "FY25-26": 6980000, "FY26-27": 7500000 },
+    { "code": "4100-41100", "description": "Taxes - Prior Years", "category": "Property Tax", "FY24-25": 6261, "FY25-26": 8000, "FY26-27": 7000 },
+    { "code": "4100-41130", "description": "Public Service Utility Tax", "category": "Property Tax", "FY24-25": 30712, "FY25-26": 30000, "FY26-27": 38000 },
+    { "code": "4100-41121", "description": "Motor Vehicle Taxes", "category": "Property Tax", "FY24-25": 506286, "FY25-26": 450000, "FY26-27": 550000 },
+    { "code": "4100-41210", "description": "Municipal Vehicle Tax", "category": "Property Tax", "FY24-25": 146460, "FY25-26": 125000, "FY26-27": 150000 },
+    { "code": "4100-41105", "description": "Tax Interest and Penalties", "category": "Property Tax", "FY24-25": 14826, "FY25-26": 9000, "FY26-27": 10000 },
+    { "code": "4100-41200", "description": "Rental Vehicle Tax", "category": "Other Taxes", "FY24-25": 13973, "FY25-26": 10000, "FY26-27": 11000 },
+    { "code": "4100-41225", "description": "Beer and Wine Licenses", "category": "Other Taxes", "FY24-25": 955, "FY25-26": 1000, "FY26-27": 1000 },
+    { "code": "4100-41201", "description": "Local Govt Sales Tax (Article 39)", "category": "Sales Tax", "FY24-25": 811309, "FY25-26": 850000, "FY26-27": 875000 },
+    { "code": "4100-41202", "description": "Half Cent Sales Tax (Article 40)", "category": "Sales Tax", "FY24-25": 514320, "FY25-26": 525000, "FY26-27": 550000 },
+    { "code": "4100-41203", "description": "Half Cent Sales Tax (Article 42)", "category": "Sales Tax", "FY24-25": 431381, "FY25-26": 450000, "FY26-27": 450000 },
+    { "code": "4100-41204", "description": "Half Cent Sales Tax (Article 44)", "category": "Sales Tax", "FY24-25": 133004, "FY25-26": 130000, "FY26-27": 140000 },
+    { "code": "4100-41205", "description": "Hold Harmless Tax", "category": "Sales Tax", "FY24-25": 511764, "FY25-26": 515000, "FY26-27": 525000 },
+    { "code": "4100-41230", "description": "Utility Franchise Tax", "category": "Franchise Tax", "FY24-25": 331485, "FY25-26": 250000, "FY26-27": 300000 },
+    { "code": "4100-41231", "description": "Natural Gas Tax", "category": "Franchise Tax", "FY24-25": 23254, "FY25-26": 16000, "FY26-27": 17500 },
+    { "code": "4100-41232", "description": "Telecommunications Service Tax", "category": "Franchise Tax", "FY24-25": 12239, "FY25-26": 12000, "FY26-27": 11500 },
+    { "code": "4100-41233", "description": "Video Programming Tax", "category": "Franchise Tax", "FY24-25": 23166, "FY25-26": 21000, "FY26-27": 21000 },
+    { "code": "4100-41250", "description": "Solid Waste Disposal Tax", "category": "Other Taxes", "FY24-25": 4129, "FY25-26": 3500, "FY26-27": 4000 },
+    { "code": "4100-41234", "description": "Beer and Wine Tax", "category": "Other Taxes", "FY24-25": 21393, "FY25-26": 20000, "FY26-27": 20000 },
+    { "code": "4100-45100", "description": "Powell Bill", "category": "Intergovernmental", "FY24-25": 195344, "FY25-26": 175500, "FY26-27": 186300 },
+    { "code": "4100-42500", "description": "ABC Revenues", "category": "Intergovernmental", "FY24-25": 157016, "FY25-26": 125000, "FY26-27": 185000 },
+    { "code": "4100-45105", "description": "ABC Revenues (Law Enforcement)", "category": "Intergovernmental", "FY24-25": 7415, "FY25-26": 10000, "FY26-27": 7500 },
+    { "code": "4100-42100", "description": "Chatham County Recreation Grant", "category": "Intergovernmental", "FY24-25": 24855, "FY25-26": 22000, "FY26-27": 23000 },
+    { "code": "4100-43100", "description": "Site Plan Review", "category": "Licenses & Permits", "FY24-25": 34696, "FY25-26": 32400, "FY26-27": 38000 },
+    { "code": "4100-43105", "description": "Zoning Permit Fees", "category": "Licenses & Permits", "FY24-25": 136249, "FY25-26": 89000, "FY26-27": 200000 },
+    { "code": "4100-43120", "description": "Subdivision Review Fees", "category": "Licenses & Permits", "FY24-25": 138108, "FY25-26": 80000, "FY26-27": 500000 },
+    { "code": "4100-43125", "description": "Stormwater Fees", "category": "Licenses & Permits", "FY24-25": 83015, "FY25-26": 28000, "FY26-27": 100000 },
+    { "code": "4100-43130", "description": "Construction Inspection Fees", "category": "Licenses & Permits", "FY24-25": 280667, "FY25-26": 236000, "FY26-27": 350000 },
+    { "code": "4100-43135", "description": "Engineering Review Fee", "category": "Licenses & Permits", "FY24-25": 73118, "FY25-26": 36600, "FY26-27": 75000 },
+    { "code": "4100-46110", "description": "Outsource Review Fee", "category": "Licenses & Permits", "FY24-25": 6740, "FY25-26": 50000, "FY26-27": 10000 },
+    { "code": "", "description": "Section Design Plan Fees", "category": "Licenses & Permits", "FY24-25": 0, "FY25-26": 0, "FY26-27": 43000 },
+    { "code": "", "description": "Development Services Technology Fee", "category": "Licenses & Permits", "FY24-25": 0, "FY25-26": 0, "FY26-27": 50000 },
+    { "code": "4100-44100", "description": "Interest Income", "category": "Investment Income", "FY24-25": 182063, "FY25-26": 75000, "FY26-27": 80000 },
+    { "code": "4100-43300", "description": "Tipping/Landfill Revenue", "category": "Charges for Services", "FY24-25": 504883, "FY25-26": 557500, "FY26-27": 600000 },
+    { "code": "4100-43200", "description": "Recreation Revenues", "category": "Charges for Services", "FY24-25": 5826, "FY25-26": 4500, "FY26-27": 5000 },
+    { "code": "4100-43205", "description": "Rec. Fee - Pay in Lieu Of", "category": "Charges for Services", "FY24-25": 109250, "FY25-26": 5000, "FY26-27": 50000 },
+    { "code": "4100-43140", "description": "Sidewalk in Lieu Fee", "category": "Charges for Services", "FY24-25": 201006, "FY25-26": 5000, "FY26-27": 50000 },
+    { "code": "4100-43175", "description": "Community House Rents", "category": "Charges for Services", "FY24-25": 2050, "FY25-26": 5000, "FY26-27": 5000 },
+    { "code": "4100-43180", "description": "Shelter Rents", "category": "Charges for Services", "FY24-25": 10750, "FY25-26": 10000, "FY26-27": 36000 },
+    { "code": "4100-43150", "description": "Officers Fees/Clerk of Court", "category": "Charges for Services", "FY24-25": 837, "FY25-26": 500, "FY26-27": 500 },
+    { "code": "4100-46100", "description": "Miscellaneous Revenues", "category": "Other", "FY24-25": 23999, "FY25-26": 15000, "FY26-27": 15000 },
+    { "code": "4100-46300", "description": "Sale of Fixed Assets", "category": "Other", "FY24-25": 87450, "FY25-26": 5000, "FY26-27": 10000 },
+    { "code": "4100-49000", "description": "Loan Proceeds", "category": "Other Financing", "FY24-25": 1072919, "FY25-26": 785500, "FY26-27": 0 },
+    { "code": "4100-45140", "description": "Enterprise Grant Funds", "category": "Other Financing", "FY24-25": 135904, "FY25-26": 0, "FY26-27": 0 },
+    { "code": "9510-95100", "description": "Fund Balance Appropriated", "category": "Other Financing", "FY24-25": 0, "FY25-26": 1218878, "FY26-27": 0 },
+    { "code": "4100-43400", "description": "City of Sanford", "category": "Other Financing", "FY24-25": 280473, "FY25-26": 125000, "FY26-27": 0 },
+    { "code": "4100-46200", "description": "Insurance Proceeds", "category": "Other", "FY24-25": 1063, "FY25-26": 0, "FY26-27": 0 }
+  ],
+  "revenueCategories": [
+    { "category": "Property Tax", "FY24-25": 5592345, "FY25-26": 7602000, "FY26-27": 8255000 },
+    { "category": "Sales Tax", "FY24-25": 2401778, "FY25-26": 2470000, "FY26-27": 2540000 },
+    { "category": "Franchise Tax", "FY24-25": 390144, "FY25-26": 299000, "FY26-27": 350000 },
+    { "category": "Licenses & Permits", "FY24-25": 752593, "FY25-26": 552000, "FY26-27": 1366000 },
+    { "category": "Intergovernmental", "FY24-25": 384630, "FY25-26": 332500, "FY26-27": 401800 },
+    { "category": "Charges for Services", "FY24-25": 834602, "FY25-26": 587500, "FY26-27": 746500 },
+    { "category": "Investment Income", "FY24-25": 182063, "FY25-26": 75000, "FY26-27": 80000 },
+    { "category": "Other Taxes", "FY24-25": 40450, "FY25-26": 34500, "FY26-27": 36000 },
+    { "category": "Other", "FY24-25": 112512, "FY25-26": 20000, "FY26-27": 25000 },
+    { "category": "Other Financing", "FY24-25": 1489296, "FY25-26": 2129378, "FY26-27": 0 }
+  ],
+  "departments": [
+    {
+      "id": "governing-body",
+      "name": "Governing Board",
+      "deptCode": "4100",
+      "amounts": {
+        "FY24-25": { "personnel": 78730, "operating": 105751, "capital": 0, "total": 184481 },
+        "FY25-26": { "personnel": 81778, "operating": 163835, "capital": 0, "total": 245613 },
+        "FY26-27": { "personnel": 94607, "operating": 166935, "capital": 0, "total": 261542 }
+      }
+    },
+    {
+      "id": "administration",
+      "name": "Administration",
+      "deptCode": "4200",
+      "amounts": {
+        "FY24-25": { "personnel": 1248751, "operating": 256532, "capital": 386919, "total": 1892202 },
+        "FY25-26": { "personnel": 1490315, "operating": 276095, "capital": 700000, "total": 2466411 },
+        "FY26-27": { "personnel": 1662150, "operating": 411655, "capital": 0, "total": 2073805 }
+      }
+    },
+    {
+      "id": "legal",
+      "name": "Legal",
+      "deptCode": "4700",
+      "amounts": {
+        "FY24-25": { "personnel": 0, "operating": 100930, "capital": 0, "total": 100930 },
+        "FY25-26": { "personnel": 0, "operating": 105414, "capital": 0, "total": 105414 },
+        "FY26-27": { "personnel": 0, "operating": 137416, "capital": 0, "total": 137416 }
+      }
+    },
+    {
+      "id": "engineering",
+      "name": "Engineering",
+      "deptCode": "4800",
+      "amounts": {
+        "FY24-25": { "personnel": 550314, "operating": 48382, "capital": 0, "total": 598696 },
+        "FY25-26": { "personnel": 665467, "operating": 157080, "capital": 68875, "total": 891422 },
+        "FY26-27": { "personnel": 683841, "operating": 159870, "capital": 0, "total": 843711 }
+      }
+    },
+    {
+      "id": "planning",
+      "name": "Planning & Development",
+      "deptCode": "4900",
+      "amounts": {
+        "FY24-25": { "personnel": 505324, "operating": 105165, "capital": 0, "total": 610489 },
+        "FY25-26": { "personnel": 668878, "operating": 128967, "capital": 0, "total": 797845 },
+        "FY26-27": { "personnel": 587446, "operating": 43450, "capital": 0, "total": 630896 }
+      }
+    },
+    {
+      "id": "police",
+      "name": "Police",
+      "deptCode": "5100",
+      "amounts": {
+        "FY24-25": { "personnel": 1848585, "operating": 254768, "capital": 357336, "total": 2460689 },
+        "FY25-26": { "personnel": 2282887, "operating": 313155, "capital": 355500, "total": 2951543 },
+        "FY26-27": { "personnel": 2370779, "operating": 389941, "capital": 0, "total": 2760720 }
+      }
+    },
+    {
+      "id": "fire",
+      "name": "Fire Suppression",
+      "deptCode": "5300",
+      "amounts": {
+        "FY24-25": { "personnel": 0, "operating": 1747064, "capital": 0, "total": 1747064 },
+        "FY25-26": { "personnel": 0, "operating": 1934926, "capital": 0, "total": 1934926 },
+        "FY26-27": { "personnel": 0, "operating": 2121371, "capital": 0, "total": 2121371 }
+      },
+      "note": "Fire services provided through professional services contract"
+    },
+    {
+      "id": "public-works",
+      "name": "Public Works",
+      "deptCode": "5400",
+      "amounts": {
+        "FY24-25": { "personnel": 535934, "operating": 694966, "capital": 322480, "total": 1553380 },
+        "FY25-26": { "personnel": 625399, "operating": 634800, "capital": 190000, "total": 1450200 },
+        "FY26-27": { "personnel": 1036262, "operating": 687200, "capital": 0, "total": 1723462 }
+      }
+    },
+    {
+      "id": "public-buildings",
+      "name": "Public Buildings & Grounds",
+      "deptCode": "5500",
+      "amounts": {
+        "FY24-25": { "personnel": 0, "operating": 70807, "capital": 0, "total": 70807 },
+        "FY25-26": { "personnel": 0, "operating": 48500, "capital": 0, "total": 48500 },
+        "FY26-27": { "personnel": 0, "operating": 51000, "capital": 0, "total": 51000 }
+      }
+    },
+    {
+      "id": "sanitation",
+      "name": "Sanitation",
+      "deptCode": "5800",
+      "amounts": {
+        "FY24-25": { "personnel": 0, "operating": 513034, "capital": 0, "total": 513034 },
+        "FY25-26": { "personnel": 0, "operating": 557500, "capital": 0, "total": 557500 },
+        "FY26-27": { "personnel": 0, "operating": 616000, "capital": 0, "total": 616000 }
+      },
+      "note": "Solid waste collection provided through GFL contract"
+    },
+    {
+      "id": "debt-service",
+      "name": "Debt Service",
+      "deptCode": "9100/9200",
+      "amounts": {
+        "FY24-25": { "personnel": 0, "operating": 209800, "capital": 0, "total": 209800 },
+        "FY25-26": { "personnel": 0, "operating": 522776, "capital": 0, "total": 522776 },
+        "FY26-27": { "personnel": 0, "operating": 917562, "capital": 0, "total": 917562 }
+      }
+    },
+    {
+      "id": "recreation",
+      "name": "Recreation",
+      "deptCode": "6200",
+      "amounts": {
+        "FY24-25": { "personnel": 549310, "operating": 424672, "capital": 0, "total": 973982 },
+        "FY25-26": { "personnel": 717151, "operating": 496144, "capital": 205000, "total": 1418295 },
+        "FY26-27": { "personnel": 645706, "operating": 532986, "capital": 25000, "total": 1203692 }
+      }
+    },
+    {
+      "id": "downtown",
+      "name": "Downtown",
+      "deptCode": "6400",
+      "amounts": {
+        "FY24-25": { "personnel": 19452, "operating": 142376, "capital": 0, "total": 161828 },
+        "FY25-26": { "personnel": 90757, "operating": 240490, "capital": 0, "total": 331247 },
+        "FY26-27": { "personnel": 180763, "operating": 278360, "capital": 0, "total": 459123 }
+      }
+    }
+  ],
+  "expenditureTotals": {
+    "FY24-25": {
+      "personnel": 5345458,
+      "operating": 4463637,
+      "capital": 1066735,
+      "debtService": 209800,
+      "total": 10875830
+    },
+    "FY25-26": {
+      "personnel": 6622634,
+      "operating": 5437093,
+      "capital": 1519375,
+      "debtService": 522776,
+      "total": 14101878
+    },
+    "FY26-27": {
+      "personnel": 7261554,
+      "operating": 5596186,
+      "capital": 25000,
+      "debtService": 917562,
+      "total": 13800300
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "loans": [
+    {
+      "lender": "First Citizens",
+      "originalAmount": 716000,
+      "rate": 4.64,
+      "purpose": "Grapple Truck, Skid Steer, Police Vehicles, Hybrid Vehicle",
+      "schedule": [
+        { "year": "FY27", "principalBalance": 548988, "principalPayment": 174762, "interestPayment": 25473 },
+        { "year": "FY28", "principalBalance": 374226, "principalPayment": 182871, "interestPayment": 17364 },
+        { "year": "FY29", "principalBalance": 191356, "principalPayment": 191356, "interestPayment": 8879 },
+        { "year": "FY30", "principalBalance": 0, "principalPayment": 0, "interestPayment": 0 }
+      ]
+    },
+    {
+      "lender": "First Citizens",
+      "originalAmount": 785500,
+      "rate": 3.99,
+      "purpose": "Vehicles",
+      "schedule": [
+        { "year": "FY27", "principalBalance": 785500, "principalPayment": 185005, "interestPayment": 31341 },
+        { "year": "FY28", "principalBalance": 600495, "principalPayment": 192387, "interestPayment": 23960 },
+        { "year": "FY29", "principalBalance": 408108, "principalPayment": 200063, "interestPayment": 16284 },
+        { "year": "FY30", "principalBalance": 208045, "principalPayment": 208045, "interestPayment": 8301 },
+        { "year": "FY31", "principalBalance": 0, "principalPayment": 0, "interestPayment": 0 }
+      ]
+    },
+    {
+      "lender": "Truist",
+      "originalAmount": 1050000,
+      "rate": 4.72,
+      "purpose": "274 Pittsboro Elementary School Rd",
+      "schedule": [
+        { "year": "FY27", "principalBalance": 1050000, "principalPayment": 105000, "interestPayment": 45981 },
+        { "year": "FY28", "principalBalance": 945000, "principalPayment": 105000, "interestPayment": 44604 },
+        { "year": "FY29", "principalBalance": 840000, "principalPayment": 105000, "interestPayment": 39648 },
+        { "year": "FY30", "principalBalance": 735000, "principalPayment": 105000, "interestPayment": 34692 },
+        { "year": "FY31", "principalBalance": 630000, "principalPayment": 105000, "interestPayment": 29736 },
+        { "year": "FY32", "principalBalance": 525000, "principalPayment": 105000, "interestPayment": 24780 },
+        { "year": "FY33", "principalBalance": 420000, "principalPayment": 105000, "interestPayment": 19824 },
+        { "year": "FY34", "principalBalance": 315000, "principalPayment": 105000, "interestPayment": 14868 },
+        { "year": "FY35", "principalBalance": 210000, "principalPayment": 105000, "interestPayment": 9912 },
+        { "year": "FY36", "principalBalance": 105000, "principalPayment": 105000, "interestPayment": 4956 }
+      ]
+    }
+  ],
+  "totalDebtService": {
+    "FY26-27": { "principal": 764767, "interest": 152795, "total": 917562 },
+    "FY25-26": { "principal": 443876, "interest": 78900, "total": 522776 }
+  },
+  "totalOutstandingDebt": 2384488
+}

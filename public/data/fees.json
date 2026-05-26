@@ -1,0 +1,94 @@
+{
+  "fiscalYear": "FY26-27",
+  "adoptionDate": "2026-06-08",
+  "keyChange": "Fee schedule amended to reflect a singular rate for rentals instead of having a separate rate for residents vs non-residents",
+  "categories": [
+    {
+      "name": "Town Facilities & Recreation Rentals",
+      "description": "Exclusive rental is based on hourly rate and subject to availability. All reservations for 100 or more people require a special event application.",
+      "subcategories": [
+        {
+          "name": "Community Building",
+          "note": "All rentals require a two-hour minimum. Refundable Deposit is $150.00. Renting Party is responsible for leaving building and grounds clean and returning all keys before deposit is refunded.",
+          "fees": [
+            { "item": "Hourly Fee", "amount": 75.00, "unit": "per hour" },
+            { "item": "Kitchen Fee/Rental", "amount": 50.00, "unit": "flat" }
+          ]
+        },
+        {
+          "name": "Shelter Rentals",
+          "note": "Unsecured and open to the public. Unless exclusive rentals are secured, managed first-come-first-served with no charge.",
+          "fees": [
+            { "item": "Small (Town Lake)", "amount": 20.00, "unit": "per hour" },
+            { "item": "Medium (Rock Ridge)", "amount": 25.00, "unit": "per hour" },
+            { "item": "Large (Mary Hayes)", "amount": 30.00, "unit": "per hour" },
+            { "item": "Extra-Large (Knight Farm Park)", "amount": 45.00, "unit": "per hour" }
+          ]
+        },
+        {
+          "name": "Rock Ridge Frisbee Golf",
+          "note": "Unsecured and open to the public unless exclusive rentals are secured.",
+          "fees": [
+            { "item": "Closed Course - Half Day (5 hours or less)", "amount": 100.00, "unit": "flat" },
+            { "item": "Closed Course - Full Day (more than 5 hours)", "amount": 200.00, "unit": "flat" },
+            { "item": "Open Course - Full Day", "amount": 100.00, "unit": "flat" }
+          ]
+        },
+        {
+          "name": "Athletic Rentals (per court)",
+          "note": "Unsecured and open to the public unless exclusive rentals are secured.",
+          "fees": [
+            { "item": "Tennis Courts", "amount": 10.00, "unit": "per hour" },
+            { "item": "Basketball", "amount": 5.00, "unit": "per hour" },
+            { "item": "McClenahan Baseball Field (without lights)", "amount": 20.00, "unit": "per hour" },
+            { "item": "McClenahan Baseball Field (with lights)", "amount": 35.00, "unit": "per hour" }
+          ]
+        },
+        {
+          "name": "Multipurpose Fields (per field)",
+          "note": "Unsecured and open to the public unless exclusive rentals are secured.",
+          "fees": [
+            { "item": "Town Lake Park", "amount": 20.00, "unit": "per hour" },
+            { "item": "Mary Hayes Barber Holmes Park", "amount": 30.00, "unit": "per hour" },
+            { "item": "Lining Charge (Limit 1x/week)", "amount": 20.00, "unit": "flat" }
+          ]
+        },
+        {
+          "name": "Event Open Space Field at Knight Farm Park",
+          "fees": [
+            { "item": "Hourly Rate", "amount": 100.00, "unit": "per hour" }
+          ]
+        },
+        {
+          "name": "Pop-Up Park Picnic Area Rental",
+          "fees": [
+            { "item": "Hourly Rate", "amount": 30.00, "unit": "per hour" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Administrative Service Fees",
+      "fees": [
+        { "item": "Copying Fee", "amount": 0.15, "unit": "per page" },
+        { "item": "Returned Check Fee", "amount": 25.00, "unit": "per occurrence" },
+        { "item": "Map Fee", "amount": 25.00, "unit": "per page" }
+      ]
+    },
+    {
+      "name": "Special Event Application Fee",
+      "fees": [
+        { "item": "Application Fee", "amount": 100.00, "unit": "flat" }
+      ]
+    },
+    {
+      "name": "Residential Solid Waste & Recycling",
+      "fees": [
+        { "item": "Base Rate (annual, on tax bill)", "amount": 250.00, "unit": "per year" },
+        { "item": "Additional Roll Cart (weekly pickup)", "amount": 22.50, "unit": "per month" },
+        { "item": "Additional Recycle Cart (every other week)", "amount": 5.25, "unit": "per month" }
+      ],
+      "note": "Customers in new residential dwellings pay pro-rated relative to months remaining in the calendar year."
+    }
+  ]
+}

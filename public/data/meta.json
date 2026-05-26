@@ -1,0 +1,101 @@
+{
+  "municipality": {
+    "name": "Pittsboro",
+    "state": "North Carolina",
+    "county": "Chatham",
+    "type": "town",
+    "founded": 1787,
+    "population": 4752,
+    "medianHomeValue": 376300,
+    "medianHouseholdIncome": 81639,
+    "website": "https://www.pittsboronc.gov"
+  },
+  "fiscalYears": [
+    {
+      "key": "FY24-25",
+      "label": "FY 2024-2025",
+      "type": "actual",
+      "startDate": "2024-07-01",
+      "endDate": "2025-06-30"
+    },
+    {
+      "key": "FY25-26",
+      "label": "FY 2025-2026",
+      "type": "adopted",
+      "startDate": "2025-07-01",
+      "endDate": "2026-06-30"
+    },
+    {
+      "key": "FY26-27",
+      "label": "FY 2026-2027",
+      "type": "recommended",
+      "startDate": "2026-07-01",
+      "endDate": "2027-06-30"
+    }
+  ],
+  "defaultFiscalYear": "FY26-27",
+  "taxRateHistory": [
+    { "year": "FY16-17", "rate": 0.4333 },
+    { "year": "FY17-18", "rate": 0.4333 },
+    { "year": "FY18-19", "rate": 0.4333 },
+    { "year": "FY19-20", "rate": 0.4333 },
+    { "year": "FY20-21", "rate": 0.4333 },
+    { "year": "FY21-22", "rate": 0.4333 },
+    { "year": "FY22-23", "rate": 0.44 },
+    { "year": "FY23-24", "rate": 0.44 },
+    { "year": "FY24-25", "rate": 0.44 },
+    { "year": "FY25-26", "rate": 0.44 },
+    { "year": "FY26-27", "rate": 0.44 }
+  ],
+  "valueOfPenny": [
+    { "year": "2017", "value": 53567 },
+    { "year": "2018", "value": 55222 },
+    { "year": "2019", "value": 56859 },
+    { "year": "2020", "value": 60432 },
+    { "year": "2021", "value": 76372 },
+    { "year": "2022", "value": 85353 },
+    { "year": "2023", "value": 96343 },
+    { "year": "2024", "value": 119022 },
+    { "year": "2025", "value": 171266 },
+    { "year": "2026", "value": 185261 }
+  ],
+  "collectionRate": 0.985,
+  "countyTaxRates": {
+    "county": "Chatham",
+    "rates": [
+      { "year": "FY24-25", "rate": 0.725 },
+      { "year": "FY25-26", "rate": 0.60 },
+      { "year": "FY26-27", "rate": 0.60 }
+    ],
+    "note": "County rate decreased from $0.725 to $0.60 following the 2025 revaluation"
+  },
+  "fundBalancePolicy": 0.15,
+  "lgcMinimum": 0.08,
+  "fundBalance": {
+    "endingFY2425": 7217577,
+    "assigned": 2319267,
+    "unassigned": 4898310
+  },
+  "sources": [
+    {
+      "title": "Manager's Recommended Budget FY 2026-2027",
+      "date": "2026-05-11",
+      "type": "recommended"
+    },
+    {
+      "title": "Adopted Budget FY 2025-2026",
+      "date": "2025-06-09",
+      "type": "adopted"
+    },
+    {
+      "title": "Manager's Recommended Capital Improvement Plan FY 2026-2027 to FY 2030-2031",
+      "date": "2026-05-11",
+      "type": "cip"
+    },
+    {
+      "title": "General Fund Fee Schedule FY 2026-2027",
+      "date": "2026-05-11",
+      "type": "fees"
+    }
+  ]
+}
