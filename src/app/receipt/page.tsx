@@ -444,8 +444,21 @@ export default function ReceiptPage() {
               </table>
               <p className="text-xs text-gray-400 mt-3">
                 This is an explanatory estimate, not your official tax bill.
-                County tax funds county services (schools, sheriff, social
-                services, etc.) and is not broken down here.
+                Property taxes fund about{' '}
+                {Math.round(
+                  ((budget.revenueCategories.find(
+                    (r) => r.category === 'Property Tax'
+                  )?.['FY26-27'] as number ?? 0) /
+                    fyData.totalRevenue) *
+                    100
+                )}
+                % of the General Fund — the rest comes from sales tax,
+                development fees, grants, and other sources. The allocations
+                above show each department&apos;s proportional share of the
+                total budget applied to your tax bill, which is the standard
+                approach used by municipal transparency tools. County tax
+                funds county services (schools, sheriff, social services, etc.)
+                and is not broken down here.
               </p>
             </div>
           </div>
