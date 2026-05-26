@@ -216,5 +216,74 @@
       "debtService": 917562,
       "total": 13800300
     }
+  },
+  "dedicatedRevenue": {
+    "_comment": "Revenue sources restricted to specific departments. Amounts not covered by dedicated revenue are funded by property tax and other unrestricted sources.",
+    "FY26-27": {
+      "sanitation": {
+        "sources": [
+          { "description": "Solid Waste/Landfill Revenue", "amount": 600000 },
+          { "description": "Yard Waste Tipping", "amount": 8000 }
+        ],
+        "total": 608000,
+        "note": "Sanitation is entirely fee-funded via GFL contract and solid waste fees on tax bill ($250/yr base rate)"
+      },
+      "public-works": {
+        "sources": [
+          { "description": "Powell Bill (street maintenance)", "amount": 186300 }
+        ],
+        "total": 186300,
+        "note": "Powell Bill is state-appropriated and restricted to street construction and maintenance"
+      },
+      "recreation": {
+        "sources": [
+          { "description": "Recreation Revenues", "amount": 5000 },
+          { "description": "Shelter Rents", "amount": 36000 },
+          { "description": "Community House Rents", "amount": 5000 },
+          { "description": "Chatham County Recreation Grant", "amount": 23000 },
+          { "description": "Rec Fee - Pay in Lieu Of", "amount": 50000 }
+        ],
+        "total": 119000,
+        "note": "Partially offset by facility rental fees, recreation program fees, and county grant"
+      },
+      "engineering": {
+        "sources": [
+          { "description": "Construction Inspection Fees", "amount": 350000 },
+          { "description": "Engineering Review Fee", "amount": 75000 },
+          { "description": "Stormwater Fees", "amount": 100000 },
+          { "description": "Outsource Review Fee", "amount": 10000 }
+        ],
+        "total": 535000,
+        "note": "Development-driven fees that offset engineering costs"
+      },
+      "planning": {
+        "sources": [
+          { "description": "Zoning Permit Fees", "amount": 200000 },
+          { "description": "Subdivision Review Fees", "amount": 500000 },
+          { "description": "Site Plan Review", "amount": 38000 },
+          { "description": "Section Design Plan Fees", "amount": 43000 },
+          { "description": "Development Services Technology Fee", "amount": 50000 }
+        ],
+        "total": 831000,
+        "note": "Planning is more than fully offset by development fees in FY26-27"
+      },
+      "police": {
+        "sources": [
+          { "description": "ABC Revenues (Law Enforcement)", "amount": 7500 }
+        ],
+        "total": 7500,
+        "note": "Small portion from ABC law enforcement allocation"
+      },
+      "fire": {
+        "sources": [],
+        "total": 0,
+        "note": "Fire suppression is a professional services contract — no dedicated revenue, funded from general revenues"
+      },
+      "debt-service": {
+        "sources": [],
+        "total": 0,
+        "note": "Debt service is funded from general revenues"
+      }
+    }
   }
 }

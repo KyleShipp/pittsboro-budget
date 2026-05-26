@@ -14,7 +14,7 @@ import {
 } from 'recharts';
 import { getMeta, getSummary, getBudget } from '@/lib/data';
 import { formatCurrency } from '@/lib/format';
-import { calculateTaxBill, allocateTaxReceipt } from '@/lib/calculations';
+import { calculateTaxBill, allocateTaxReceipt, allocateTaxReceiptWeighted } from '@/lib/calculations';
 import { searchParcels, type ParcelResult } from '@/lib/parcel';
 
 const meta = getMeta();
@@ -41,6 +41,7 @@ export default function ReceiptPage() {
   const [searching, setSearching] = useState(false);
   const [searched, setSearched] = useState(false);
   const [error, setError] = useState('');
+  const [receiptMode, setReceiptMode] = useState<'weighted' | 'proportional'>('weighted');
 
   const handleSearch = useCallback(async () => {
     if (!addressQuery.trim()) return;
@@ -73,28 +74,48 @@ export default function ReceiptPage() {
   const townTax = calculateTaxBill(homeValue, fyData.taxRate, fyData.collectionRate);
   const countyTax = calculateTaxBill(homeValue, COUNTY_RATE, fyData.collectionRate);
   const totalTax = townTax + countyTax;
+  const garbageFee = 250; // Flat fee on tax bill, not based on assessed value
+  const totalTaxBill = totalTax + garbageFee; // Full amount on your tax bill
 
   // Town service allocations
   const serviceDepts = budget.departments
     .filter((d) => d.id !== 'debt-service' && (d.amounts[fy]?.total ?? 0) > 0)
-    .map((d) => ({ name: d.name, total: d.amounts[fy]?.total ?? 0 }));
+    .map((d) => ({ id: d.id, name: d.name, total: d.amounts[fy]?.total ?? 0 }));
   const serviceTotal = serviceDepts.reduce((sum, d) => sum + d.total, 0);
   const debtTotal =
     budget.departments.find((d) => d.id === 'debt-service')?.amounts[fy]?.total ?? 0;
   const totalBudget = serviceTotal + debtTotal;
 
-  const allocations = allocateTaxReceipt(townTax, serviceDepts, totalBudget);
-  const debtAllocation = Math.round(townTax * (debtTotal / totalBudget) * 100) / 100;
+  // Dedicated revenue data
+  const dedicatedRevenue: Record<string, { total: number }> =
+    (budget as any).dedicatedRevenue?.['FY26-27'] ?? {};
+
+  // Proportional mode (simple)
+  const proportionalAllocations = allocateTaxReceipt(townTax, serviceDepts, totalBudget);
+  const proportionalDebt = Math.round(townTax * (debtTotal / totalBudget) * 100) / 100;
+
+  // Weighted mode (accurate — accounts for dedicated revenue)
+  const allDeptsWithDebt = [...serviceDepts, { id: 'debt-service', name: 'Debt Service', total: debtTotal }];
+  const weightedAllocations = allocateTaxReceiptWeighted(townTax, allDeptsWithDebt, dedicatedRevenue);
+
+  // Pick based on mode
+  const allocations = receiptMode === 'weighted'
+    ? weightedAllocations.filter((a) => a.name !== 'Debt Service')
+    : proportionalAllocations;
+  const debtAllocation = receiptMode === 'weighted'
+    ? weightedAllocations.find((a) => a.name === 'Debt Service')?.amount ?? 0
+    : proportionalDebt;
 
   const chartData = [
     ...allocations.map((a) => ({ name: a.name, amount: a.amount })),
     { name: 'Debt Service', amount: debtAllocation },
   ].sort((a, b) => b.amount - a.amount);
 
-  // County vs Town pie
+  // County vs Town vs Garbage pie
   const splitData = [
     { name: `Town of Pittsboro ($${fyData.taxRate.toFixed(2)})`, value: townTax },
     { name: `Chatham County ($${COUNTY_RATE.toFixed(2)})`, value: countyTax },
+    { name: `Solid Waste Fee`, value: garbageFee },
   ];
 
   return (
@@ -254,13 +275,13 @@ export default function ReceiptPage() {
       {/* County vs Town split */}
       <div className="grid lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-white rounded-xl shadow-sm border p-6">
-          <h2 className="text-lg font-semibold mb-1">Total Property Tax</h2>
+          <h2 className="text-lg font-semibold mb-1">Your Annual Tax Bill</h2>
           <p className="text-3xl font-bold text-gray-900">
-            {formatCurrency(Math.round(totalTax))}
+            {formatCurrency(Math.round(totalTaxBill))}
             <span className="text-base font-normal text-gray-400 ml-2">/ year</span>
           </p>
           <p className="text-sm text-gray-500 mb-4">
-            Combined rate: ${(fyData.taxRate + COUNTY_RATE).toFixed(2)} per $100
+            Ad valorem rate: ${(fyData.taxRate + COUNTY_RATE).toFixed(2)} per $100 + ${garbageFee} solid waste fee
           </p>
 
           <div className="space-y-3">
@@ -281,11 +302,15 @@ export default function ReceiptPage() {
             <div className="flex h-3 rounded overflow-hidden">
               <div
                 className="bg-pittsboro-green"
-                style={{ width: `${(townTax / totalTax) * 100}%` }}
+                style={{ width: `${(townTax / totalTaxBill) * 100}%` }}
               />
               <div
                 className="bg-blue-400"
-                style={{ width: `${(countyTax / totalTax) * 100}%` }}
+                style={{ width: `${(countyTax / totalTaxBill) * 100}%` }}
+              />
+              <div
+                className="bg-amber-400"
+                style={{ width: `${(garbageFee / totalTaxBill) * 100}%` }}
               />
             </div>
             <div className="flex items-center justify-between">
@@ -302,13 +327,33 @@ export default function ReceiptPage() {
                 </span>
               </div>
             </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-amber-400" />
+                <span className="text-sm font-medium">Solid Waste Fee</span>
+              </div>
+              <div className="text-right">
+                <span className="font-semibold">
+                  ${garbageFee}
+                </span>
+                <span className="text-xs text-gray-400 ml-2">
+                  flat fee
+                </span>
+              </div>
+            </div>
           </div>
 
           <div className="mt-4 pt-4 border-t text-xs text-gray-400">
             <p>
-              Monthly: {formatCurrency(Math.round(totalTax / 12))} total
+              Monthly: {formatCurrency(Math.round(totalTaxBill / 12))} total
               ({formatCurrency(Math.round(townTax / 12))} town +{' '}
-              {formatCurrency(Math.round(countyTax / 12))} county)
+              {formatCurrency(Math.round(countyTax / 12))} county +{' '}
+              ${Math.round(garbageFee / 12)} solid waste)
+            </p>
+            <p className="mt-1">
+              The solid waste fee is a flat ${garbageFee}/yr charge on your tax bill
+              — it does not vary with property value and directly funds the GFL
+              collection contract.
             </p>
           </div>
         </div>
@@ -333,18 +378,23 @@ export default function ReceiptPage() {
               >
                 <Cell fill="#2d5a27" />
                 <Cell fill="#60a5fa" />
+                <Cell fill="#fbbf24" />
               </Pie>
               <Tooltip formatter={(v: number) => formatCurrency(Math.round(v))} />
             </PieChart>
           </ResponsiveContainer>
-          <div className="flex gap-6 text-sm">
+          <div className="flex gap-4 text-sm flex-wrap justify-center">
             <span className="flex items-center gap-1.5">
               <span className="w-3 h-3 rounded-full bg-pittsboro-green" />
-              Town {((townTax / totalTax) * 100).toFixed(0)}%
+              Town {((townTax / totalTaxBill) * 100).toFixed(0)}%
             </span>
             <span className="flex items-center gap-1.5">
               <span className="w-3 h-3 rounded-full bg-blue-400" />
-              County {((countyTax / totalTax) * 100).toFixed(0)}%
+              County {((countyTax / totalTaxBill) * 100).toFixed(0)}%
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-3 h-3 rounded-full bg-amber-400" />
+              Solid Waste {((garbageFee / totalTaxBill) * 100).toFixed(0)}%
             </span>
           </div>
         </div>
@@ -353,9 +403,33 @@ export default function ReceiptPage() {
       {/* Town services breakdown */}
       {(!selectedParcel || selectedParcel.inPittsboro) && (
         <>
-          <h2 className="text-xl font-bold mb-4">
-            Your Town Tax: {formatCurrency(Math.round(townTax))} Breakdown
-          </h2>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
+            <h2 className="text-xl font-bold">
+              Your Town Tax: {formatCurrency(Math.round(townTax))} Breakdown
+            </h2>
+            <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5 text-xs">
+              <button
+                onClick={() => setReceiptMode('weighted')}
+                className={`px-3 py-1.5 rounded-md transition ${receiptMode === 'weighted' ? 'bg-white shadow-sm font-medium' : ''}`}
+              >
+                Revenue-weighted
+              </button>
+              <button
+                onClick={() => setReceiptMode('proportional')}
+                className={`px-3 py-1.5 rounded-md transition ${receiptMode === 'proportional' ? 'bg-white shadow-sm font-medium' : ''}`}
+              >
+                Proportional
+              </button>
+            </div>
+          </div>
+
+          {receiptMode === 'weighted' && (
+            <p className="text-xs text-gray-500 mb-4">
+              Revenue-weighted mode subtracts dedicated revenue (garbage fees, development fees, Powell Bill, etc.)
+              from each department before allocating your property tax. Departments funded by fees show a smaller
+              share of your tax bill because those fees already cover their costs.
+            </p>
+          )}
 
           <div className="grid lg:grid-cols-2 gap-8 mb-8">
             <div className="bg-white rounded-xl shadow-sm border p-5">
@@ -406,18 +480,33 @@ export default function ReceiptPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {allocations.map((a) => (
-                    <tr key={a.name} className="border-b">
-                      <td className="py-2">{a.name}</td>
-                      <td className="py-2 text-right">${a.amount.toFixed(2)}</td>
-                      <td className="py-2 text-right">
-                        ${(a.amount / 12).toFixed(2)}
-                      </td>
-                      <td className="py-2 text-right text-gray-500">
-                        {a.share.toFixed(1)}%
-                      </td>
-                    </tr>
-                  ))}
+                  {allocations.map((a) => {
+                    const w = 'dedicated' in a ? a as any : null;
+                    return (
+                      <tr key={a.name} className="border-b">
+                        <td className="py-2">
+                          {a.name}
+                          {receiptMode === 'weighted' && w && w.dedicated > 0 && (
+                            <span className="block text-xs text-gray-400">
+                              {formatCurrency(w.dedicated, true)} from fees
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-2 text-right">
+                          ${a.amount.toFixed(2)}
+                          {receiptMode === 'weighted' && w && w.dedicated > 0 && a.amount === 0 && (
+                            <span className="block text-xs text-green-600">Fee-funded</span>
+                          )}
+                        </td>
+                        <td className="py-2 text-right">
+                          ${(a.amount / 12).toFixed(2)}
+                        </td>
+                        <td className="py-2 text-right text-gray-500">
+                          {a.share.toFixed(1)}%
+                        </td>
+                      </tr>
+                    );
+                  })}
                   <tr className="border-b">
                     <td className="py-2">Debt Service</td>
                     <td className="py-2 text-right">
@@ -427,7 +516,10 @@ export default function ReceiptPage() {
                       ${(debtAllocation / 12).toFixed(2)}
                     </td>
                     <td className="py-2 text-right text-gray-500">
-                      {((debtTotal / totalBudget) * 100).toFixed(1)}%
+                      {receiptMode === 'weighted'
+                        ? (weightedAllocations.find((a) => a.name === 'Debt Service')?.share ?? 0).toFixed(1)
+                        : ((debtTotal / totalBudget) * 100).toFixed(1)
+                      }%
                     </td>
                   </tr>
                   <tr className="font-semibold bg-gray-50">
