@@ -20,7 +20,7 @@ export default function Nav() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="font-bold text-lg tracking-tight">
-            Pittsboro Budget Explorer
+            Pittsboro, NC Budget
           </Link>
           <div className="hidden md:flex gap-1">
             {links.map((link) => (

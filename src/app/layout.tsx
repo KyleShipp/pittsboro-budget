@@ -3,7 +3,7 @@ import Nav from '@/components/Nav';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Pittsboro Budget Explorer',
+  title: 'Pittsboro, NC Budget',
   description:
     'Explore the Town of Pittsboro budget by department, revenue source, and line item. Compare years, see your property tax receipt, and browse the capital improvement plan.',
 };

@@ -9,10 +9,10 @@ export default function AboutPage() {
 
       <div className="prose prose-gray">
         <h2 className="text-xl font-semibold mt-6 mb-3">
-          What is the Pittsboro Budget Explorer?
+          What is Pittsboro, NC Budget?
         </h2>
         <p className="text-gray-700 mb-4">
-          The Pittsboro Budget Explorer is an independent civic data tool that
+          Pittsboro, NC Budget is an independent civic data tool that
           turns published Town of Pittsboro budget documents into searchable
           tables, interactive charts, department drilldowns, year-over-year
           comparisons, and a property tax receipt view.
