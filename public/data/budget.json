@@ -230,10 +230,11 @@
       },
       "public-works": {
         "sources": [
-          { "description": "Powell Bill (street maintenance)", "amount": 186300 }
+          { "description": "Powell Bill (street maintenance)", "amount": 186300 },
+          { "description": "Sidewalk in Lieu Fee", "amount": 50000 }
         ],
-        "total": 186300,
-        "note": "Powell Bill is state-appropriated and restricted to street construction and maintenance"
+        "total": 236300,
+        "note": "Powell Bill is state-appropriated and restricted to street construction and maintenance. Sidewalk-in-lieu fees fund sidewalk projects."
       },
       "recreation": {
         "sources": [
@@ -248,24 +249,17 @@
       },
       "engineering": {
         "sources": [
-          { "description": "Construction Inspection Fees", "amount": 350000 },
-          { "description": "Engineering Review Fee", "amount": 75000 },
-          { "description": "Stormwater Fees", "amount": 100000 },
-          { "description": "Outsource Review Fee", "amount": 10000 }
+          { "description": "Development Services Fees (50% split)", "amount": 683000 }
         ],
-        "total": 535000,
-        "note": "Development-driven fees that offset engineering costs"
+        "total": 683000,
+        "note": "Half of all development fees (zoning, subdivision, inspection, stormwater, engineering review, site plan, design plan, tech fee) — shared evenly with Planning as part of Development Services"
       },
       "planning": {
         "sources": [
-          { "description": "Zoning Permit Fees", "amount": 200000 },
-          { "description": "Subdivision Review Fees", "amount": 500000 },
-          { "description": "Site Plan Review", "amount": 38000 },
-          { "description": "Section Design Plan Fees", "amount": 43000 },
-          { "description": "Development Services Technology Fee", "amount": 50000 }
+          { "description": "Development Services Fees (50% split)", "amount": 683000 }
         ],
-        "total": 831000,
-        "note": "Planning is more than fully offset by development fees in FY26-27"
+        "total": 683000,
+        "note": "Half of all development fees — shared evenly with Engineering as part of Development Services. Fees exceed department budget in FY26-27."
       },
       "police": {
         "sources": [
