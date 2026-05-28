@@ -470,40 +470,47 @@ function DeptCompareDetail({
         </table>
       </div>
 
-      {/* Composition bar for each FY */}
-      <div className="space-y-2">
-        {fiscalYears.map((fy) => {
-          const a = dept.amounts[fy];
-          if (!a || a.total === 0) return null;
-          return (
-            <div key={fy}>
-              <p className="text-xs text-gray-400 mb-0.5">{fy}</p>
-              <div className="flex h-3 rounded overflow-hidden">
-                {a.personnel > 0 && (
-                  <div
-                    className="bg-pittsboro-green"
-                    style={{ width: `${(a.personnel / a.total) * 100}%` }}
-                    title={`Personnel: ${formatCurrency(a.personnel)}`}
-                  />
-                )}
-                {a.operating > 0 && (
-                  <div
-                    className="bg-pittsboro-gold"
-                    style={{ width: `${(a.operating / a.total) * 100}%` }}
-                    title={`Operating: ${formatCurrency(a.operating)}`}
-                  />
-                )}
-                {a.capital > 0 && (
-                  <div
-                    className="bg-gray-400"
-                    style={{ width: `${(a.capital / a.total) * 100}%` }}
-                    title={`Capital: ${formatCurrency(a.capital)}`}
-                  />
-                )}
-              </div>
-            </div>
-          );
-        })}
+      {/* Composition bar for each FY — proportional width across years */}
+      {(() => {
+        const maxTotal = Math.max(...fiscalYears.map((fy) => dept.amounts[fy]?.total ?? 0));
+        return (
+          <div className="space-y-2">
+            {fiscalYears.map((fy) => {
+              const a = dept.amounts[fy];
+              if (!a || a.total === 0) return null;
+              const barWidth = (a.total / maxTotal) * 100;
+              return (
+                <div key={fy}>
+                  <p className="text-xs text-gray-400 mb-0.5">{fy}</p>
+                  <div className="flex h-3 rounded overflow-hidden" style={{ width: `${barWidth}%` }}>
+                    {a.personnel > 0 && (
+                      <div
+                        className="bg-pittsboro-green"
+                        style={{ width: `${(a.personnel / a.total) * 100}%` }}
+                        title={`Personnel: ${formatCurrency(a.personnel)}`}
+                      />
+                    )}
+                    {a.operating > 0 && (
+                      <div
+                        className="bg-pittsboro-gold"
+                        style={{ width: `${(a.operating / a.total) * 100}%` }}
+                        title={`Operating: ${formatCurrency(a.operating)}`}
+                      />
+                    )}
+                    {a.capital > 0 && (
+                      <div
+                        className="bg-gray-400"
+                        style={{ width: `${(a.capital / a.total) * 100}%` }}
+                        title={`Capital: ${formatCurrency(a.capital)}`}
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      })()
         <div className="flex gap-4 mt-1 text-xs text-gray-500">
           <span className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full bg-pittsboro-green inline-block" />
