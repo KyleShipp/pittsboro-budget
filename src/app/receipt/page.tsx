@@ -642,26 +642,43 @@ export default function ReceiptPage() {
             const pennyDelta = Math.round((simRate - actualRate) * 100);
             const revenueChange = pennyDelta * fyData.valueOfPenny;
 
+            const savingsColor = diff > 0 ? 'text-red-600' : diff < 0 ? 'text-green-600' : 'text-gray-400';
+            // Town revenue: opposite colors — losing revenue is red, gaining is green
+            const revenueColor = revenueChange < 0 ? 'text-red-600' : revenueChange > 0 ? 'text-green-600' : 'text-gray-400';
+
             return (
               <div className="flex-1 grid grid-cols-2 gap-4">
+                {/* Your tax bill */}
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-xs text-gray-500 font-medium">Town Tax</p>
                   <p className="text-2xl font-bold">{formatCurrency(Math.round(simTown))}</p>
-                  <p className={`text-sm font-medium mt-1 ${diff > 0 ? 'text-red-600' : diff < 0 ? 'text-green-600' : 'text-gray-400'}`}>
-                    {diff === 0
-                      ? 'No change'
-                      : `${diff > 0 ? '+' : ''}${formatCurrency(Math.round(diff))} / yr`}
-                  </p>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-xs text-gray-500 font-medium">Total Tax Bill</p>
                   <p className="text-2xl font-bold">{formatCurrency(Math.round(simTotal))}</p>
-                  <p className={`text-sm font-medium mt-1 ${diff > 0 ? 'text-red-600' : diff < 0 ? 'text-green-600' : 'text-gray-400'}`}>
-                    {diff === 0
-                      ? 'Current rate'
-                      : `${diff > 0 ? '+' : ''}${formatCurrency(Math.round(diff / 12))}/mo`}
-                  </p>
                 </div>
+
+                {/* Your savings / cost */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-xs text-gray-500 font-medium">Your Annual Change</p>
+                  <p className={`text-2xl font-bold ${savingsColor}`}>
+                    {diff === 0
+                      ? 'No change'
+                      : `${diff > 0 ? '+' : ''}${formatCurrency(Math.round(diff))}`}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">per year</p>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-xs text-gray-500 font-medium">Your Monthly Change</p>
+                  <p className={`text-2xl font-bold ${savingsColor}`}>
+                    {diff === 0
+                      ? 'No change'
+                      : `${diff > 0 ? '+' : ''}${formatCurrency(Math.round(diff / 12))}`}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">per month</p>
+                </div>
+
+                {/* Rate change & town revenue */}
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-xs text-gray-500 font-medium">Rate Change</p>
                   <p className="text-2xl font-bold tabular-nums">
@@ -673,10 +690,10 @@ export default function ReceiptPage() {
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-xs text-gray-500 font-medium">Town Revenue Impact</p>
-                  <p className="text-2xl font-bold">
+                  <p className={`text-2xl font-bold ${revenueColor}`}>
                     {revenueChange === 0
                       ? '—'
-                      : `${revenueChange > 0 ? '+' : ''}${formatCurrency(Math.abs(revenueChange), true)}`}
+                      : `${revenueChange > 0 ? '+' : '-'}${formatCurrency(Math.abs(revenueChange), true)}`}
                   </p>
                   <p className="text-xs text-gray-400 mt-1">
                     1¢ = {formatCurrency(fyData.valueOfPenny)}
