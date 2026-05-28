@@ -510,7 +510,7 @@ function DeptCompareDetail({
             })}
           </div>
         );
-      })()
+      })()}
         <div className="flex gap-4 mt-1 text-xs text-gray-500">
           <span className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full bg-pittsboro-green inline-block" />
@@ -525,7 +525,6 @@ function DeptCompareDetail({
             Capital
           </span>
         </div>
-      </div>
     </div>
   );
 }
