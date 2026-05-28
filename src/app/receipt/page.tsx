@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   BarChart,
   Bar,
@@ -31,17 +31,40 @@ const COLORS = [
   '#9e9e9e', '#bdbdbd', '#e0e0e0',
 ];
 
+const STORAGE_KEY = 'pittsboro-receipt-parcel';
+
+function loadSaved(): { parcel: ParcelResult | null; homeValue: number; addressQuery: string } {
+  if (typeof window === 'undefined') return { parcel: null, homeValue: meta.municipality.medianHomeValue, addressQuery: '' };
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  return { parcel: null, homeValue: meta.municipality.medianHomeValue, addressQuery: '' };
+}
+
 export default function ReceiptPage() {
   const fy = 'FY26-27';
   const fyData = summary.fiscalYears[fy];
-  const [homeValue, setHomeValue] = useState(meta.municipality.medianHomeValue);
-  const [addressQuery, setAddressQuery] = useState('');
-  const [results, setResults] = useState<ParcelResult[]>([]);
-  const [selectedParcel, setSelectedParcel] = useState<ParcelResult | null>(null);
+  const saved = loadSaved();
+  const [homeValue, setHomeValue] = useState(saved.homeValue);
+  const [addressQuery, setAddressQuery] = useState(saved.addressQuery);
+  const [results, setResults] = useState<ParcelResult[]>(saved.parcel ? [saved.parcel] : []);
+  const [selectedParcel, setSelectedParcel] = useState<ParcelResult | null>(saved.parcel);
   const [searching, setSearching] = useState(false);
-  const [searched, setSearched] = useState(false);
+  const [searched, setSearched] = useState(!!saved.parcel);
   const [error, setError] = useState('');
   const [receiptMode, setReceiptMode] = useState<'weighted' | 'proportional'>('weighted');
+  const [simRate, setSimRate] = useState(fyData.taxRate);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+        parcel: selectedParcel,
+        homeValue,
+        addressQuery,
+      }));
+    } catch {}
+  }, [selectedParcel, homeValue, addressQuery]);
 
   const handleSearch = useCallback(async () => {
     if (!addressQuery.trim()) return;
@@ -556,6 +579,120 @@ export default function ReceiptPage() {
           </div>
         </>
       )}
+
+      {/* ── Tax Rate Simulator ──────────────────────────────────── */}
+      <div className="bg-white rounded-xl shadow-sm border p-6 mb-8">
+        <h2 className="text-xl font-bold mb-1">What If? Tax Rate Simulator</h2>
+        <p className="text-sm text-gray-500 mb-5">
+          See how changing the Town of Pittsboro tax rate by a penny at a time
+          would affect your annual tax bill.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-6">
+          {/* Rate controls */}
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-4">
+              <button
+                onClick={() => setSimRate((r) => Math.round((r - 0.01) * 100) / 100)}
+                disabled={simRate <= 0.01}
+                className="w-10 h-10 rounded-lg border border-gray-300 text-lg font-bold hover:bg-gray-100 disabled:opacity-30 transition"
+              >
+                −
+              </button>
+              <div className="text-center">
+                <p className="text-3xl font-bold tabular-nums">
+                  ${simRate.toFixed(2)}
+                </p>
+                <p className="text-xs text-gray-400">per $100</p>
+              </div>
+              <button
+                onClick={() => setSimRate((r) => Math.round((r + 0.01) * 100) / 100)}
+                className="w-10 h-10 rounded-lg border border-gray-300 text-lg font-bold hover:bg-gray-100 transition"
+              >
+                +
+              </button>
+            </div>
+            <input
+              type="range"
+              min={0.30}
+              max={0.70}
+              step={0.01}
+              value={simRate}
+              onChange={(e) => setSimRate(Number(e.target.value))}
+              className="w-full"
+            />
+            <div className="flex justify-between text-xs text-gray-400 mt-1">
+              <span>$0.30</span>
+              <span
+                className="cursor-pointer underline text-pittsboro-green"
+                onClick={() => setSimRate(fyData.taxRate)}
+              >
+                Reset to ${fyData.taxRate.toFixed(2)}
+              </span>
+              <span>$0.70</span>
+            </div>
+          </div>
+
+          {/* Results */}
+          {(() => {
+            const simTown = calculateTaxBill(homeValue, simRate, fyData.collectionRate);
+            const simTotal = simTown + countyTax + garbageFee;
+            const diff = simTown - townTax;
+            const actualRate = fyData.taxRate;
+            const pennyDelta = Math.round((simRate - actualRate) * 100);
+            const revenueChange = pennyDelta * fyData.valueOfPenny;
+
+            return (
+              <div className="flex-1 grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-xs text-gray-500 font-medium">Town Tax</p>
+                  <p className="text-2xl font-bold">{formatCurrency(Math.round(simTown))}</p>
+                  <p className={`text-sm font-medium mt-1 ${diff > 0 ? 'text-red-600' : diff < 0 ? 'text-green-600' : 'text-gray-400'}`}>
+                    {diff === 0
+                      ? 'No change'
+                      : `${diff > 0 ? '+' : ''}${formatCurrency(Math.round(diff))} / yr`}
+                  </p>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-xs text-gray-500 font-medium">Total Tax Bill</p>
+                  <p className="text-2xl font-bold">{formatCurrency(Math.round(simTotal))}</p>
+                  <p className={`text-sm font-medium mt-1 ${diff > 0 ? 'text-red-600' : diff < 0 ? 'text-green-600' : 'text-gray-400'}`}>
+                    {diff === 0
+                      ? 'Current rate'
+                      : `${diff > 0 ? '+' : ''}${formatCurrency(Math.round(diff / 12))}/mo`}
+                  </p>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-xs text-gray-500 font-medium">Rate Change</p>
+                  <p className="text-2xl font-bold tabular-nums">
+                    {pennyDelta === 0 ? '—' : `${pennyDelta > 0 ? '+' : ''}${pennyDelta}¢`}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    from ${actualRate.toFixed(2)}
+                  </p>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-xs text-gray-500 font-medium">Town Revenue Impact</p>
+                  <p className="text-2xl font-bold">
+                    {revenueChange === 0
+                      ? '—'
+                      : `${revenueChange > 0 ? '+' : ''}${formatCurrency(Math.abs(revenueChange), true)}`}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    1¢ = {formatCurrency(fyData.valueOfPenny)}
+                  </p>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+
+        <p className="text-xs text-gray-400 mt-4">
+          This is a simplified model. Changing the tax rate would also affect fund
+          balance, service levels, and borrowing capacity. The county rate
+          (${COUNTY_RATE.toFixed(2)}) and solid waste fee ($250) are held constant.
+        </p>
+      </div>
     </div>
   );
 }
