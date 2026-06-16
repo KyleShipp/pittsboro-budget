@@ -94,14 +94,38 @@ export default function HomePage() {
         </select>
       </div>
 
-      {/* Proposed/Recommended banner */}
+      {/* Status banner */}
       {fy.statusLabel && (
-        <div className="bg-amber-50 border border-amber-300 rounded-xl p-5 mb-8">
+        <div
+          className={`border rounded-xl p-5 mb-8 ${
+            fy.status === 'adopted'
+              ? 'bg-green-50 border-green-300'
+              : 'bg-amber-50 border-amber-300'
+          }`}
+        >
           <div className="flex items-start gap-3">
-            <span className="text-amber-500 text-xl mt-0.5">⚠</span>
+            <span
+              className={`text-xl mt-0.5 ${
+                fy.status === 'adopted' ? 'text-green-600' : 'text-amber-500'
+              }`}
+            >
+              {fy.status === 'adopted' ? '✓' : '⚠'}
+            </span>
             <div>
-              <p className="font-semibold text-amber-800">{fy.statusLabel}</p>
-              <p className="text-sm text-amber-700 mt-1">{fy.statusDetail}</p>
+              <p
+                className={`font-semibold ${
+                  fy.status === 'adopted' ? 'text-green-800' : 'text-amber-800'
+                }`}
+              >
+                {fy.statusLabel}
+              </p>
+              <p
+                className={`text-sm mt-1 ${
+                  fy.status === 'adopted' ? 'text-green-700' : 'text-amber-700'
+                }`}
+              >
+                {fy.statusDetail}
+              </p>
             </div>
           </div>
         </div>

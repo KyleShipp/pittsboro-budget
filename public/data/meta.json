@@ -28,7 +28,7 @@
     {
       "key": "FY26-27",
       "label": "FY 2026-2027",
-      "type": "recommended",
+      "type": "adopted",
       "startDate": "2026-07-01",
       "endDate": "2027-06-30"
     }
@@ -78,9 +78,9 @@
   },
   "sources": [
     {
-      "title": "Manager's Recommended Budget FY 2026-2027",
-      "date": "2026-05-11",
-      "type": "recommended"
+      "title": "Adopted Budget FY 2026-2027",
+      "date": "2026-06-08",
+      "type": "adopted"
     },
     {
       "title": "Adopted Budget FY 2025-2026",
@@ -88,13 +88,13 @@
       "type": "adopted"
     },
     {
-      "title": "Manager's Recommended Capital Improvement Plan FY 2026-2027 to FY 2030-2031",
-      "date": "2026-05-11",
+      "title": "Adopted Capital Improvement Plan FY 2026-2027 to FY 2030-2031",
+      "date": "2026-06-08",
       "type": "cip"
     },
     {
       "title": "General Fund Fee Schedule FY 2026-2027",
-      "date": "2026-05-11",
+      "date": "2026-06-08",
       "type": "fees"
     }
   ]

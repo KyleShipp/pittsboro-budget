@@ -24,9 +24,9 @@
       "valueOfPenny": 185261,
       "collectionRate": 0.985,
       "fundBalanceAppropriated": 0,
-      "status": "recommended",
-      "statusLabel": "Manager's Recommended Budget — Not Yet Adopted",
-      "statusDetail": "This budget was presented to the Board of Commissioners on May 11, 2026. A public hearing was held the same evening. The Board is expected to vote on adoption at the June 8, 2026 meeting. Until adopted, these figures may change.",
+      "status": "adopted",
+      "statusLabel": "Adopted Budget — Effective July 1, 2026",
+      "statusDetail": "The Board of Commissioners adopted this budget by ordinance on June 8, 2026, following the Manager's presentation and public hearing on May 11, 2026. These are the final adopted figures.",
       "timeline": [
         { "date": "2025-12-03", "event": "Board Budget Scoping Session", "status": "complete" },
         { "date": "2026-01-13", "event": "Budget request forms to Department Heads", "status": "complete" },
@@ -35,15 +35,16 @@
         { "date": "2026-04-07", "event": "Board of Commissioners Budget Retreat", "status": "complete" },
         { "date": "2026-04-30", "event": "Budget available online and at Administrative Offices", "status": "complete" },
         { "date": "2026-05-11", "event": "Manager's Presentation & Public Hearing", "status": "complete" },
-        { "date": "2026-06-08", "event": "Budget Adoption Vote", "status": "upcoming" }
+        { "date": "2026-06-08", "event": "Budget Adopted by Ordinance", "status": "complete" }
       ],
       "highlights": [
         "Balanced without using fund balance for operating costs",
-        "3% Cost-of-Living Adjustment effective July 1, 2026",
-        "2% merit bonus based on evaluation",
-        "New positions: Assistant Project Manager, Downtown Events Coordinator, Development Services Division Manager, Senior Planner",
-        "Solid waste rates increase 2.4% due to CPI",
-        "Health insurance estimated 18% increase"
+        "Property tax rate unchanged at $0.44 per $100 of valuation",
+        "4% Cost-of-Living Adjustment effective July 1, 2026",
+        "1% merit bonus based on evaluation",
+        "New positions: Assistant Project Manager, Downtown Marketing & Operations Coordinator, Development Services Division Manager – Planning, Senior Planner, plus additional legal services",
+        "Solid waste rates increase 2.4% due to CPI (GFL contract)",
+        "Health insurance moving to Aetna with a budgeted 3% cost increase"
       ]
     }
   }

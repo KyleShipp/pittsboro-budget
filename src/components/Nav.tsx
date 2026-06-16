@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 const links = [
   { href: '/', label: 'Overview' },
   { href: '/compare', label: 'Compare Years' },
+  { href: '/taxbase', label: 'Tax Base' },
   { href: '/receipt', label: 'Your Receipt' },
   { href: '/cip', label: 'Capital Plan' },
   { href: '/fees', label: 'Fee Schedule' },

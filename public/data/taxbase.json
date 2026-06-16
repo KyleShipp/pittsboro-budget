@@ -1,0 +1,63 @@
+{
+  "fiscalYear": "FY26-27",
+  "generated": "2026-06-16",
+  "townRate": 0.44,
+  "countyRate": 0.6,
+  "source": "Chatham County CAMA Parcels (parcel_year 2027), PITTSBORO CITY municipal tax district",
+  "groups": [
+    {
+      "group": "Residential",
+      "parcels": 2996,
+      "assessedValue": 1139583148,
+      "pctOfBase": 68.3,
+      "townTax": 5014166,
+      "countyTax": 6837499,
+      "totalTax": 11851665
+    },
+    {
+      "group": "Commercial",
+      "parcels": 428,
+      "assessedValue": 505285028,
+      "pctOfBase": 30.3,
+      "townTax": 2223254,
+      "countyTax": 3031710,
+      "totalTax": 5254964
+    },
+    {
+      "group": "Industrial",
+      "parcels": 3,
+      "assessedValue": 3340762,
+      "pctOfBase": 0.2,
+      "townTax": 14699,
+      "countyTax": 20045,
+      "totalTax": 34744
+    },
+    {
+      "group": "Exempt / Partial Exempt",
+      "parcels": 308,
+      "assessedValue": 18675544,
+      "pctOfBase": 1.1,
+      "townTax": 82172,
+      "countyTax": 112053,
+      "totalTax": 194226
+    },
+    {
+      "group": "Other",
+      "parcels": 1,
+      "assessedValue": 1286025,
+      "pctOfBase": 0.1,
+      "townTax": 5659,
+      "countyTax": 7716,
+      "totalTax": 13375
+    }
+  ],
+  "total": {
+    "group": "TOTAL",
+    "parcels": 3736,
+    "assessedValue": 1668170507,
+    "pctOfBase": 100.0,
+    "townTax": 7339950,
+    "countyTax": 10009023,
+    "totalTax": 17348973
+  }
+}

@@ -68,7 +68,7 @@
       "amounts": {
         "FY24-25": { "personnel": 78730, "operating": 105751, "capital": 0, "total": 184481 },
         "FY25-26": { "personnel": 81778, "operating": 163835, "capital": 0, "total": 245613 },
-        "FY26-27": { "personnel": 94607, "operating": 166935, "capital": 0, "total": 261542 }
+        "FY26-27": { "personnel": 89513, "operating": 166935, "capital": 0, "total": 256448 }
       }
     },
     {
@@ -78,7 +78,7 @@
       "amounts": {
         "FY24-25": { "personnel": 1248751, "operating": 256532, "capital": 386919, "total": 1892202 },
         "FY25-26": { "personnel": 1490315, "operating": 276095, "capital": 700000, "total": 2466411 },
-        "FY26-27": { "personnel": 1662150, "operating": 411655, "capital": 0, "total": 2073805 }
+        "FY26-27": { "personnel": 1832675, "operating": 411655, "capital": 0, "total": 2244330 }
       }
     },
     {
@@ -88,7 +88,7 @@
       "amounts": {
         "FY24-25": { "personnel": 0, "operating": 100930, "capital": 0, "total": 100930 },
         "FY25-26": { "personnel": 0, "operating": 105414, "capital": 0, "total": 105414 },
-        "FY26-27": { "personnel": 0, "operating": 137416, "capital": 0, "total": 137416 }
+        "FY26-27": { "personnel": 0, "operating": 109396, "capital": 0, "total": 109396 }
       }
     },
     {
@@ -98,7 +98,7 @@
       "amounts": {
         "FY24-25": { "personnel": 550314, "operating": 48382, "capital": 0, "total": 598696 },
         "FY25-26": { "personnel": 665467, "operating": 157080, "capital": 68875, "total": 891422 },
-        "FY26-27": { "personnel": 683841, "operating": 159870, "capital": 0, "total": 843711 }
+        "FY26-27": { "personnel": 600822, "operating": 159870, "capital": 0, "total": 760692 }
       }
     },
     {
@@ -108,7 +108,7 @@
       "amounts": {
         "FY24-25": { "personnel": 505324, "operating": 105165, "capital": 0, "total": 610489 },
         "FY25-26": { "personnel": 668878, "operating": 128967, "capital": 0, "total": 797845 },
-        "FY26-27": { "personnel": 587446, "operating": 43450, "capital": 0, "total": 630896 }
+        "FY26-27": { "personnel": 586374, "operating": 43450, "capital": 0, "total": 629824 }
       }
     },
     {
@@ -118,7 +118,7 @@
       "amounts": {
         "FY24-25": { "personnel": 1848585, "operating": 254768, "capital": 357336, "total": 2460689 },
         "FY25-26": { "personnel": 2282887, "operating": 313155, "capital": 355500, "total": 2951543 },
-        "FY26-27": { "personnel": 2370779, "operating": 389941, "capital": 0, "total": 2760720 }
+        "FY26-27": { "personnel": 2349204, "operating": 383681, "capital": 0, "total": 2732885 }
       }
     },
     {
@@ -139,7 +139,7 @@
       "amounts": {
         "FY24-25": { "personnel": 535934, "operating": 694966, "capital": 322480, "total": 1553380 },
         "FY25-26": { "personnel": 625399, "operating": 634800, "capital": 190000, "total": 1450200 },
-        "FY26-27": { "personnel": 1036262, "operating": 687200, "capital": 0, "total": 1723462 }
+        "FY26-27": { "personnel": 1025098, "operating": 687200, "capital": 0, "total": 1712298 }
       }
     },
     {
@@ -149,7 +149,7 @@
       "amounts": {
         "FY24-25": { "personnel": 0, "operating": 70807, "capital": 0, "total": 70807 },
         "FY25-26": { "personnel": 0, "operating": 48500, "capital": 0, "total": 48500 },
-        "FY26-27": { "personnel": 0, "operating": 51000, "capital": 0, "total": 51000 }
+        "FY26-27": { "personnel": 0, "operating": 56000, "capital": 0, "total": 56000 }
       }
     },
     {
@@ -180,7 +180,7 @@
       "amounts": {
         "FY24-25": { "personnel": 549310, "operating": 424672, "capital": 0, "total": 973982 },
         "FY25-26": { "personnel": 717151, "operating": 496144, "capital": 205000, "total": 1418295 },
-        "FY26-27": { "personnel": 645706, "operating": 532986, "capital": 25000, "total": 1203692 }
+        "FY26-27": { "personnel": 637333, "operating": 527986, "capital": 25000, "total": 1190318 }
       }
     },
     {
@@ -190,7 +190,7 @@
       "amounts": {
         "FY24-25": { "personnel": 19452, "operating": 142376, "capital": 0, "total": 161828 },
         "FY25-26": { "personnel": 90757, "operating": 240490, "capital": 0, "total": 331247 },
-        "FY26-27": { "personnel": 180763, "operating": 278360, "capital": 0, "total": 459123 }
+        "FY26-27": { "personnel": 212365, "operating": 240810, "capital": 0, "total": 453175 }
       }
     }
   ],
@@ -210,8 +210,8 @@
       "total": 14101878
     },
     "FY26-27": {
-      "personnel": 7261554,
-      "operating": 5596186,
+      "personnel": 7333384,
+      "operating": 5524356,
       "capital": 25000,
       "debtService": 917562,
       "total": 13800300

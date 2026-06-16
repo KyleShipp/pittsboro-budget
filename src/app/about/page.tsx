@@ -67,10 +67,9 @@ export default function AboutPage() {
           excluded.
         </p>
         <p className="text-gray-700 mb-4">
-          FY 2024-2025 figures represent actual spending. FY 2025-2026 figures
-          are from the adopted budget. FY 2026-2027 figures are from the
-          Manager&apos;s Recommended Budget (not yet adopted as of this
-          writing).
+          FY 2024-2025 figures represent actual spending. FY 2025-2026 and
+          FY 2026-2027 figures are from the adopted budgets. The FY 2026-2027
+          budget was adopted by ordinance on June 8, 2026.
         </p>
 
         <h2 className="text-xl font-semibold mt-6 mb-3">Limitations</h2>
@@ -85,10 +84,6 @@ export default function AboutPage() {
           <li>
             Budget categories may change over time, so some comparisons require
             judgment
-          </li>
-          <li>
-            Recommended budget values may change before final adoption in June
-            2026
           </li>
           <li>
             Receipt estimates are explanatory allocations, not official tax bills

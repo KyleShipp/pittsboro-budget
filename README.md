@@ -8,6 +8,7 @@ An interactive budget transparency tool for the Town of Pittsboro, NC. Explore t
 
 - **Overview Dashboard** — Total budget, per-capita spending, revenue breakdown by source, expenditures by department with drilldown
 - **Compare Years** — Side-by-side comparison across all three fiscal years with biggest changes highlighted
+- **Tax Base** — Property tax base mix by type (Residential, Commercial, Industrial, Exempt, Other) with each type's share of assessed value and estimated annual tax split between Town and County
 - **Your Receipt** — Look up your property by address (live Chatham County GIS lookup) to see your tax bill split between Town and County, with a per-department breakdown
 - **Capital Plan** — 5-year Capital Improvement Plan ($37.2M in projects + $3.5M in vehicles) with department filtering
 - **Fee Schedule** — Searchable General Fund fee schedule including facility rentals, athletic fees, and admin charges
@@ -17,9 +18,9 @@ An interactive budget transparency tool for the Town of Pittsboro, NC. Explore t
 
 | Fiscal Year | Type | Source |
 |---|---|---|
-| FY 2024-2025 | Actual | From FY 26-27 recommended budget document |
+| FY 2024-2025 | Actual | From FY 26-27 adopted budget document |
 | FY 2025-2026 | Adopted | Adopted Budget document (June 2025) |
-| FY 2026-2027 | Recommended | Manager's Recommended Budget (May 2026) |
+| FY 2026-2027 | Adopted | Adopted Budget document (June 8, 2026) |
 
 ## Tech Stack
 
@@ -51,6 +52,14 @@ src/types/         TypeScript interfaces
 ## Updating Data
 
 Budget data is extracted from published PDF budget documents and structured into JSON.
+
+The **Tax Base** page reads `public/data/taxbase.json`, which is generated from
+live Chatham County parcel data by the script in `../PittsboroTaxBase`:
+
+```bash
+cd ../PittsboroTaxBase
+python pittsboro_tax_base.py   # writes ../BudgetExplorer/public/data/taxbase.json
+```
 
 To update for a new fiscal year:
 1. Add the new fiscal year's line items to `public/data/budget.json`

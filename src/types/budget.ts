@@ -184,3 +184,23 @@ export interface DebtData {
   totalDebtService: Record<string, { principal: number; interest: number; total: number }>;
   totalOutstandingDebt: number;
 }
+
+export interface TaxBaseGroup {
+  group: string;
+  parcels: number;
+  assessedValue: number;
+  pctOfBase: number;
+  townTax: number;
+  countyTax: number;
+  totalTax: number;
+}
+
+export interface TaxBaseData {
+  fiscalYear: string;
+  generated: string;
+  townRate: number;
+  countyRate: number;
+  source: string;
+  groups: TaxBaseGroup[];
+  total: TaxBaseGroup;
+}
