@@ -63,8 +63,8 @@ function formatAcres(v: number | null): string {
 // ── Filter state ────────────────────────────────────────────────────────────
 
 export interface MapFilters {
-  minVpa: number | '';
-  maxVpa: number | '';
+  minVpa: number;
+  maxVpa: number;
   showReview: boolean;
 }
 
@@ -85,13 +85,13 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   const [geojson, setGeojson] = useState<ValuePerAcreGeoJSON | null>(null);
   const [breaks, setBreaks] = useState<number[]>([]);
   const [filters, setFilters] = useState<MapFilters>({
-    minVpa: '',
-    maxVpa: '',
+    minVpa: 0,
+    maxVpa: 0,
     showReview: true,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [stats, setStats] = useState<{ min: number; max: number; median: number } | null>(null);
+  const [stats, setStats] = useState<{ min: number; max: number; median: number; q1: number; q3: number } | null>(null);
 
   // ── Fetch GeoJSON ──────────────────────────────────────────────────────
   useEffect(() => {
@@ -107,11 +107,17 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
           .filter((v): v is number => v !== null && v !== undefined && isFinite(v));
         const sorted = [...vpas].sort((a, b) => a - b);
         setBreaks(computeQuantileBreaks(vpas));
-        setStats({
-          min: sorted[0] ?? 0,
-          max: sorted[sorted.length - 1] ?? 0,
-          median: sorted[Math.floor(sorted.length / 2)] ?? 0,
-        });
+        
+        const min = sorted[0] ?? 0;
+        const max = sorted[sorted.length - 1] ?? 0;
+        const median = sorted[Math.floor(sorted.length / 2)] ?? 0;
+        const q1 = sorted[Math.floor(sorted.length * 0.25)] ?? min;
+        const q3 = sorted[Math.floor(sorted.length * 0.75)] ?? max;
+        
+        setStats({ min, max, median, q1, q3 });
+        // Set default range: show Q1 to Q3 (middle 50% of data)
+        setFilters((f) => ({ ...f, minVpa: q1, maxVpa: q3 }));
+        
         onLoad?.(data.metadata);
         setLoading(false);
       })
@@ -169,14 +175,13 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       geoLayerRef.current = null;
     }
 
-    const minVpa = filters.minVpa !== '' ? Number(filters.minVpa) : null;
-    const maxVpa = filters.maxVpa !== '' ? Number(filters.maxVpa) : null;
+    const minVpa = filters.minVpa;
+    const maxVpa = filters.maxVpa;
 
     const filtered = geojson.features.filter((f) => {
       const { value_per_acre, action } = f.properties;
       if (!filters.showReview && action === 'review') return false;
-      if (minVpa !== null && (value_per_acre === null || value_per_acre < minVpa)) return false;
-      if (maxVpa !== null && (value_per_acre === null || value_per_acre > maxVpa)) return false;
+      if (value_per_acre === null || value_per_acre < minVpa || value_per_acre > maxVpa) return false;
       return true;
     });
 
@@ -280,37 +285,139 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
 
   return (
     <div>
+      <style>{`
+        input[type="range"] {
+          -webkit-appearance: slider-horizontal;
+          width: 100%;
+          cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #2d5a27;
+          cursor: pointer;
+          border: 2px solid white;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        input[type="range"]::-moz-range-thumb {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #2d5a27;
+          cursor: pointer;
+          border: 2px solid white;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+      `}</style>
       {/* ── Controls ───────────────────────────────────────────────────── */}
-      <div className="bg-white rounded-xl border p-4 mb-4 flex flex-wrap gap-4 items-end">
-        <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">
-            Min Value/Acre ($)
-          </label>
-          <input
-            type="number"
-            className="border rounded px-2 py-1 text-sm w-28"
-            placeholder="e.g. 10000"
-            value={filters.minVpa}
-            onChange={(e) =>
-              setFilters((f) => ({ ...f, minVpa: e.target.value === '' ? '' : Number(e.target.value) }))
-            }
-          />
+      <div className="bg-white rounded-xl border p-5 mb-4">
+        <div className="mb-4">
+          <div className="flex items-end justify-between mb-2">
+            <div>
+              <label className="block text-sm font-semibold text-gray-900">Value per Acre Range</label>
+              <p className="text-xs text-gray-500 mt-0.5">
+                {formatCurrency(filters.minVpa)} – {formatCurrency(filters.maxVpa)}
+              </p>
+            </div>
+            {stats && (
+              <div className="text-right text-xs text-gray-500 space-y-0.5">
+                <div>Q1: <span className="font-medium text-gray-700">{formatCurrency(stats.q1)}/ac</span></div>
+                <div>Median: <span className="font-medium text-gray-700">{formatCurrency(stats.median)}/ac</span></div>
+                <div>Q3: <span className="font-medium text-gray-700">{formatCurrency(stats.q3)}/ac</span></div>
+              </div>
+            )}
+          </div>
+
+          {/* Dual range slider */}
+          {stats && (
+            <div className="space-y-2">
+              <div className="relative pt-2 pb-6">
+                {/* Background bar */}
+                <div className="absolute top-6 left-0 right-0 h-2 bg-gradient-to-r from-blue-100 to-blue-400 rounded-full" />
+                
+                {/* Min slider */}
+                <input
+                  type="range"
+                  min={stats.min}
+                  max={stats.max}
+                  value={filters.minVpa}
+                  onChange={(e) => {
+                    const newMin = Number(e.target.value);
+                    if (newMin <= filters.maxVpa) {
+                      setFilters((f) => ({ ...f, minVpa: newMin }));
+                    }
+                  }}
+                  className="absolute w-full h-2 top-6 left-0 right-0 appearance-none bg-transparent rounded-full pointer-events-none accent-pittsboro-green"
+                  style={{
+                    zIndex: filters.minVpa > (stats.min + stats.max) / 2 ? 5 : 3,
+                  }}
+                />
+                
+                {/* Max slider */}
+                <input
+                  type="range"
+                  min={stats.min}
+                  max={stats.max}
+                  value={filters.maxVpa}
+                  onChange={(e) => {
+                    const newMax = Number(e.target.value);
+                    if (newMax >= filters.minVpa) {
+                      setFilters((f) => ({ ...f, maxVpa: newMax }));
+                    }
+                  }}
+                  className="absolute w-full h-2 top-6 left-0 right-0 appearance-none bg-transparent rounded-full pointer-events-none accent-pittsboro-green"
+                  style={{
+                    zIndex: filters.maxVpa < (stats.min + stats.max) / 2 ? 3 : 5,
+                  }}
+                />
+
+                {/* Range fill */}
+                <div
+                  className="absolute h-2 bg-pittsboro-green rounded-full top-6"
+                  style={{
+                    left: `${((filters.minVpa - stats.min) / (stats.max - stats.min)) * 100}%`,
+                    right: `${100 - ((filters.maxVpa - stats.min) / (stats.max - stats.min)) * 100}%`,
+                  }}
+                />
+
+                {/* Labels below */}
+                <div className="absolute -bottom-5 left-0 text-xs text-gray-500 pointer-events-none">
+                  {formatCurrency(stats.min)}/ac
+                </div>
+                <div className="absolute -bottom-5 right-0 text-xs text-gray-500 pointer-events-none">
+                  {formatCurrency(stats.max)}/ac
+                </div>
+              </div>
+
+              {/* Quick presets */}
+              <div className="flex flex-wrap gap-2 mt-8 pt-2">
+                <button
+                  onClick={() => setFilters((f) => ({ ...f, minVpa: stats.min, maxVpa: stats.max }))}
+                  className="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Show All
+                </button>
+                <button
+                  onClick={() => setFilters((f) => ({ ...f, minVpa: stats.q1, maxVpa: stats.q3 }))}
+                  className="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Q1–Q3 (Middle 50%)
+                </button>
+                <button
+                  onClick={() => setFilters((f) => ({ ...f, minVpa: stats.median, maxVpa: stats.q3 }))}
+                  className="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Above Median
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">
-            Max Value/Acre ($)
-          </label>
-          <input
-            type="number"
-            className="border rounded px-2 py-1 text-sm w-28"
-            placeholder="e.g. 500000"
-            value={filters.maxVpa}
-            onChange={(e) =>
-              setFilters((f) => ({ ...f, maxVpa: e.target.value === '' ? '' : Number(e.target.value) }))
-            }
-          />
-        </div>
-        <div className="flex items-center gap-2">
+
+        <div className="flex items-center gap-2 pt-2 border-t">
           <input
             type="checkbox"
             id="showReview"
@@ -319,16 +426,9 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
             className="accent-pittsboro-green"
           />
           <label htmlFor="showReview" className="text-sm text-gray-700">
-            Show flagged parcels
+            Show flagged parcels (orange on map)
           </label>
         </div>
-        {stats && (
-          <div className="ml-auto text-xs text-gray-500 space-y-0.5 text-right">
-            <div>Min: <span className="font-medium text-gray-700">{formatCurrency(stats.min)}/ac</span></div>
-            <div>Median: <span className="font-medium text-gray-700">{formatCurrency(stats.median)}/ac</span></div>
-            <div>Max: <span className="font-medium text-gray-700">{formatCurrency(stats.max)}/ac</span></div>
-          </div>
-        )}
       </div>
 
       {/* ── Map + Legend layout ─────────────────────────────────────────── */}
