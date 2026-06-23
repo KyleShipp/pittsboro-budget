@@ -10,7 +10,7 @@
  * Import it via next/dynamic with { ssr: false }.
  */
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import type { ValuePerAcreGeoJSON, ParcelFeature, ParcelProperties } from '@/types/budget';
 
 // ── Color scale (7-class Blues, low → high value/acre) ─────────────────────
@@ -60,6 +60,23 @@ function formatAcres(v: number | null): string {
   return v.toFixed(2) + ' ac';
 }
 
+function clamp(n: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, n));
+}
+
+function buildHistogram(values: number[], min: number, max: number, bins = 40): number[] {
+  const counts = new Array(bins).fill(0);
+  const span = max - min;
+  if (!values.length || span <= 0) return counts;
+
+  for (const v of values) {
+    const pct = (v - min) / span;
+    const idx = clamp(Math.floor(pct * bins), 0, bins - 1);
+    counts[idx] += 1;
+  }
+  return counts;
+}
+
 // ── Filter state ────────────────────────────────────────────────────────────
 
 export interface MapFilters {
@@ -93,6 +110,22 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState<{ min: number; max: number; median: number; q1: number; q3: number } | null>(null);
 
+  const distribution = useMemo(() => {
+    if (!geojson || !stats) return [] as number[];
+    const values = geojson.features
+      .filter((f) => (filters.showReview ? true : f.properties.action !== 'review'))
+      .map((f) => f.properties.value_per_acre)
+      .filter((v): v is number => typeof v === 'number' && isFinite(v));
+    return buildHistogram(values, stats.min, stats.max, 42);
+  }, [geojson, stats, filters.showReview]);
+
+  const selectedPct = useMemo(() => {
+    if (!stats || stats.max <= stats.min) return { left: 0, right: 0 };
+    const left = ((filters.minVpa - stats.min) / (stats.max - stats.min)) * 100;
+    const right = 100 - ((filters.maxVpa - stats.min) / (stats.max - stats.min)) * 100;
+    return { left: clamp(left, 0, 100), right: clamp(right, 0, 100) };
+  }, [filters.minVpa, filters.maxVpa, stats]);
+
   // ── Fetch GeoJSON ──────────────────────────────────────────────────────
   useEffect(() => {
     fetch(dataUrl)
@@ -115,7 +148,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
         const q3 = sorted[Math.floor(sorted.length * 0.75)] ?? max;
         
         setStats({ min, max, median, q1, q3 });
-        // Set default range: show Q1 to Q3 (middle 50% of data)
+        // Set default range: show middle 50% so map is populated on first load.
         setFilters((f) => ({ ...f, minVpa: q1, maxVpa: q3 }));
         
         onLoad?.(data.metadata);
@@ -291,6 +324,14 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
           width: 100%;
           cursor: pointer;
         }
+        input[type="range"]::-webkit-slider-runnable-track {
+          height: 8px;
+          background: transparent;
+        }
+        input[type="range"]::-moz-range-track {
+          height: 8px;
+          background: transparent;
+        }
         input[type="range"]::-webkit-slider-thumb {
           -webkit-appearance: none;
           appearance: none;
@@ -334,7 +375,25 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
           {/* Dual range slider */}
           {stats && (
             <div className="space-y-2">
-              <div className="relative pt-2 pb-6">
+              <div className="relative pt-2 pb-8">
+                {/* Distribution bars (where parcels fall along the range) */}
+                <div className="h-12 mb-2 flex items-end gap-[1px]">
+                  {distribution.map((count, i) => {
+                    const maxCount = Math.max(...distribution, 1);
+                    const h = Math.max(2, Math.round((count / maxCount) * 100));
+                    const isInside = i >= Math.floor((selectedPct.left / 100) * distribution.length)
+                      && i <= Math.ceil(((100 - selectedPct.right) / 100) * distribution.length);
+                    return (
+                      <div
+                        key={`${i}-${count}`}
+                        title={`${count.toLocaleString()} parcels`}
+                        className={isInside ? 'bg-pittsboro-green/80' : 'bg-gray-300'}
+                        style={{ height: `${h}%`, width: `${100 / distribution.length}%` }}
+                      />
+                    );
+                  })}
+                </div>
+
                 {/* Background bar */}
                 <div className="absolute top-6 left-0 right-0 h-2 bg-gradient-to-r from-blue-100 to-blue-400 rounded-full" />
                 
@@ -350,7 +409,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                       setFilters((f) => ({ ...f, minVpa: newMin }));
                     }
                   }}
-                  className="absolute w-full h-2 top-6 left-0 right-0 appearance-none bg-transparent rounded-full pointer-events-none accent-pittsboro-green"
+                  className="absolute w-full h-2 top-6 left-0 right-0 appearance-none bg-transparent rounded-full accent-pittsboro-green"
                   style={{
                     zIndex: filters.minVpa > (stats.min + stats.max) / 2 ? 5 : 3,
                   }}
@@ -368,7 +427,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                       setFilters((f) => ({ ...f, maxVpa: newMax }));
                     }
                   }}
-                  className="absolute w-full h-2 top-6 left-0 right-0 appearance-none bg-transparent rounded-full pointer-events-none accent-pittsboro-green"
+                  className="absolute w-full h-2 top-6 left-0 right-0 appearance-none bg-transparent rounded-full accent-pittsboro-green"
                   style={{
                     zIndex: filters.maxVpa < (stats.min + stats.max) / 2 ? 3 : 5,
                   }}
@@ -378,8 +437,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                 <div
                   className="absolute h-2 bg-pittsboro-green rounded-full top-6"
                   style={{
-                    left: `${((filters.minVpa - stats.min) / (stats.max - stats.min)) * 100}%`,
-                    right: `${100 - ((filters.maxVpa - stats.min) / (stats.max - stats.min)) * 100}%`,
+                    left: `${selectedPct.left}%`,
+                    right: `${selectedPct.right}%`,
                   }}
                 />
 
