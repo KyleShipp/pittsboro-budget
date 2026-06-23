@@ -1,0 +1,764 @@
+{
+  "generated": "2026-06-23",
+  "source": "https://gisservices.chathamcountync.gov/opendataagol/rest/services/Cadastral/Chatham_CamaParcels/MapServer/0",
+  "total_anomalies": 58,
+  "iqr_low_threshold": 2358.15,
+  "iqr_high_threshold": 934089394.43,
+  "iqr_multiplier": 3.0,
+  "records": [
+    {
+      "parcel_id": "0075329",
+      "owner": "JACKSON, PHILIP S ET AL",
+      "address": "OLD GRAHAM RD",
+      "acres": 0.04863658439115831,
+      "tax_value": 108.0,
+      "value_per_acre": 2220.55,
+      "anomaly_flags": [
+        "extreme_low_vpa"
+      ],
+      "anomaly_reason": "extreme_low_vpa",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0079071",
+      "owner": "UNKNOWN OWNER,",
+      "address": "GAIL ST",
+      "acres": 0.00884145767750141,
+      "tax_value": 17.0,
+      "value_per_acre": 1922.76,
+      "anomaly_flags": [
+        "extreme_low_vpa"
+      ],
+      "anomaly_reason": "extreme_low_vpa",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0081963",
+      "owner": "WEST STREET JUNIOR LLC,",
+      "address": "360  West St",
+      "acres": 0.5701031208388132,
+      "tax_value": 0.0,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "zero_value_taxable"
+      ],
+      "anomaly_reason": "zero_value_taxable",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0006702",
+      "owner": "MCMASTERS, BARBARA H;GLOSSON, LINDA H",
+      "address": "Hillsboro St",
+      "acres": 5.333717990734888,
+      "tax_value": 9497.0,
+      "value_per_acre": 1780.56,
+      "anomaly_flags": [
+        "extreme_low_vpa"
+      ],
+      "anomaly_reason": "extreme_low_vpa",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0093112",
+      "owner": "BRIGHT, TERESA",
+      "address": "ANTHONY ST",
+      "acres": 0.04009902061640009,
+      "tax_value": 1.0,
+      "value_per_acre": 24.94,
+      "anomaly_flags": [
+        "extreme_low_vpa"
+      ],
+      "anomaly_reason": "extreme_low_vpa",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094046",
+      "owner": "COTTAGES CONDOMINIUM I ASSOCIATION INC THE,",
+      "address": "COTTAGE WAY",
+      "acres": 0.4454861248663575,
+      "tax_value": 0.0,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "zero_value_taxable"
+      ],
+      "anomaly_reason": "zero_value_taxable",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0006844",
+      "owner": "RANSDELL FARMS LLC ET AL,",
+      "address": "Old Graham Rd",
+      "acres": 32.76652908074184,
+      "tax_value": 8720.0,
+      "value_per_acre": 266.13,
+      "anomaly_flags": [
+        "extreme_low_vpa"
+      ],
+      "anomaly_reason": "extreme_low_vpa",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094073",
+      "owner": "MOSAIC LOT 6 LLC,",
+      "address": "120 100 Mosaic Blvd",
+      "acres": 1.6825008125297818,
+      "tax_value": 0.0,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "zero_value_taxable"
+      ],
+      "anomaly_reason": "zero_value_taxable",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0094047",
+      "owner": "COTTAGES CONDOMINIUM I ASSOCIATION INC THE,",
+      "address": "COTTAGE WAY",
+      "acres": 0.19112420370464597,
+      "tax_value": 0.0,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "zero_value_taxable"
+      ],
+      "anomaly_reason": "zero_value_taxable",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0093775",
+      "owner": "COTTAGES CONDOMINIUM I ASSOCIATION INC THE,",
+      "address": "COTTAGE WAY",
+      "acres": 1.9849543308368733,
+      "tax_value": 0.0,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "zero_value_taxable"
+      ],
+      "anomaly_reason": "zero_value_taxable",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0073000",
+      "owner": "LOEW, MYRON C;LOEW, ROSLYN",
+      "address": "OFF SANFORD RD",
+      "acres": 0.005110972013583391,
+      "tax_value": 8.0,
+      "value_per_acre": 1565.26,
+      "anomaly_flags": [
+        "extreme_low_vpa"
+      ],
+      "anomaly_reason": "extreme_low_vpa",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0095424",
+      "owner": "TOWNES AT CHATHAM PARK OWNERS ASSOCIATION INC,",
+      "address": "Norwell Ln",
+      "acres": 0.1108447384021556,
+      "tax_value": 0.0,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "zero_value_taxable"
+      ],
+      "anomaly_reason": "zero_value_taxable",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0081979",
+      "owner": "TOWN OF PITTSBORO,",
+      "address": "Industrial Park Dr",
+      "acres": 72.57454474788737,
+      "tax_value": 0.0,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "zero_value_taxable"
+      ],
+      "anomaly_reason": "zero_value_taxable",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0007199",
+      "owner": "WYWUAS SPE LLC,",
+      "address": "264  ROCK SPRINGS CHURCH RD",
+      "acres": 0.7131055559041725,
+      "tax_value": 774593.0,
+      "value_per_acre": 1086224.88,
+      "anomaly_flags": [
+        "duplicate_parcel_id"
+      ],
+      "anomaly_reason": "duplicate_parcel_id",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0007199",
+      "owner": "WYWUAS SPE LLC,",
+      "address": "264  ROCK SPRINGS CHURCH RD",
+      "acres": 76.16508003489072,
+      "tax_value": 774593.0,
+      "value_per_acre": 10169.92,
+      "anomaly_flags": [
+        "duplicate_parcel_id"
+      ],
+      "anomaly_reason": "duplicate_parcel_id",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0097661",
+      "owner": "ODG 87 LLC,",
+      "address": "195 William DR",
+      "acres": 0.05303108832045831,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097672",
+      "owner": "ODG 87 LLC,",
+      "address": "178 William DR",
+      "acres": 0.0530311381533227,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097660",
+      "owner": "ODG 87 LLC,",
+      "address": "199 William DR",
+      "acres": 0.05303148230508447,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097671",
+      "owner": "ODG 87 LLC,",
+      "address": "174 William DR",
+      "acres": 0.05303803674911883,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097670",
+      "owner": "ODG 87 LLC,",
+      "address": "168 William DR",
+      "acres": 0.05315582901074143,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097694",
+      "owner": "ODG 87 LLC,",
+      "address": "239 William DR",
+      "acres": 0.05316303673717232,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097688",
+      "owner": "ODG 87 LLC,",
+      "address": "263 William DR",
+      "acres": 0.05316368316248844,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097664",
+      "owner": "ODG 87 LLC,",
+      "address": "179 William DR",
+      "acres": 0.05318347392900033,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097689",
+      "owner": "ODG 87 LLC,",
+      "address": "259 William DR",
+      "acres": 0.05318601009027496,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097695",
+      "owner": "ODG 87 LLC,",
+      "address": "235 William DR",
+      "acres": 0.053186094563827994,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097665",
+      "owner": "ODG 87 LLC,",
+      "address": "175 William DR",
+      "acres": 0.05328461562500191,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097666",
+      "owner": "ODG 87 LLC,",
+      "address": "169 William DR",
+      "acres": 0.05330190879506209,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097669",
+      "owner": "ODG 87 LLC,",
+      "address": "164 William DR",
+      "acres": 0.05343541785843561,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097693",
+      "owner": "ODG 87 LLC,",
+      "address": "243 William DR",
+      "acres": 0.05371701717314413,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097687",
+      "owner": "ODG 87 LLC,",
+      "address": "267 William DR",
+      "acres": 0.05371709629513971,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097690",
+      "owner": "ODG 87 LLC,",
+      "address": "255 William DR",
+      "acres": 0.05378588456736877,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097696",
+      "owner": "ODG 87 LLC,",
+      "address": "231 William DR",
+      "acres": 0.053786064833023166,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097681",
+      "owner": "NVR INC,",
+      "address": "236 William DR",
+      "acres": 0.055340127780268644,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097684",
+      "owner": "NVR INC,",
+      "address": "250 William DR",
+      "acres": 0.055340184058773466,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097682",
+      "owner": "NVR INC,",
+      "address": "242 William DR",
+      "acres": 0.05599311705294706,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097683",
+      "owner": "NVR INC,",
+      "address": "246 William DR",
+      "acres": 0.05599313391709617,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097678",
+      "owner": "ODG 87 LLC,",
+      "address": "210 William DR",
+      "acres": 0.05609400525656017,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097677",
+      "owner": "ODG 87 LLC,",
+      "address": "206 William DR",
+      "acres": 0.05718438491930603,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097676",
+      "owner": "ODG 87 LLC,",
+      "address": "202 William DR",
+      "acres": 0.05765878179748896,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097675",
+      "owner": "ODG 87 LLC,",
+      "address": "198 William DR",
+      "acres": 0.05770625776998845,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097673",
+      "owner": "ODG 87 LLC,",
+      "address": "182 William DR",
+      "acres": 0.07713573117184985,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097662",
+      "owner": "ODG 87 LLC,",
+      "address": "191 William DR",
+      "acres": 0.07747566350896529,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097667",
+      "owner": "ODG 87 LLC,",
+      "address": "165 William DR",
+      "acres": 0.07759017500404365,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097659",
+      "owner": "ODG 87 LLC,",
+      "address": "205 William DR",
+      "acres": 0.07770033068363215,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097685",
+      "owner": "NVR INC,",
+      "address": "254 William DR",
+      "acres": 0.07800237791999405,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097686",
+      "owner": "ODG 87 LLC,",
+      "address": "271 William DR",
+      "acres": 0.08039878664460808,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097697",
+      "owner": "ODG 87 LLC,",
+      "address": "225 William DR",
+      "acres": 0.0805690328606463,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097668",
+      "owner": "ODG 87 LLC,",
+      "address": "160 William DR",
+      "acres": 0.083273696248824,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097674",
+      "owner": "ODG 87 LLC,",
+      "address": "192 William DR",
+      "acres": 0.08393591366969787,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097663",
+      "owner": "ODG 87 LLC,",
+      "address": "183 William DR",
+      "acres": 0.0853065203407609,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097680",
+      "owner": "NVR INC,",
+      "address": "232 William DR",
+      "acres": 0.08782853117490948,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097679",
+      "owner": "ODG 87 LLC,",
+      "address": "220 William DR",
+      "acres": 0.09220420946547346,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097692",
+      "owner": "ODG 87 LLC,",
+      "address": "247 William DR",
+      "acres": 0.09357869048688038,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097691",
+      "owner": "ODG 87 LLC,",
+      "address": "251 William DR",
+      "acres": 0.09387384612636952,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097656",
+      "owner": "ODG 87 LLC,",
+      "address": "14 Griffin Farm DR",
+      "acres": 0.21637901893517986,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097658",
+      "owner": "ODG 87 LLC,",
+      "address": "262 William DR",
+      "acres": 2.7498685611352656,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097657",
+      "owner": "ODG 87 LLC,",
+      "address": "Griffin Farm DR",
+      "acres": 3.7122351173908568,
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0097767",
+      "owner": "DEPARTMENT OF TRANSPORTATION, STATE OF NORTH CAROLINA",
+      "address": "Hillsboro St",
+      "acres": 0.03764848582544704,
+      "tax_value": 0.0,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "zero_value_taxable"
+      ],
+      "anomaly_reason": "zero_value_taxable",
+      "action": "exclude"
+    }
+  ]
+}

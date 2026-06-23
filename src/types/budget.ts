@@ -204,3 +204,71 @@ export interface TaxBaseData {
   groups: TaxBaseGroup[];
   total: TaxBaseGroup;
 }
+
+// ── Value-per-Acre types ──────────────────────────────────────────────────
+
+export type AnomalyAction = 'include' | 'review' | 'exclude';
+
+export interface ParcelProperties {
+  parcel_id: string;
+  owner: string;
+  address: string;
+  acres: number | null;
+  tax_value: number | null;
+  value_per_acre: number | null;
+  use_code: string;
+  tax_status: string;
+  action: AnomalyAction;
+  anomaly_reason: string;
+}
+
+export interface ParcelFeature {
+  type: 'Feature';
+  geometry: GeoJsonPolygon | GeoJsonMultiPolygon;
+  properties: ParcelProperties;
+}
+
+export interface GeoJsonPolygon {
+  type: 'Polygon';
+  coordinates: number[][][];
+}
+
+export interface GeoJsonMultiPolygon {
+  type: 'MultiPolygon';
+  coordinates: number[][][][];
+}
+
+export interface ValuePerAcreGeoJSON {
+  type: 'FeatureCollection';
+  features: ParcelFeature[];
+  metadata: {
+    generated: string;
+    source: string;
+    filter: string;
+    total_features: number;
+    included: number;
+    review: number;
+  };
+}
+
+export interface AnomalyRecord {
+  parcel_id: string;
+  owner: string;
+  address: string;
+  acres: number | null;
+  tax_value: number | null;
+  value_per_acre: number | null;
+  anomaly_flags: string[];
+  anomaly_reason: string;
+  action: AnomalyAction;
+}
+
+export interface ValuePerAcreAnomalies {
+  generated: string;
+  source: string;
+  total_anomalies: number;
+  iqr_low_threshold: number;
+  iqr_high_threshold: number;
+  iqr_multiplier: number;
+  records: AnomalyRecord[];
+}

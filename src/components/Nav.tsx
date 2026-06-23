@@ -7,6 +7,7 @@ const links = [
   { href: '/', label: 'Overview' },
   { href: '/compare', label: 'Compare Years' },
   { href: '/taxbase', label: 'Tax Base' },
+  { href: '/value-per-acre', label: 'Value per Acre' },
   { href: '/receipt', label: 'Your Receipt' },
   { href: '/cip', label: 'Capital Plan' },
   { href: '/fees', label: 'Fee Schedule' },
@@ -29,7 +30,8 @@ export default function Nav() {
                 key={link.href}
                 href={link.href}
                 className={`px-3 py-2 rounded text-sm font-medium transition-colors ${
-                  pathname === link.href
+                  pathname === link.href ||
+                  (link.href !== '/' && pathname.startsWith(link.href + '/'))
                     ? 'bg-white/20'
                     : 'hover:bg-white/10'
                 }`}
