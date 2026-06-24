@@ -66,20 +66,11 @@ function clamp(n: number, min: number, max: number): number {
 
 const SLIDER_STEPS = 1000;
 
-function toLogPosition(value: number, min: number, max: number): number {
-  if (max <= min) return 0;
-  const logMin = Math.log(min);
-  const logMax = Math.log(max);
-  const logValue = Math.log(clamp(value, min, max));
-  return clamp(((logValue - logMin) / (logMax - logMin)) * SLIDER_STEPS, 0, SLIDER_STEPS);
-}
-
-function fromLogPosition(position: number, min: number, max: number): number {
-  if (max <= min) return min;
-  const logMin = Math.log(min);
-  const logMax = Math.log(max);
-  const logValue = logMin + (clamp(position, 0, SLIDER_STEPS) / SLIDER_STEPS) * (logMax - logMin);
-  return Math.exp(logValue);
+function valueAtPercentile(sortedValues: number[], pct: number): number {
+  if (!sortedValues.length) return 0;
+  const p = clamp(pct, 0, 1);
+  const index = Math.floor(p * (sortedValues.length - 1));
+  return sortedValues[index];
 }
 
 function buildLogHistogram(values: number[], min: number, max: number, bins = 40): number[] {
@@ -132,6 +123,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState<{ min: number; max: number; median: number; q1: number; q3: number } | null>(null);
+  const [sortedVpa, setSortedVpa] = useState<number[]>([]);
+  const [rangePos, setRangePos] = useState<{ min: number; max: number }>({ min: 250, max: 750 });
 
   const distribution = useMemo(() => {
     if (!geojson || !stats) return [] as number[];
@@ -143,11 +136,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   }, [geojson, stats, filters.showReview]);
 
   const sliderPositions = useMemo(() => {
-    if (!stats || stats.max <= stats.min) {
-      return { minPos: 0, maxPos: SLIDER_STEPS, leftPct: 0, rightPct: 0 };
-    }
-    const minPos = toLogPosition(filters.minVpa, stats.min, stats.max);
-    const maxPos = toLogPosition(filters.maxVpa, stats.min, stats.max);
+    const minPos = rangePos.min;
+    const maxPos = rangePos.max;
     const leftPct = (minPos / SLIDER_STEPS) * 100;
     const rightPct = 100 - (maxPos / SLIDER_STEPS) * 100;
     return {
@@ -156,7 +146,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       leftPct: clamp(leftPct, 0, 100),
       rightPct: clamp(rightPct, 0, 100),
     };
-  }, [filters.minVpa, filters.maxVpa, stats]);
+  }, [rangePos.min, rangePos.max]);
 
   // ── Fetch GeoJSON ──────────────────────────────────────────────────────
   useEffect(() => {
@@ -171,6 +161,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
           .map((f) => f.properties.value_per_acre)
           .filter((v): v is number => v !== null && v !== undefined && isFinite(v));
         const sorted = [...vpas].sort((a, b) => a - b);
+        setSortedVpa(sorted);
         setBreaks(computeQuantileBreaks(vpas));
         
         const min = sorted[0] ?? 0;
@@ -182,6 +173,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
         setStats({ min, max, median, q1, q3 });
         // Set default range: show middle 50% so map is populated on first load.
         setFilters((f) => ({ ...f, minVpa: q1, maxVpa: q3 }));
+        setRangePos({ min: 250, max: 750 });
         
         onLoad?.(data.metadata);
         setLoading(false);
@@ -437,7 +429,9 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                   step={1}
                   value={sliderPositions.minPos}
                   onChange={(e) => {
-                    const newMin = fromLogPosition(Number(e.target.value), stats.min, stats.max);
+                    const newMinPos = Math.min(Number(e.target.value), rangePos.max - 1);
+                    const newMin = valueAtPercentile(sortedVpa, newMinPos / SLIDER_STEPS);
+                    setRangePos((p) => ({ ...p, min: newMinPos }));
                     setFilters((f) => ({ ...f, minVpa: Math.min(newMin, f.maxVpa) }));
                   }}
                   className="absolute w-full h-2 top-6 left-0 right-0 appearance-none bg-transparent rounded-full accent-pittsboro-green"
@@ -454,7 +448,9 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                   step={1}
                   value={sliderPositions.maxPos}
                   onChange={(e) => {
-                    const newMax = fromLogPosition(Number(e.target.value), stats.min, stats.max);
+                    const newMaxPos = Math.max(Number(e.target.value), rangePos.min + 1);
+                    const newMax = valueAtPercentile(sortedVpa, newMaxPos / SLIDER_STEPS);
+                    setRangePos((p) => ({ ...p, max: newMaxPos }));
                     setFilters((f) => ({ ...f, maxVpa: Math.max(newMax, f.minVpa) }));
                   }}
                   className="absolute w-full h-2 top-6 left-0 right-0 appearance-none bg-transparent rounded-full accent-pittsboro-green"
@@ -484,19 +480,28 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
               {/* Quick presets */}
               <div className="flex flex-wrap gap-2 mt-8 pt-2">
                 <button
-                  onClick={() => setFilters((f) => ({ ...f, minVpa: stats.min, maxVpa: stats.max }))}
+                  onClick={() => {
+                    setRangePos({ min: 0, max: SLIDER_STEPS });
+                    setFilters((f) => ({ ...f, minVpa: stats.min, maxVpa: stats.max }));
+                  }}
                   className="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   Show All
                 </button>
                 <button
-                  onClick={() => setFilters((f) => ({ ...f, minVpa: stats.q1, maxVpa: stats.q3 }))}
+                  onClick={() => {
+                    setRangePos({ min: 250, max: 750 });
+                    setFilters((f) => ({ ...f, minVpa: stats.q1, maxVpa: stats.q3 }));
+                  }}
                   className="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   Q1–Q3 (Middle 50%)
                 </button>
                 <button
-                  onClick={() => setFilters((f) => ({ ...f, minVpa: stats.median, maxVpa: stats.q3 }))}
+                  onClick={() => {
+                    setRangePos({ min: 500, max: 750 });
+                    setFilters((f) => ({ ...f, minVpa: stats.median, maxVpa: stats.q3 }));
+                  }}
                   className="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   Above Median
