@@ -64,13 +64,36 @@ function clamp(n: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, n));
 }
 
-function buildHistogram(values: number[], min: number, max: number, bins = 40): number[] {
+const SLIDER_STEPS = 1000;
+
+function toLogPosition(value: number, min: number, max: number): number {
+  if (max <= min) return 0;
+  const logMin = Math.log(min);
+  const logMax = Math.log(max);
+  const logValue = Math.log(clamp(value, min, max));
+  return clamp(((logValue - logMin) / (logMax - logMin)) * SLIDER_STEPS, 0, SLIDER_STEPS);
+}
+
+function fromLogPosition(position: number, min: number, max: number): number {
+  if (max <= min) return min;
+  const logMin = Math.log(min);
+  const logMax = Math.log(max);
+  const logValue = logMin + (clamp(position, 0, SLIDER_STEPS) / SLIDER_STEPS) * (logMax - logMin);
+  return Math.exp(logValue);
+}
+
+function buildLogHistogram(values: number[], min: number, max: number, bins = 40): number[] {
   const counts = new Array(bins).fill(0);
-  const span = max - min;
-  if (!values.length || span <= 0) return counts;
+  if (!values.length || max <= min) return counts;
+
+  const logMin = Math.log(min);
+  const logMax = Math.log(max);
+  const span = logMax - logMin;
+  if (span <= 0) return counts;
 
   for (const v of values) {
-    const pct = (v - min) / span;
+    if (v <= 0) continue;
+    const pct = (Math.log(v) - logMin) / span;
     const idx = clamp(Math.floor(pct * bins), 0, bins - 1);
     counts[idx] += 1;
   }
@@ -116,14 +139,23 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       .filter((f) => (filters.showReview ? true : f.properties.action !== 'review'))
       .map((f) => f.properties.value_per_acre)
       .filter((v): v is number => typeof v === 'number' && isFinite(v));
-    return buildHistogram(values, stats.min, stats.max, 42);
+    return buildLogHistogram(values, stats.min, stats.max, 42);
   }, [geojson, stats, filters.showReview]);
 
-  const selectedPct = useMemo(() => {
-    if (!stats || stats.max <= stats.min) return { left: 0, right: 0 };
-    const left = ((filters.minVpa - stats.min) / (stats.max - stats.min)) * 100;
-    const right = 100 - ((filters.maxVpa - stats.min) / (stats.max - stats.min)) * 100;
-    return { left: clamp(left, 0, 100), right: clamp(right, 0, 100) };
+  const sliderPositions = useMemo(() => {
+    if (!stats || stats.max <= stats.min) {
+      return { minPos: 0, maxPos: SLIDER_STEPS, leftPct: 0, rightPct: 0 };
+    }
+    const minPos = toLogPosition(filters.minVpa, stats.min, stats.max);
+    const maxPos = toLogPosition(filters.maxVpa, stats.min, stats.max);
+    const leftPct = (minPos / SLIDER_STEPS) * 100;
+    const rightPct = 100 - (maxPos / SLIDER_STEPS) * 100;
+    return {
+      minPos,
+      maxPos,
+      leftPct: clamp(leftPct, 0, 100),
+      rightPct: clamp(rightPct, 0, 100),
+    };
   }, [filters.minVpa, filters.maxVpa, stats]);
 
   // ── Fetch GeoJSON ──────────────────────────────────────────────────────
@@ -381,8 +413,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                   {distribution.map((count, i) => {
                     const maxCount = Math.max(...distribution, 1);
                     const h = Math.max(2, Math.round((count / maxCount) * 100));
-                    const isInside = i >= Math.floor((selectedPct.left / 100) * distribution.length)
-                      && i <= Math.ceil(((100 - selectedPct.right) / 100) * distribution.length);
+                    const isInside = i >= Math.floor((sliderPositions.leftPct / 100) * distribution.length)
+                      && i <= Math.ceil(((100 - sliderPositions.rightPct) / 100) * distribution.length);
                     return (
                       <div
                         key={`${i}-${count}`}
@@ -400,36 +432,34 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                 {/* Min slider */}
                 <input
                   type="range"
-                  min={stats.min}
-                  max={stats.max}
-                  value={filters.minVpa}
+                  min={0}
+                  max={SLIDER_STEPS}
+                  step={1}
+                  value={sliderPositions.minPos}
                   onChange={(e) => {
-                    const newMin = Number(e.target.value);
-                    if (newMin <= filters.maxVpa) {
-                      setFilters((f) => ({ ...f, minVpa: newMin }));
-                    }
+                    const newMin = fromLogPosition(Number(e.target.value), stats.min, stats.max);
+                    setFilters((f) => ({ ...f, minVpa: Math.min(newMin, f.maxVpa) }));
                   }}
                   className="absolute w-full h-2 top-6 left-0 right-0 appearance-none bg-transparent rounded-full accent-pittsboro-green"
                   style={{
-                    zIndex: filters.minVpa > (stats.min + stats.max) / 2 ? 5 : 3,
+                    zIndex: sliderPositions.minPos > SLIDER_STEPS / 2 ? 5 : 3,
                   }}
                 />
                 
                 {/* Max slider */}
                 <input
                   type="range"
-                  min={stats.min}
-                  max={stats.max}
-                  value={filters.maxVpa}
+                  min={0}
+                  max={SLIDER_STEPS}
+                  step={1}
+                  value={sliderPositions.maxPos}
                   onChange={(e) => {
-                    const newMax = Number(e.target.value);
-                    if (newMax >= filters.minVpa) {
-                      setFilters((f) => ({ ...f, maxVpa: newMax }));
-                    }
+                    const newMax = fromLogPosition(Number(e.target.value), stats.min, stats.max);
+                    setFilters((f) => ({ ...f, maxVpa: Math.max(newMax, f.minVpa) }));
                   }}
                   className="absolute w-full h-2 top-6 left-0 right-0 appearance-none bg-transparent rounded-full accent-pittsboro-green"
                   style={{
-                    zIndex: filters.maxVpa < (stats.min + stats.max) / 2 ? 3 : 5,
+                    zIndex: sliderPositions.maxPos < SLIDER_STEPS / 2 ? 3 : 5,
                   }}
                 />
 
@@ -437,8 +467,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                 <div
                   className="absolute h-2 bg-pittsboro-green rounded-full top-6"
                   style={{
-                    left: `${selectedPct.left}%`,
-                    right: `${selectedPct.right}%`,
+                    left: `${sliderPositions.leftPct}%`,
+                    right: `${sliderPositions.rightPct}%`,
                   }}
                 />
 
