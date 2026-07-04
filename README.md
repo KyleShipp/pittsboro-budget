@@ -13,6 +13,7 @@ An interactive budget transparency tool for the Town of Pittsboro, NC. Explore t
 - **Your Receipt** — Look up your property by address (live Chatham County GIS lookup) to see your tax bill split between Town and County, with a per-department breakdown
 - **Capital Plan** — 5-year Capital Improvement Plan ($37.2M in projects + $3.5M in vehicles) with department filtering
 - **Fee Schedule** — Searchable General Fund fee schedule including facility rentals, athletic fees, and admin charges
+- **Mobile Navigation** — Responsive Menu/Close toggle in the header so all pages are reachable on phones and small tablets
 - **About & Methodology** — Data sources, limitations, and links to official documents
 
 ## Data Coverage
