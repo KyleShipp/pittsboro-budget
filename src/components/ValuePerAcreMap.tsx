@@ -379,6 +379,20 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
+        @media (pointer: coarse) {
+          input[type="range"]::-webkit-slider-thumb {
+            width: 30px;
+            height: 30px;
+            border-width: 3px;
+            box-shadow: 0 0 0 8px rgba(45, 90, 39, 0.18), 0 2px 6px rgba(0,0,0,0.25);
+          }
+          input[type="range"]::-moz-range-thumb {
+            width: 30px;
+            height: 30px;
+            border-width: 3px;
+            box-shadow: 0 0 0 8px rgba(45, 90, 39, 0.18), 0 2px 6px rgba(0,0,0,0.25);
+          }
+        }
       `}</style>
       {/* ── Controls ───────────────────────────────────────────────────── */}
       <div className="bg-white rounded-xl border p-5 mb-4">
@@ -509,6 +523,15 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                   className="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   Above Median
+                </button>
+                <button
+                  onClick={() => {
+                    setRangePos({ min: 750, max: 1000 });
+                    setFilters((f) => ({ ...f, minVpa: stats.q3, maxVpa: stats.max }));
+                  }}
+                  className="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Top 25%
                 </button>
               </div>
             </div>
