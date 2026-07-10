@@ -346,7 +346,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
         input[type="range"] {
           -webkit-appearance: slider-horizontal;
           width: 100%;
-          cursor: pointer;
+          cursor: default;
+          pointer-events: none;
         }
         input[type="range"]::-webkit-slider-runnable-track {
           height: 8px;
@@ -364,6 +365,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
           border-radius: 50%;
           background: #2d5a27;
           cursor: pointer;
+          pointer-events: auto;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
@@ -373,6 +375,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
           border-radius: 50%;
           background: #2d5a27;
           cursor: pointer;
+          pointer-events: auto;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
@@ -465,6 +468,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                   style={{
                     left: `${sliderPositions.leftPct}%`,
                     right: `${sliderPositions.rightPct}%`,
+                    pointerEvents: 'none',
                   }}
                 />
 
