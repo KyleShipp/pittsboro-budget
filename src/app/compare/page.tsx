@@ -21,6 +21,12 @@ const fyKeys = Object.keys(summary.fiscalYears);
 
 const BAR_COLORS = ['#c8e6c9', '#4e9c3f', '#2d5a27'];
 
+function formatYearStatus(type: 'actual' | 'adopted' | 'recommended' | undefined): string {
+  if (type === 'actual') return 'Actual';
+  if (type === 'recommended') return 'Projected';
+  return 'Budget';
+}
+
 // Fixed department order: sorted by latest FY total, descending
 const DEPT_ORDER = [...budget.departments]
   .sort((a, b) => {
@@ -118,12 +124,7 @@ export default function ComparePage() {
                     : 'bg-white text-gray-500 border-gray-300 hover:border-gray-400'
                 }`}
               >
-                {fy}
-                {m?.type === 'actual'
-                  ? ' ✓'
-                  : m?.type === 'recommended'
-                    ? ' ◇'
-                    : ''}
+                {fy} ({formatYearStatus(m?.type)})
               </button>
             );
           })}
