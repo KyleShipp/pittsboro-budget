@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { getMeta } from '@/lib/data';
 
 const meta = getMeta();
@@ -28,6 +29,12 @@ export default function AboutPage() {
           </li>
           <li>Browse the 5-year Capital Improvement Plan</li>
           <li>Search the General Fund Fee Schedule</li>
+          <li>
+            <Link href="/financial-health" className="text-pittsboro-green underline">
+              Explore LGC financial health indicators
+            </Link>
+            {' '}and the audited data needed to assess them
+          </li>
         </ul>
 
         <h2 className="text-xl font-semibold mt-6 mb-3">Data Sources</h2>
@@ -70,6 +77,15 @@ export default function AboutPage() {
           FY 2024-2025 figures represent actual spending. FY 2025-2026 and
           FY 2026-2027 figures are from the adopted budgets. The FY 2026-2027
           budget was adopted by ordinance on June 8, 2026.
+        </p>
+
+        <p className="text-gray-700 mb-4">
+          Financial Health summarizes the September 2026 LGC indicator guidance from
+          the uploaded UNC School of Government article. It is an indicator guide,
+          not an official assessment of Pittsboro. Budget-derived balances and
+          collection assumptions are not substituted for audited LGC results.
+          Missing audit and compliance records are labeled not assessed, not treated
+          as zero or evidence that a threshold was met.
         </p>
 
         <h2 className="text-xl font-semibold mt-6 mb-3">Limitations</h2>

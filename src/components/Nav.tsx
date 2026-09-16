@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 const links = [
   { href: '/', label: 'Overview' },
   { href: '/compare', label: 'Compare Years' },
+  { href: '/financial-health', label: 'Financial Health' },
   { href: '/taxbase', label: 'Tax Base' },
   { href: '/value-per-acre', label: 'Value per Acre' },
   { href: '/receipt', label: 'Your Receipt' },
@@ -35,7 +36,7 @@ export default function Nav() {
 
           <button
             type="button"
-            className="md:hidden inline-flex items-center justify-center rounded px-3 py-2 text-sm font-medium border border-white/30 hover:bg-white/10"
+            className="xl:hidden inline-flex items-center justify-center rounded px-3 py-2 text-sm font-medium border border-white/30 hover:bg-white/10"
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav-links"
             aria-label="Toggle navigation menu"
@@ -44,7 +45,7 @@ export default function Nav() {
             {mobileOpen ? 'Close' : 'Menu'}
           </button>
 
-          <div className="hidden md:flex gap-1">
+          <div className="hidden xl:flex gap-1">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -63,7 +64,7 @@ export default function Nav() {
 
         <div
           id="mobile-nav-links"
-          className={`${mobileOpen ? 'block' : 'hidden'} md:hidden pb-3`}
+          className={`${mobileOpen ? 'block' : 'hidden'} xl:hidden pb-3`}
         >
           <div className="grid gap-1 border-t border-white/20 pt-3">
             {links.map((link) => (
