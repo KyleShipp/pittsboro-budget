@@ -104,6 +104,8 @@ export default function FinancialHealthPage() {
           The dataset also records a local fund balance policy of{' '}
           {(meta.fundBalancePolicy * 100).toFixed(0)}%. Its basis should be checked against the
           adopted policy; it is separate from the LGC&apos;s size-based FPIC thresholds.
+          The FY2025 audit states that no minimum General Fund balance policy had been adopted
+          (printed p. 34, PDF p. 43); this budget metadata does not establish a policy for the audited years.
           The older 8% reference in the source metadata is not used here as a current LGC minimum.
         </p>
         <div className="overflow-x-auto">

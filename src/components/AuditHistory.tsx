@@ -71,6 +71,87 @@ export default function AuditHistory() {
         </p>
       </div>
 
+      <div id="utility-history" className="bg-white border rounded-xl p-5 space-y-4">
+        <h3 className="text-xl font-semibold">Water and sewer: audit-derived measures</h3>
+        <p className="text-gray-700">
+          Operating adjustment = operating income + depreciation − principal paid − interest paid.
+          This combines accrual operating results with cash debt service; it is a transparent
+          calculation, not a verified LOGOS result. Capital condition = (gross depreciable cost
+          − accumulated depreciation) ÷ gross depreciable cost × 100, excluding land and construction
+          in progress. It measures accounting age, not engineering condition.
+        </p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left">
+            <caption className="text-left text-gray-600 pb-3">
+              Historical utility operations through FY2024; no ongoing Town utility ratios for FY2025.
+            </caption>
+            <thead>
+              <tr className="border-b">
+                <th scope="col" className="py-2 pr-4">Year ended</th>
+                <th scope="col" className="py-2 pr-4 text-right">Operating adjustment</th>
+                <th scope="col" className="py-2 pr-4 text-right">Capital condition</th>
+                <th scope="col" className="py-2">Audit pages</th>
+              </tr>
+            </thead>
+            <tbody>
+              {history.years.map(({ year, filename, utility, utilityTransferPages }) => (
+                <tr key={year} className="border-b align-top">
+                  <th scope="row" className="py-3 pr-4">June 30, {year}</th>
+                  <td className="py-3 pr-4 text-right">
+                    {utility == null ? 'N/A — operations transferred' : formatCurrency(
+                      utility.operatingIncome + utility.depreciation - utility.principalPaid - utility.interestPaid,
+                    )}
+                  </td>
+                  <td className="py-3 pr-4 text-right">
+                    {utility == null ? 'N/A — operations transferred' :
+                      utility.grossDepreciableAssets <= 0 ? 'Not assessed — no valid denominator' :
+                        `${((utility.grossDepreciableAssets - utility.accumulatedDepreciation) /
+                          utility.grossDepreciableAssets * 100).toFixed(2)}%`}
+                  </td>
+                  <td className="py-3">
+                    <a href={sourceUrl(filename)} className="text-pittsboro-green underline">
+                      FY{year}: {utility == null ? utilityTransferPages :
+                        `${utility.operatingPages}; ${utility.capitalPages}`}
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-gray-700">
+          Operations transferred to the City of Sanford on July 1, 2024. FY2025 still reports
+          settlement activity, including $481,262 of cash matched by amounts due to other governments;
+          these are not ongoing utility operations. FY2025 is therefore not rated as zero income,
+          zero asset condition, or a healthy liquidity ratio.
+        </p>
+        <p className="text-sm text-gray-600">
+          Quick ratio, unrestricted cash coverage, and operating-transfer dependence remain
+          unassessed for FY2021–FY2024 pending verification of cash restrictions, applicable expense
+          denominators, and operating versus capital transfers. Restricted net position is not
+          interchangeable with restricted cash.
+        </p>
+        <details className="border-t pt-3">
+          <summary className="cursor-pointer font-semibold">Calculation inputs and source caveats</summary>
+          <ul className="space-y-4 mt-3 text-sm text-gray-700">
+            {history.years.map(({ year, utility }) => utility == null ? null : (
+              <li key={year}>
+                <h4 className="font-semibold">FY{year}</h4>
+                <p>
+                  Operating income {formatCurrency(utility.operatingIncome)};
+                  depreciation {formatCurrency(utility.depreciation)};
+                  principal paid {formatCurrency(utility.principalPaid)};
+                  interest paid {formatCurrency(utility.interestPaid)}.
+                  Gross depreciable assets {formatCurrency(utility.grossDepreciableAssets)};
+                  accumulated depreciation {formatCurrency(utility.accumulatedDepreciation)}.
+                </p>
+                <p className="mt-1">{utility.note}</p>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </div>
+
       <div id="compliance-history" className="bg-white border rounded-xl p-5 space-y-4">
         <h3 className="text-xl font-semibold">Reported audit findings</h3>
         <p className="text-gray-600">

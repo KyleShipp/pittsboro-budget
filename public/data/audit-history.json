@@ -12,6 +12,17 @@
         "balancePages": "17 (PDF 23)",
         "changePages": "19 (PDF 25)"
       },
+      "utility": {
+        "operatingIncome": -467259,
+        "depreciation": 580847,
+        "principalPaid": 121706,
+        "interestPaid": 17268,
+        "grossDepreciableAssets": 20945149,
+        "accumulatedDepreciation": 10962565,
+        "operatingPages": "23–24 (PDF 29–30)",
+        "capitalPages": "37 (PDF 44)",
+        "note": "Depreciation is taken from the operating statement; debt principal and interest paid are from the cash-flow statement."
+      },
       "findings": {
         "summary": "No material weaknesses identified, no significant deficiencies reported, and no noncompliance material to the financial statements noted in the auditor’s summary.",
         "pages": "95 (PDF 106)"
@@ -27,6 +38,17 @@
         "expenditures": 5602177,
         "balancePages": "18 (PDF 25)",
         "changePages": "20 (PDF 27)"
+      },
+      "utility": {
+        "operatingIncome": 1845277,
+        "depreciation": 577576,
+        "principalPaid": 128014,
+        "interestPaid": 16263,
+        "grossDepreciableAssets": 20945149,
+        "accumulatedDepreciation": 11540141,
+        "operatingPages": "24–25 (PDF 31–32)",
+        "capitalPages": "38 (PDF 46)",
+        "note": "Depreciation is taken from the operating statement; debt principal and interest paid are from the cash-flow statement."
       },
       "findings": {
         "summary": "No financial statement findings reported; the auditor’s summary reports no material weaknesses identified, no significant deficiencies reported, and no material noncompliance.",
@@ -44,6 +66,17 @@
         "balancePages": "18 (PDF 25)",
         "changePages": "20 (PDF 27)"
       },
+      "utility": {
+        "operatingIncome": 2147587,
+        "depreciation": 572078,
+        "principalPaid": 129625,
+        "interestPaid": 14708,
+        "grossDepreciableAssets": 20999665,
+        "accumulatedDepreciation": 12112218,
+        "operatingPages": "24–25 (PDF 31–32)",
+        "capitalPages": "38 (PDF 46)",
+        "note": "Operating-statement depreciation is $572,078; the detailed capital note reports $572,077. Each calculation uses its cited statement consistently."
+      },
       "findings": {
         "summary": "No financial statement findings reported; the auditor’s summary reports no material weaknesses identified, no significant deficiencies reported, and no material noncompliance.",
         "pages": "100–101 (PDF 112–113)"
@@ -59,6 +92,17 @@
         "expenditures": 9282949,
         "balancePages": "18 (PDF 26)",
         "changePages": "20 (PDF 28)"
+      },
+      "utility": {
+        "operatingIncome": 1184012,
+        "depreciation": 557082,
+        "principalPaid": 348298,
+        "interestPaid": 13049,
+        "grossDepreciableAssets": 21404482,
+        "accumulatedDepreciation": 12669299,
+        "operatingPages": "24–25 (PDF 32–33)",
+        "capitalPages": "38 (PDF 47)",
+        "note": "The capital note yields net depreciable assets of $8,735,183, $1 above Exhibit 6. Its vehicle accumulated depreciation exceeds vehicle cost. Operating-statement depreciation is $557,082 versus $557,081 in the capital note. These source inconsistencies limit interpretation; the calculations retain the cited inputs."
       },
       "findings": {
         "summary": "Finding 2024-001: Administration exceeded appropriations by $216,624 and Cultural and Recreational by $6,740. The audit attributes this to GASB 87 loan proceeds/expenditures without an adopted budget amendment. The auditor reported material noncompliance, but no material weaknesses identified or significant deficiencies reported.",
@@ -76,6 +120,8 @@
         "balancePages": "18 (PDF 26)",
         "changePages": "20 (PDF 28)"
       },
+      "utility": null,
+      "utilityTransferPages": "57 (PDF 66); 23–25 (PDF 31–33)",
       "findings": {
         "summary": "No financial statement or State award findings reported for FY2025. The prior-year schedule marks finding 2024-001 corrected. The auditor’s summary reports no material weaknesses identified, no significant deficiencies reported, and no material noncompliance.",
         "pages": "101–103 (PDF 114–116)"
