@@ -81,8 +81,11 @@ export default function AboutPage() {
 
         <p className="text-gray-700 mb-4">
           Financial Health summarizes the September 2026 LGC indicator guidance from
-          the uploaded UNC School of Government article. It is an indicator guide,
-          not an official assessment of Pittsboro. Budget-derived balances and
+          the uploaded UNC School of Government article and presents historical
+          evidence from the five uploaded FY2021–FY2025 annual audits, with report-page
+          citations. It is not an official LOGOS assessment of Pittsboro.
+          Historical results use the basic financial statements rather than
+          narrative ratios that do not reconcile to those statements. Budget-derived balances and
           collection assumptions are not substituted for audited LGC results.
           Missing audit and compliance records are labeled not assessed, not treated
           as zero or evidence that a threshold was met.

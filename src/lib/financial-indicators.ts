@@ -12,6 +12,7 @@ interface Indicator {
   meaning: string;
   benchmark: string;
   needed: string;
+  historySection?: string;
 }
 
 interface IndicatorGroup {
@@ -35,15 +36,17 @@ export const indicatorGroups: IndicatorGroup[] = [
       },
       {
         name: 'Use of fund balance for operations',
+        historySection: 'general-fund-history',
         meaning: 'Distinguishes reserves spent on capital from reserves used to cover an operating shortfall.',
         benchmark: 'An increase in fund balance, or evidence that a decline is attributable to capital-related spending.',
-        needed: 'Actual beginning and ending fund balances, appropriations, and capital-related uses. A budgeted appropriation alone does not establish an operating loss.',
+        needed: 'Audited annual changes are shown for FY2021–FY2025. The FY2024 decline still requires reconciliation of capital-related uses and financing; neither a decline nor a budgeted appropriation alone establishes an operating loss.',
       },
       {
         name: 'Total fund balance',
+        historySection: 'general-fund-history',
         meaning: 'The General Fund’s year-end balance; a deficit signals that accumulated resources have been exhausted.',
         benchmark: 'Positive total fund balance.',
-        needed: 'Audited General Fund total fund balance for the reporting year. The budget-sourced balance below is context, not a verified LGC result.',
+        needed: 'The General Fund column of each audited governmental-fund balance sheet supplies the historical balances. All five year-end balances are positive; these are not combined governmental-fund balances.',
       },
     ],
   },
@@ -109,15 +112,17 @@ export const indicatorGroups: IndicatorGroup[] = [
       },
       {
         name: 'Budget violations',
+        historySection: 'compliance-history',
         meaning: 'Expenditures beyond the amounts legally authorized at the adopted ordinance level.',
         benchmark: 'None.',
-        needed: 'Audit findings and final amended budget-to-actual schedules at the legally adopted level.',
+        needed: 'The history summarizes reported audit findings, including FY2024 finding 2024-001 and its correction reported in FY2025. Absence of a reported finding is not an independent assessment of all legal budget requirements.',
       },
       {
         name: 'Internal control and compliance findings',
+        historySection: 'compliance-history',
         meaning: 'Material weaknesses, significant deficiencies, statutory violations, and other findings requiring a response.',
         benchmark: 'No findings requiring a response. The article notes an exception when the only findings concern segregation of duties and/or skills, knowledge, and expertise, with no other FPICs.',
-        needed: 'The auditor’s findings and LGC response requirements; a clean audit opinion does not by itself establish an absence of findings.',
+        needed: 'The auditor’s findings are summarized by year; LGC response requirements are not inferred. FY2024 reported budget noncompliance even though no material weaknesses or significant deficiencies were reported.',
       },
       {
         name: 'Finance officer coverage',

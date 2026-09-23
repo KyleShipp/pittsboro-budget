@@ -1,0 +1,85 @@
+{
+  "sourceRevision": "cb5973c95d8f7e5e1b66abb0a3bfeba28d407d0d",
+  "years": [
+    {
+      "year": 2021,
+      "filename": "Town of Pittsboro FY2021 Audit (1).pdf",
+      "generalFund": {
+        "beginningBalance": 4265752,
+        "endingBalance": 5528139,
+        "unassignedBalance": 3897711,
+        "expenditures": 4637613,
+        "balancePages": "17 (PDF 23)",
+        "changePages": "19 (PDF 25)"
+      },
+      "findings": {
+        "summary": "No material weaknesses identified, no significant deficiencies reported, and no noncompliance material to the financial statements noted in the auditor’s summary.",
+        "pages": "95 (PDF 106)"
+      }
+    },
+    {
+      "year": 2022,
+      "filename": "2022 Town of Pittsboro Financial Statements - FINAL (1).pdf",
+      "generalFund": {
+        "beginningBalance": 5528139,
+        "endingBalance": 6301838,
+        "unassignedBalance": 5503076,
+        "expenditures": 5602177,
+        "balancePages": "18 (PDF 25)",
+        "changePages": "20 (PDF 27)"
+      },
+      "findings": {
+        "summary": "No financial statement findings reported; the auditor’s summary reports no material weaknesses identified, no significant deficiencies reported, and no material noncompliance.",
+        "pages": "100–101 (PDF 112–113)"
+      }
+    },
+    {
+      "year": 2023,
+      "filename": "Pittbsoro FYE 2023 Audit (1).pdf",
+      "generalFund": {
+        "beginningBalance": 6301838,
+        "endingBalance": 6745612,
+        "unassignedBalance": 5914010,
+        "expenditures": 6648274,
+        "balancePages": "18 (PDF 25)",
+        "changePages": "20 (PDF 27)"
+      },
+      "findings": {
+        "summary": "No financial statement findings reported; the auditor’s summary reports no material weaknesses identified, no significant deficiencies reported, and no material noncompliance.",
+        "pages": "100–101 (PDF 112–113)"
+      }
+    },
+    {
+      "year": 2024,
+      "filename": "Pittsboro 2024 Audit (1).pdf",
+      "generalFund": {
+        "beginningBalance": 6745612,
+        "endingBalance": 6145946,
+        "unassignedBalance": 5027389,
+        "expenditures": 9282949,
+        "balancePages": "18 (PDF 26)",
+        "changePages": "20 (PDF 28)"
+      },
+      "findings": {
+        "summary": "Finding 2024-001: Administration exceeded appropriations by $216,624 and Cultural and Recreational by $6,740. The audit attributes this to GASB 87 loan proceeds/expenditures without an adopted budget amendment. The auditor reported material noncompliance, but no material weaknesses identified or significant deficiencies reported.",
+        "pages": "102–103 (PDF 115–116)"
+      }
+    },
+    {
+      "year": 2025,
+      "filename": "Pittsboro 2025 Audited Financial Statements - Final (1).pdf",
+      "generalFund": {
+        "beginningBalance": 6145946,
+        "endingBalance": 7217577,
+        "unassignedBalance": 4898310,
+        "expenditures": 11051847,
+        "balancePages": "18 (PDF 26)",
+        "changePages": "20 (PDF 28)"
+      },
+      "findings": {
+        "summary": "No financial statement or State award findings reported for FY2025. The prior-year schedule marks finding 2024-001 corrected. The auditor’s summary reports no material weaknesses identified, no significant deficiencies reported, and no material noncompliance.",
+        "pages": "101–103 (PDF 114–116)"
+      }
+    }
+  ]
+}

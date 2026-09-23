@@ -3,10 +3,11 @@ import Link from 'next/link';
 import { getMeta, getSummary } from '@/lib/data';
 import { formatCurrency } from '@/lib/format';
 import { indicatorGroups, indicatorSource } from '@/lib/financial-indicators';
+import AuditHistory from '@/components/AuditHistory';
 
 export const metadata: Metadata = {
   title: 'Financial Health | Pittsboro, NC Budget',
-  description: 'LGC financial performance indicators, reference thresholds, and data needed to assess Pittsboro’s financial health.',
+  description: 'Pittsboro’s FY2021–FY2025 audited financial history, LGC financial performance indicators, and reference thresholds.',
 };
 
 const meta = getMeta();
@@ -23,12 +24,13 @@ export default function FinancialHealthPage() {
       </header>
 
       <section className="bg-blue-50 border border-blue-200 rounded-xl p-5 space-y-3" aria-labelledby="coverage-heading">
-        <h2 id="coverage-heading" className="text-xl font-semibold">Indicator guide — audited results not yet available</h2>
+        <h2 id="coverage-heading" className="text-xl font-semibold">Audited history: FY2021–FY2025</h2>
         <p className="text-gray-700">
-          The uploaded article supplies definitions and reference thresholds, not Pittsboro&apos;s
-          audited results. This site currently contains budget-derived data, not the Town&apos;s
-          LGC Financial Performance Indicator (FPI) report. All 17 indicators below are
-          therefore <strong>not assessed</strong>; missing information is neither zero nor a pass.
+          Five uploaded annual audits now provide historical financial results and reported
+          findings. The LGC article supplies the indicator definitions and reference thresholds.
+          This is not the Town&apos;s official LOGOS Financial Performance Indicator (FPI) report.
+          Indicators without sufficient evidence remain <strong>not assessed</strong>;
+          missing information is neither zero nor a pass.
         </p>
         <p className="text-gray-700">
           An indicator of concern (FPIC) triggers review and a response, but does not by itself
@@ -43,6 +45,7 @@ export default function FinancialHealthPage() {
       </section>
 
       <nav aria-label="Financial health sections" className="flex flex-wrap gap-4 text-sm">
+        <a href="#audit-history" className="text-pittsboro-green underline">Audited history</a>
         {indicatorGroups.map((group) => (
           <a key={group.id} href={`#${group.id}`} className="text-pittsboro-green underline">
             {group.title}
@@ -51,6 +54,8 @@ export default function FinancialHealthPage() {
         <a href="#budget-context" className="text-pittsboro-green underline">Budget context</a>
         <a href="#sources" className="text-pittsboro-green underline">Sources and next data</a>
       </nav>
+
+      <AuditHistory />
 
       {indicatorGroups.map((group) => (
         <section key={group.id} id={group.id} aria-labelledby={`${group.id}-heading`} className="scroll-mt-4">
@@ -61,7 +66,11 @@ export default function FinancialHealthPage() {
               <article key={indicator.name} className="bg-white border rounded-xl p-5">
                 <h3 className="text-lg font-semibold">{indicator.name}</h3>
                 <p className="inline-block rounded bg-gray-100 text-gray-700 text-sm px-2 py-1 mt-2">
-                  Not assessed — data needed
+                  {indicator.historySection ? (
+                    <a href={`#${indicator.historySection}`} className="underline">
+                      Historical evidence available — see results
+                    </a>
+                  ) : 'Not assessed — data needed'}
                 </p>
                 <p className="text-gray-700 mt-3">{indicator.meaning}</p>
                 <dl className="text-sm mt-4 space-y-3">
@@ -70,7 +79,9 @@ export default function FinancialHealthPage() {
                     <dd className="text-gray-700 mt-1">{indicator.benchmark}</dd>
                   </div>
                   <div>
-                    <dt className="font-semibold">Data needed</dt>
+                    <dt className="font-semibold">
+                      {indicator.historySection ? 'Assessment basis and limitations' : 'Data needed'}
+                    </dt>
                     <dd className="text-gray-600 mt-1">{indicator.needed}</dd>
                   </div>
                 </dl>
@@ -83,11 +94,11 @@ export default function FinancialHealthPage() {
       <section id="budget-context" aria-labelledby="context-heading" className="bg-white border rounded-xl p-5 space-y-4">
         <h2 id="context-heading" className="text-2xl font-semibold">Budget context — not audited FPI results</h2>
         <p className="text-gray-700">
-          The existing budget dataset records an ending FY 2024-2025 fund balance of{' '}
-          <strong>{formatCurrency(meta.fundBalance.endingFY2425)}</strong>, including{' '}
-          {formatCurrency(meta.fundBalance.assigned)} assigned and{' '}
-          {formatCurrency(meta.fundBalance.unassigned)} unassigned. These classifications do not
-          establish the LGC&apos;s Fund Balance Available calculation.
+          The historical section above uses audited financial statements. This section retains
+          the separate budget-document extracts used elsewhere on this site. These sources
+          can differ in presentation and scope; budget figures are not substituted for audited
+          indicator inputs. In particular, the balance other than unassigned is not all
+          “assigned”: the FY2025 audited balance sheet includes restricted and nonspendable amounts.
         </p>
         <p className="text-gray-700">
           The dataset also records a local fund balance policy of{' '}
@@ -146,12 +157,11 @@ export default function FinancialHealthPage() {
           Performance Indicators Guide.
         </p>
         <p className="text-gray-700">
-          To publish results and trends, add the Town&apos;s annual audited financial statements
-          and LOGOS FPI reports for matching fiscal years, including each result&apos;s source page,
-          fund, calculation basis, and applicable threshold. Obtain utility records for the correct
-          reporting entity and year, and supporting compliance records. Keep unavailable values
-          missing rather than replacing them with zero; verify applicability before labeling a
-          measure not applicable.
+          The historical results link to all five uploaded audits with source-page citations.
+          To complete the remaining assessments, obtain LOGOS FPI reports for matching fiscal
+          years, the applicable historical thresholds, and any required supporting compliance
+          records. Missing values are not replaced with zero, and audited results are not
+          combined with adopted budgets to create a trend.
         </p>
         <p className="text-gray-700">
           Budget context uses the existing FY 2026-2027 and FY 2025-2026 adopted budget extracts,
