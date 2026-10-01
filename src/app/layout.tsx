@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import AccessGate from '@/components/AccessGate';
 import Nav from '@/components/Nav';
 import './globals.css';
 
@@ -16,25 +17,27 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Nav />
-        <main className="max-w-7xl mx-auto px-4 py-8">{children}</main>
-        <footer className="border-t mt-12 py-6 text-center text-sm text-gray-500">
-          <p>
-            An independent civic data tool. Not an official Town of Pittsboro
-            publication.
-          </p>
-          <p className="mt-1">
-            Data from published budget documents &middot;{' '}
-            <a
-              href="https://www.pittsboronc.gov"
-              className="underline hover:text-gray-700"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              pittsboronc.gov
-            </a>
-          </p>
-        </footer>
+        <AccessGate>
+          <Nav />
+          <main className="max-w-7xl mx-auto px-4 py-8">{children}</main>
+          <footer className="border-t mt-12 py-6 text-center text-sm text-gray-500">
+            <p>
+              An independent civic data tool. Not an official Town of Pittsboro
+              publication.
+            </p>
+            <p className="mt-1">
+              Data from published budget documents &middot;{' '}
+              <a
+                href="https://www.pittsboronc.gov"
+                className="underline hover:text-gray-700"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                pittsboronc.gov
+              </a>
+            </p>
+          </footer>
+        </AccessGate>
       </body>
     </html>
   );

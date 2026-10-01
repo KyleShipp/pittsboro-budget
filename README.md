@@ -42,6 +42,18 @@ npm run dev        # http://localhost:3000
 npm run build      # Static export to out/
 ```
 
+## Testing Access
+
+All pages use a bypassable convenience gate, matching the Cost of Service site's
+public testing passcode: `pittsboro-test`. Change `testingPasscode` in
+`src/components/AccessGate.tsx` to update it. Access is remembered in session
+storage for the current tab; if storage is unavailable, unlocking still works
+until the page is reloaded.
+
+This is **not authentication or security**. The passcode is shipped in the public
+JavaScript, and exported pages and data files remain publicly accessible. Do not
+use it to protect sensitive information; use authenticated hosting for that.
+
 ## Project Structure
 
 ```
