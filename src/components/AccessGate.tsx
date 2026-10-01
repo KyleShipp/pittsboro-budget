@@ -79,11 +79,6 @@ export default function AccessGate({ children }: { children: ReactNode }) {
             Enter dashboard
           </button>
         </form>
-        <p className="mt-6 text-sm text-gray-500">
-          This is a convenience gate only, not security. The passcode and site
-          data remain publicly available. Access lasts only for this browser
-          session.
-        </p>
         <noscript>
           <p className="mt-4">Enable JavaScript to use the testing passcode form.</p>
         </noscript>
