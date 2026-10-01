@@ -16,7 +16,6 @@ import { getMeta, getSummary, getBudget } from '@/lib/data';
 import { formatCurrency } from '@/lib/format';
 import { calculateTaxBill, allocateTaxReceipt, allocateTaxReceiptWeighted } from '@/lib/calculations';
 import { searchParcels, type ParcelResult } from '@/lib/parcel';
-import VaraGovLogo from '@/components/VaraGovLogo';
 
 const meta = getMeta();
 const summary = getSummary();
@@ -144,16 +143,11 @@ export default function ReceiptPage() {
 
   return (
     <div>
-      <div className="flex items-center gap-4 mb-8">
-        <VaraGovLogo />
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Your Property Tax Receipt</h1>
-          <p className="text-gray-600">
-            Look up your property to see exactly how your tax bill breaks down
-            between the Town and the County.
-          </p>
-        </div>
-      </div>
+      <h1 className="text-3xl font-bold mb-2">Your Property Tax Receipt</h1>
+      <p className="text-gray-600 mb-8">
+        Look up your property to see exactly how your tax bill breaks down
+        between the Town and the County.
+      </p>
 
       {/* Address Lookup */}
       <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
