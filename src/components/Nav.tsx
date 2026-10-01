@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import VaraGovLogo from '@/components/VaraGovLogo';
 
 const links = [
   { href: '/', label: 'Overview' },
@@ -30,8 +31,13 @@ export default function Nav() {
     <nav className="bg-pittsboro-green text-white">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="font-bold text-lg tracking-tight" onClick={closeMobileMenu}>
-            Pittsboro, NC Budget
+          <Link
+            href="/"
+            className="flex items-center gap-2 font-bold text-lg tracking-tight"
+            onClick={closeMobileMenu}
+          >
+            <VaraGovLogo />
+            <span>Pittsboro, NC Budget</span>
           </Link>
 
           <button
