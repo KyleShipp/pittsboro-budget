@@ -302,7 +302,14 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     const encompassed = geojson.features.filter((feature) =>
       booleanWithin(feature as GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>, analysisArea)
     );
-    const totalValue = geojson.metadata.total_tax_value;
+    const metadataTotal = geojson.metadata.total_tax_value;
+    const totalValue =
+      typeof metadataTotal === 'number' && Number.isFinite(metadataTotal) && metadataTotal > 0
+        ? metadataTotal
+        : geojson.features.reduce(
+            (sum, feature) => sum + (feature.properties.tax_value ?? 0),
+            0
+          );
     const value = encompassed.reduce(
       (sum, feature) => sum + (feature.properties.tax_value ?? 0),
       0

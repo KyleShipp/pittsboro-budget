@@ -257,7 +257,7 @@ export interface ValuePerAcreGeoJSON {
     total_features: number;
     included: number;
     review: number;
-    total_tax_value: number;
+    total_tax_value?: number;
   };
 }
 
