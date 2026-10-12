@@ -199,6 +199,7 @@ export interface TaxBaseHistoryPoint {
   fiscalYear: string;
   taxablePropertyValue: number;
   pennyValue: number;
+  taxRate: number;
   revaluation: boolean;
 }
 
@@ -257,7 +258,7 @@ export interface ValuePerAcreGeoJSON {
     total_features: number;
     included: number;
     review: number;
-    total_tax_value: number;
+    total_tax_value?: number;
   };
 }
 

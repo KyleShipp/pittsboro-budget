@@ -46,7 +46,7 @@ export default function TaxBasePage() {
             Tax Base and Value of One Penny
           </h2>
           <p className="text-sm text-gray-500 mt-1">
-            Five-year history. Gold bars mark Chatham County revaluation years.
+            Ten-year history. Gray bars mark Chatham County revaluation years.
           </p>
         </div>
         <TaxBaseHistoryChart data={history} />

@@ -4,36 +4,76 @@
   "townRate": 0.44,
   "countyRate": 0.6,
   "source": "Chatham County CAMA Parcels (parcel_year 2027), PITTSBORO CITY municipal tax district",
-  "historySource": "NC Department of Revenue LG55 municipal taxable valuation reports (FY22-23 through FY25-26); Town of Pittsboro FY26-27 adopted budget. Penny values are total taxable property divided by 10,000.",
+  "historySource": "NC Department of Revenue LG55 municipal taxable valuation reports (FY17-18 through FY25-26); Town of Pittsboro FY26-27 adopted budget. Penny values are total taxable property divided by 10,000.",
   "history": [
+    {
+      "fiscalYear": "FY17-18",
+      "taxablePropertyValue": 539155484,
+      "pennyValue": 53916,
+      "taxRate": 0.4333,
+      "revaluation": true
+    },
+    {
+      "fiscalYear": "FY18-19",
+      "taxablePropertyValue": 555917431,
+      "pennyValue": 55592,
+      "taxRate": 0.4333,
+      "revaluation": false
+    },
+    {
+      "fiscalYear": "FY19-20",
+      "taxablePropertyValue": 570976098,
+      "pennyValue": 57098,
+      "taxRate": 0.4333,
+      "revaluation": false
+    },
+    {
+      "fiscalYear": "FY20-21",
+      "taxablePropertyValue": 588686727,
+      "pennyValue": 58869,
+      "taxRate": 0.4333,
+      "revaluation": false
+    },
+    {
+      "fiscalYear": "FY21-22",
+      "taxablePropertyValue": 807070088,
+      "pennyValue": 80707,
+      "taxRate": 0.4333,
+      "revaluation": true
+    },
     {
       "fiscalYear": "FY22-23",
       "taxablePropertyValue": 875658778,
       "pennyValue": 87566,
+      "taxRate": 0.44,
       "revaluation": false
     },
     {
       "fiscalYear": "FY23-24",
       "taxablePropertyValue": 1023916417,
       "pennyValue": 102392,
+      "taxRate": 0.44,
       "revaluation": false
     },
     {
       "fiscalYear": "FY24-25",
       "taxablePropertyValue": 1214870162,
       "pennyValue": 121487,
+      "taxRate": 0.44,
       "revaluation": false
     },
     {
       "fiscalYear": "FY25-26",
       "taxablePropertyValue": 1742286365,
       "pennyValue": 174229,
+      "taxRate": 0.44,
       "revaluation": true
     },
     {
       "fiscalYear": "FY26-27",
       "taxablePropertyValue": 1852610000,
       "pennyValue": 185261,
+      "taxRate": 0.44,
       "revaluation": false
     }
   ],
