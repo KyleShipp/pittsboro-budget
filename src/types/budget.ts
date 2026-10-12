@@ -224,6 +224,10 @@ export interface ParcelProperties {
   owner: string;
   address: string;
   acres: number | null;
+  reported_acres?: number | null;
+  allocated_shared_acres?: number;
+  shared_land_parcels?: string[];
+  acreage_method?: 'parcel' | 'shared_common' | 'parcel_plus_shared_common';
   tax_value: number | null;
   value_per_acre: number | null;
   use_code: string;
@@ -267,6 +271,10 @@ export interface AnomalyRecord {
   owner: string;
   address: string;
   acres: number | null;
+  reported_acres?: number | null;
+  allocated_shared_acres?: number;
+  shared_land_parcels?: string[];
+  acreage_method?: 'parcel' | 'shared_common' | 'parcel_plus_shared_common';
   tax_value: number | null;
   value_per_acre: number | null;
   anomaly_flags: string[];

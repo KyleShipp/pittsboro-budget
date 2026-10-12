@@ -45,6 +45,7 @@ const FLAG_LABELS: Record<string, string> = {
   zero_acres:          'Zero acres',
   missing_value:       'Missing value',
   zero_value_taxable:  'Zero value (taxable)',
+  shared_land_allocated: 'Shared land allocated',
   duplicate_parcel_id: 'Duplicate parcel ID',
   extreme_high_vpa:    'Extreme high value/acre',
   extreme_low_vpa:     'Extreme low value/acre',
@@ -52,6 +53,26 @@ const FLAG_LABELS: Record<string, string> = {
 
 type SortKey = keyof AnomalyRecord | 'none';
 type SortDir = 'asc' | 'desc';
+type ColumnKey =
+  | 'parcel_id'
+  | 'owner'
+  | 'address'
+  | 'acres'
+  | 'tax_value'
+  | 'value_per_acre'
+  | 'anomaly_reason'
+  | 'action';
+
+const DEFAULT_COLUMN_WIDTHS: Record<ColumnKey, number> = {
+  parcel_id: 130,
+  owner: 260,
+  address: 220,
+  acres: 100,
+  tax_value: 130,
+  value_per_acre: 140,
+  anomaly_reason: 260,
+  action: 100,
+};
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 
@@ -68,6 +89,7 @@ export default function AnomaliesPage() {
   // Sort state
   const [sortKey, setSortKey] = useState<SortKey>('none');
   const [sortDir, setSortDir] = useState<SortDir>('asc');
+  const [columnWidths, setColumnWidths] = useState(DEFAULT_COLUMN_WIDTHS);
 
   // Load data
   useEffect(() => {
@@ -135,6 +157,87 @@ export default function AnomaliesPage() {
   function SortIcon({ col }: { col: SortKey }) {
     if (sortKey !== col) return <span className="text-gray-300 ml-1">↕</span>;
     return <span className="text-pittsboro-green ml-1">{sortDir === 'asc' ? '↑' : '↓'}</span>;
+  }
+
+  function startResize(
+    event: React.PointerEvent<HTMLSpanElement>,
+    column: ColumnKey
+  ) {
+    event.preventDefault();
+    event.stopPropagation();
+    const startX = event.clientX;
+    const startWidth = columnWidths[column];
+
+    const resize = (pointerEvent: PointerEvent) => {
+      const width = Math.max(80, startWidth + pointerEvent.clientX - startX);
+      setColumnWidths((current) => ({ ...current, [column]: width }));
+    };
+    const stop = () => {
+      document.removeEventListener('pointermove', resize);
+      document.removeEventListener('pointerup', stop);
+    };
+    document.addEventListener('pointermove', resize);
+    document.addEventListener('pointerup', stop);
+  }
+
+  function exportToExcel() {
+    const safeCell = (value: string | number | null | undefined) => {
+      const text = value === null || value === undefined ? '' : String(value);
+      const protectedText = /^[=+\-@]/.test(text) ? `'${text}` : text;
+      return `"${protectedText.replace(/"/g, '""')}"`;
+    };
+    const header = [
+      'Parcel ID',
+      'Owner',
+      'Address',
+      'Acres',
+      'Reported Acres',
+      'Allocated Shared Acres',
+      'Shared Land Parcels',
+      'Tax Value',
+      'Value per Acre',
+      'Anomaly Reason',
+      'Action',
+    ];
+    const csvRows = rows.map((record) => [
+      record.parcel_id,
+      record.owner,
+      record.address,
+      record.acres,
+      record.reported_acres,
+      record.allocated_shared_acres,
+      record.shared_land_parcels?.join('; '),
+      record.tax_value,
+      record.value_per_acre,
+      record.anomaly_flags.map((flag) => FLAG_LABELS[flag] ?? flag).join('; '),
+      record.action,
+    ]);
+    const csv = [header, ...csvRows]
+      .map((row) => row.map(safeCell).join(','))
+      .join('\r\n');
+    const blob = new Blob([`\uFEFF${csv}`], {
+      type: 'text/csv;charset=utf-8',
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `pittsboro-value-per-acre-anomalies-${data?.generated ?? 'export'}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+
+  function Resizer({ column }: { column: ColumnKey }) {
+    return (
+      <span
+        role="separator"
+        aria-label={`Resize ${column.replace(/_/g, ' ')} column`}
+        aria-orientation="vertical"
+        onPointerDown={(event) => startResize(event, column)}
+        className="absolute inset-y-0 right-0 w-2 cursor-col-resize touch-none hover:bg-pittsboro-green/30"
+      />
+    );
   }
 
   // ── Loading / Error states ───────────────────────────────────────────────
@@ -260,55 +363,81 @@ export default function AnomaliesPage() {
           Showing <span className="font-medium text-gray-700">{rows.length.toLocaleString()}</span> of{' '}
           {data.total_anomalies.toLocaleString()}
         </div>
+        <button
+          type="button"
+          onClick={exportToExcel}
+          disabled={rows.length === 0}
+          className="rounded-lg bg-pittsboro-green px-3 py-2 text-sm font-medium text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Export to Excel (.csv)
+        </button>
       </div>
 
       {/* Table */}
       <div className="bg-white rounded-xl border overflow-x-auto">
-        <table className="w-full text-sm min-w-[900px]">
+        <table
+          className="table-fixed text-sm"
+          style={{ width: Object.values(columnWidths).reduce((sum, width) => sum + width, 0) }}
+        >
+          <colgroup>
+            {(Object.keys(DEFAULT_COLUMN_WIDTHS) as ColumnKey[]).map((column) => (
+              <col key={column} style={{ width: columnWidths[column] }} />
+            ))}
+          </colgroup>
           <thead>
             <tr className="border-b bg-gray-50 text-left text-gray-500 text-xs uppercase tracking-wide">
               <th
-                className="py-3 px-4 cursor-pointer select-none hover:text-gray-800"
+                className="relative py-3 px-4 cursor-pointer select-none hover:text-gray-800"
                 onClick={() => handleSort('parcel_id')}
               >
                 Parcel ID <SortIcon col="parcel_id" />
+                <Resizer column="parcel_id" />
               </th>
               <th
-                className="py-3 px-4 cursor-pointer select-none hover:text-gray-800"
+                className="relative py-3 px-4 cursor-pointer select-none hover:text-gray-800"
                 onClick={() => handleSort('owner')}
               >
                 Owner <SortIcon col="owner" />
+                <Resizer column="owner" />
               </th>
               <th
-                className="py-3 px-4 cursor-pointer select-none hover:text-gray-800"
+                className="relative py-3 px-4 cursor-pointer select-none hover:text-gray-800"
                 onClick={() => handleSort('address')}
               >
                 Address <SortIcon col="address" />
+                <Resizer column="address" />
               </th>
               <th
-                className="py-3 px-4 text-right cursor-pointer select-none hover:text-gray-800"
+                className="relative py-3 px-4 text-right cursor-pointer select-none hover:text-gray-800"
                 onClick={() => handleSort('acres')}
               >
                 Acres <SortIcon col="acres" />
+                <Resizer column="acres" />
               </th>
               <th
-                className="py-3 px-4 text-right cursor-pointer select-none hover:text-gray-800"
+                className="relative py-3 px-4 text-right cursor-pointer select-none hover:text-gray-800"
                 onClick={() => handleSort('tax_value')}
               >
                 Tax Value <SortIcon col="tax_value" />
+                <Resizer column="tax_value" />
               </th>
               <th
-                className="py-3 px-4 text-right cursor-pointer select-none hover:text-gray-800"
+                className="relative py-3 px-4 text-right cursor-pointer select-none hover:text-gray-800"
                 onClick={() => handleSort('value_per_acre')}
               >
                 Value/Acre <SortIcon col="value_per_acre" />
+                <Resizer column="value_per_acre" />
               </th>
-              <th className="py-3 px-4">Anomaly Reason</th>
+              <th className="relative py-3 px-4">
+                Anomaly Reason
+                <Resizer column="anomaly_reason" />
+              </th>
               <th
-                className="py-3 px-4 cursor-pointer select-none hover:text-gray-800"
+                className="relative py-3 px-4 cursor-pointer select-none hover:text-gray-800"
                 onClick={() => handleSort('action')}
               >
                 Action <SortIcon col="action" />
+                <Resizer column="action" />
               </th>
             </tr>
           </thead>
@@ -316,10 +445,10 @@ export default function AnomaliesPage() {
             {rows.map((r, i) => (
               <tr key={`${r.parcel_id}-${i}`} className="border-b last:border-0 hover:bg-gray-50">
                 <td className="py-2 px-4 font-mono text-xs text-gray-700">{r.parcel_id || '—'}</td>
-                <td className="py-2 px-4 text-gray-800 max-w-[180px] truncate" title={r.owner}>
+                <td className="overflow-hidden text-ellipsis whitespace-nowrap py-2 px-4 text-gray-800" title={r.owner}>
                   {r.owner || '—'}
                 </td>
-                <td className="py-2 px-4 text-gray-600 max-w-[200px] truncate" title={r.address}>
+                <td className="overflow-hidden text-ellipsis whitespace-nowrap py-2 px-4 text-gray-600" title={r.address}>
                   {r.address || '—'}
                 </td>
                 <td className="py-2 px-4 text-right tabular-nums text-gray-700">

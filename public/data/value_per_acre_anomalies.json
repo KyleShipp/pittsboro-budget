@@ -1,9 +1,9 @@
 {
-  "generated": "2026-10-09",
+  "generated": "2026-10-12",
   "source": "https://gisservices.chathamcountync.gov/opendataagol/rest/services/Cadastral/Chatham_CamaParcels/MapServer/0",
-  "total_anomalies": 58,
-  "iqr_low_threshold": 2544.77,
-  "iqr_high_threshold": 830891102.17,
+  "total_anomalies": 162,
+  "iqr_low_threshold": 2795.34,
+  "iqr_high_threshold": 734972990.03,
   "iqr_multiplier": 3.0,
   "records": [
     {
@@ -11,6 +11,10 @@
       "owner": "JACKSON, PHILIP S ET AL",
       "address": "OLD GRAHAM RD",
       "acres": 0.04863658439115831,
+      "reported_acres": 0.04863658439115831,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 108.0,
       "value_per_acre": 2220.55,
       "anomaly_flags": [
@@ -24,6 +28,10 @@
       "owner": "UNKNOWN OWNER,",
       "address": "GAIL ST",
       "acres": 0.00884145767750141,
+      "reported_acres": 0.00884145767750141,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 17.0,
       "value_per_acre": 1922.76,
       "anomaly_flags": [
@@ -37,6 +45,10 @@
       "owner": "WEST STREET JUNIOR LLC,",
       "address": "360  West St",
       "acres": 0.5701031208388132,
+      "reported_acres": 0.5701031208388132,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 0.0,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -46,12 +58,54 @@
       "action": "exclude"
     },
     {
+      "parcel_id": "0091755",
+      "owner": "COLLATZ LAND LLC,",
+      "address": "360 100 West St",
+      "acres": 0.2850515604194066,
+      "reported_acres": 0.0710249341816783,
+      "allocated_shared_acres": 0.285052,
+      "shared_land_parcels": [
+        "0081963"
+      ],
+      "acreage_method": "shared_common",
+      "tax_value": 772641.0,
+      "value_per_acre": 2710530.68,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0091754",
+      "owner": "360 WEST STREET LLC,",
+      "address": "360 110 West St",
+      "acres": 0.2850515604194066,
+      "reported_acres": 0.05036535455306587,
+      "allocated_shared_acres": 0.285052,
+      "shared_land_parcels": [
+        "0081963"
+      ],
+      "acreage_method": "shared_common",
+      "tax_value": 619121.0,
+      "value_per_acre": 2171961.45,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
       "parcel_id": "0006702",
       "owner": "GLOSSON, LINDA H;MCMASTERS, BARBARA H",
       "address": "Hillsboro St",
-      "acres": 5.333717990734888,
+      "acres": 5.264519011129873,
+      "reported_acres": 5.264519011129873,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 9497.0,
-      "value_per_acre": 1780.56,
+      "value_per_acre": 1803.96,
       "anomaly_flags": [
         "extreme_low_vpa"
       ],
@@ -63,6 +117,10 @@
       "owner": "BRIGHT, TERESA",
       "address": "ANTHONY ST",
       "acres": 0.04009902061640009,
+      "reported_acres": 0.04009902061640009,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 1.0,
       "value_per_acre": 24.94,
       "anomaly_flags": [
@@ -72,10 +130,182 @@
       "action": "review"
     },
     {
+      "parcel_id": "0094042",
+      "owner": "STARR, ELIZABETH MURRAY",
+      "address": "46  Cottage Way",
+      "acres": 0.12714924470185257,
+      "reported_acres": 0.039763756054923334,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 350587.0,
+      "value_per_acre": 2757287.32,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094045",
+      "owner": "WOODS, KELLY",
+      "address": "40  Cottage Way",
+      "acres": 0.13110178817743837,
+      "reported_acres": 0.043716299530509144,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 293561.0,
+      "value_per_acre": 2239183.8,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094043",
+      "owner": "BANKS, JENNIFER",
+      "address": "44  Cottage Way",
+      "acres": 0.12771458604712904,
+      "reported_acres": 0.04032909740019982,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 311793.0,
+      "value_per_acre": 2441326.47,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094044",
+      "owner": "G19 PROPERTIES LLC,",
+      "address": "42  Cottage Way",
+      "acres": 0.1259851782248208,
+      "reported_acres": 0.03859968957789157,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 361625.0,
+      "value_per_acre": 2870377.33,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094055",
+      "owner": "KIRBY, RAKIA M;KIRBY, BRANDON S",
+      "address": "48  Cottage Way",
+      "acres": 0.1261378804921683,
+      "reported_acres": 0.03875239184523906,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 321625.0,
+      "value_per_acre": 2549789.16,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094054",
+      "owner": "CUSHMAN, HAYLEY;ALVAREZ, BERNARDO",
+      "address": "52  Cottage Way",
+      "acres": 0.13118900702454173,
+      "reported_acres": 0.04380351837761251,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 338307.0,
+      "value_per_acre": 2578775.52,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094050",
+      "owner": "BONDURANT, DEBORAH HARRIS",
+      "address": "50  Cottage Way",
+      "acres": 0.1271492362640778,
+      "reported_acres": 0.039763747617148563,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 371010.0,
+      "value_per_acre": 2917909.78,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094053",
+      "owner": "LANDERS, MACKENZIE;LANDERS, JOSEPH W III",
+      "address": "56  Cottage Way",
+      "acres": 0.12771444516989075,
+      "reported_acres": 0.04032895652296153,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 311793.0,
+      "value_per_acre": 2441329.17,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
       "parcel_id": "0094046",
       "owner": "COTTAGES CONDOMINIUM I ASSOCIATION INC THE,",
       "address": "COTTAGE WAY",
       "acres": 0.4454861248663575,
+      "reported_acres": 0.4454861248663575,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 0.0,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -85,10 +315,140 @@
       "action": "exclude"
     },
     {
+      "parcel_id": "0094049",
+      "owner": "IMMERMANN, KEVIN HARDY;IMMERMANN, SEAN",
+      "address": "54  Cottage Way",
+      "acres": 0.12771458604712904,
+      "reported_acres": 0.04032909740019982,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 311793.0,
+      "value_per_acre": 2441326.47,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094052",
+      "owner": "FICARROTTA, SUMMER D;FICARROTTA, JOSEPH C",
+      "address": "60  Cottage Way",
+      "acres": 0.12613774634415462,
+      "reported_acres": 0.03875225769722539,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 361625.0,
+      "value_per_acre": 2866905.51,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094048",
+      "owner": "ODELL, MAUREEN S",
+      "address": "58  Cottage Way",
+      "acres": 0.13118921471549672,
+      "reported_acres": 0.043803726068567486,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 331174.0,
+      "value_per_acre": 2524399.59,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094051",
+      "owner": "LEE, BEA;LEE, DANIEL M",
+      "address": "62  Cottage Way",
+      "acres": 0.12771458604712904,
+      "reported_acres": 0.04032909740019982,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 311793.0,
+      "value_per_acre": 2441326.47,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094484",
+      "owner": "KARSTAEDT, LYDIA F",
+      "address": "102  Cottage Way",
+      "acres": 0.16595991863966003,
+      "reported_acres": 0.0785744299927308,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 374249.0,
+      "value_per_acre": 2255056.54,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094090",
+      "owner": "WILLIS, BARBARA NELL TRUSTEE",
+      "address": "278  Cottage Way",
+      "acres": 0.13118199314007928,
+      "reported_acres": 0.04379650449315006,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 342517.0,
+      "value_per_acre": 2611006.22,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
       "parcel_id": "0006844",
       "owner": "RANSDELL FARMS LLC ET AL,",
       "address": "Old Graham Rd",
       "acres": 32.76652908074184,
+      "reported_acres": 32.76652908074184,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 8720.0,
       "value_per_acre": 266.13,
       "anomaly_flags": [
@@ -102,6 +462,10 @@
       "owner": "MOSAIC LOT 6 LLC,",
       "address": "120 100 Mosaic Blvd",
       "acres": 1.6825008125297818,
+      "reported_acres": 1.6825008125297818,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 0.0,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -111,10 +475,350 @@
       "action": "exclude"
     },
     {
+      "parcel_id": "0094091",
+      "owner": "QUAID, ROBYN K TRUSTEE",
+      "address": "282  Cottage Way",
+      "acres": 0.1277079380412388,
+      "reported_acres": 0.040322449394309595,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 311793.0,
+      "value_per_acre": 2441453.56,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094092",
+      "owner": "EBJJ PROPERTIES LLC,",
+      "address": "286  Cottage Way",
+      "acres": 0.12770793803074312,
+      "reported_acres": 0.04032244938381389,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 320535.0,
+      "value_per_acre": 2509906.63,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094085",
+      "owner": "GORMAN, JOHN P IV;LELOUDIS, KIRSTEN E",
+      "address": "66  Cottage Way",
+      "acres": 0.1271494476977165,
+      "reported_acres": 0.03976395905078726,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 364449.0,
+      "value_per_acre": 2866304.23,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094086",
+      "owner": "REDDEN, GRETCHEN S;REDDEN, JERRY B",
+      "address": "270  Cottage Way",
+      "acres": 0.12770784781045114,
+      "reported_acres": 0.04032235916352192,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 322639.0,
+      "value_per_acre": 2526383.5,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094087",
+      "owner": "GIST, DEBRA JEAN",
+      "address": "272  COTTAGE WAY",
+      "acres": 0.13118207821781827,
+      "reported_acres": 0.043796589570889034,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 342517.0,
+      "value_per_acre": 2611004.53,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094088",
+      "owner": "CINQUEPALMI, GABRIEL",
+      "address": "274  Cottage Way",
+      "acres": 0.12613154570049198,
+      "reported_acres": 0.038746057053562745,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 357522.0,
+      "value_per_acre": 2834516.92,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094089",
+      "owner": "WILLIAMSON, KIMBERLY MARTIN;WILLIAMSON, RONALD WAYNE JR",
+      "address": "276  Cottage Way",
+      "acres": 0.1311820782119547,
+      "reported_acres": 0.04379658956502548,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 342517.0,
+      "value_per_acre": 2611004.53,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094209",
+      "owner": "LEWIS, LINDA MARIE MOORE",
+      "address": "280  Cottage Way",
+      "acres": 0.12714923626008212,
+      "reported_acres": 0.039763747613152885,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 375257.0,
+      "value_per_acre": 2951311.47,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094208",
+      "owner": "SISKIN LLC,",
+      "address": "284  Cottage Way",
+      "acres": 0.13118921471549672,
+      "reported_acres": 0.043803726068567486,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 342517.0,
+      "value_per_acre": 2610862.49,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094207",
+      "owner": "CALE INVESTMENTS LLC,",
+      "address": "288  Cottage Way",
+      "acres": 0.12613797794401993,
+      "reported_acres": 0.03875248929709071,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 371987.0,
+      "value_per_acre": 2949048.38,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094485",
+      "owner": "RACKLEY, WILLIAM MARTIN;RACKLEY, MARY CATHERINE LEWIS",
+      "address": "106  Cottage Way",
+      "acres": 0.167013634164767,
+      "reported_acres": 0.07962814551783777,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 372681.0,
+      "value_per_acre": 2231440.58,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094486",
+      "owner": "BUCKLEY, KIMBERLY;BUCKLEY, JAY",
+      "address": "118  Cottage Way",
+      "acres": 0.17034434993687042,
+      "reported_acres": 0.08295886128994118,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 349403.0,
+      "value_per_acre": 2051156.97,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094487",
+      "owner": "COTTAGE WAY PROPERTIES LLC,",
+      "address": "130  Cottage Way",
+      "acres": 0.16613380950175877,
+      "reported_acres": 0.07874832085482955,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 374249.0,
+      "value_per_acre": 2252696.19,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094488",
+      "owner": "SHAW, JONATHAN L;SHAW, NICOLE M",
+      "address": "142  Cottage Way",
+      "acres": 0.1653662344315694,
+      "reported_acres": 0.07798074578464018,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 371914.0,
+      "value_per_acre": 2249032.28,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094489",
+      "owner": "DAUGHERTY, HEIDI L TRUSTEE",
+      "address": "148  Cottage Way",
+      "acres": 0.17283993322305075,
+      "reported_acres": 0.0854544445761215,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 349403.0,
+      "value_per_acre": 2021540.93,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
+      "parcel_id": "0094490",
+      "owner": "KISER, LUCERO BECQUER;KISER, ANTHONY J",
+      "address": "156  Cottage Way",
+      "acres": 0.15996148369392788,
+      "reported_acres": 0.07257599504699865,
+      "allocated_shared_acres": 0.087385,
+      "shared_land_parcels": [
+        "0094046",
+        "0094047",
+        "0093775"
+      ],
+      "acreage_method": "parcel_plus_shared_common",
+      "tax_value": 374249.0,
+      "value_per_acre": 2339619.46,
+      "anomaly_flags": [
+        "shared_land_allocated"
+      ],
+      "anomaly_reason": "shared_land_allocated",
+      "action": "review"
+    },
+    {
       "parcel_id": "0094047",
       "owner": "COTTAGES CONDOMINIUM I ASSOCIATION INC THE,",
       "address": "COTTAGE WAY",
       "acres": 0.19112420370464597,
+      "reported_acres": 0.19112420370464597,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 0.0,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -128,6 +832,10 @@
       "owner": "COTTAGES CONDOMINIUM I ASSOCIATION INC THE,",
       "address": "COTTAGE WAY",
       "acres": 1.9849543308368733,
+      "reported_acres": 1.9849543308368733,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 0.0,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -141,6 +849,10 @@
       "owner": "LOEW, ROSLYN;LOEW, MYRON C",
       "address": "OFF SANFORD RD",
       "acres": 0.005110972013583391,
+      "reported_acres": 0.005110972013583391,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 8.0,
       "value_per_acre": 1565.26,
       "anomaly_flags": [
@@ -154,6 +866,10 @@
       "owner": "TOWNES AT CHATHAM PARK OWNERS ASSOCIATION INC,",
       "address": "Norwell Ln",
       "acres": 0.1108447384021556,
+      "reported_acres": 0.1108447384021556,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 0.0,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -167,6 +883,10 @@
       "owner": "TOWN OF PITTSBORO,",
       "address": "Industrial Park Dr",
       "acres": 72.57454474788737,
+      "reported_acres": 72.57454474788737,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 0.0,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -180,6 +900,10 @@
       "owner": "WYWUAS SPE LLC,",
       "address": "264  ROCK SPRINGS CHURCH RD",
       "acres": 0.7131055559041725,
+      "reported_acres": 0.7131055559041725,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 774593.0,
       "value_per_acre": 1086224.88,
       "anomaly_flags": [
@@ -193,6 +917,10 @@
       "owner": "WYWUAS SPE LLC,",
       "address": "264  ROCK SPRINGS CHURCH RD",
       "acres": 76.16508003489072,
+      "reported_acres": 76.16508003489072,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": 774593.0,
       "value_per_acre": 10169.92,
       "anomaly_flags": [
@@ -206,6 +934,10 @@
       "owner": "ODG 87 LLC,",
       "address": "195 William DR",
       "acres": 0.05303108832045831,
+      "reported_acres": 0.05303108832045831,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -219,6 +951,10 @@
       "owner": "ODG 87 LLC,",
       "address": "178 William DR",
       "acres": 0.0530311381533227,
+      "reported_acres": 0.0530311381533227,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -232,6 +968,10 @@
       "owner": "ODG 87 LLC,",
       "address": "199 William DR",
       "acres": 0.05303148230508447,
+      "reported_acres": 0.05303148230508447,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -245,6 +985,10 @@
       "owner": "ODG 87 LLC,",
       "address": "174 William DR",
       "acres": 0.05303803674911883,
+      "reported_acres": 0.05303803674911883,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -258,6 +1002,10 @@
       "owner": "ODG 87 LLC,",
       "address": "168 William DR",
       "acres": 0.05315582901074143,
+      "reported_acres": 0.05315582901074143,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -271,6 +1019,10 @@
       "owner": "ODG 87 LLC,",
       "address": "239 William DR",
       "acres": 0.05316303673717232,
+      "reported_acres": 0.05316303673717232,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -284,6 +1036,10 @@
       "owner": "ODG 87 LLC,",
       "address": "263 William DR",
       "acres": 0.05316368316248844,
+      "reported_acres": 0.05316368316248844,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -297,6 +1053,10 @@
       "owner": "ODG 87 LLC,",
       "address": "179 William DR",
       "acres": 0.05318347392900033,
+      "reported_acres": 0.05318347392900033,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -310,6 +1070,10 @@
       "owner": "ODG 87 LLC,",
       "address": "259 William DR",
       "acres": 0.05318601009027496,
+      "reported_acres": 0.05318601009027496,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -323,6 +1087,10 @@
       "owner": "ODG 87 LLC,",
       "address": "235 William DR",
       "acres": 0.053186094563827994,
+      "reported_acres": 0.053186094563827994,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -336,6 +1104,10 @@
       "owner": "ODG 87 LLC,",
       "address": "175 William DR",
       "acres": 0.05328461562500191,
+      "reported_acres": 0.05328461562500191,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -349,6 +1121,10 @@
       "owner": "ODG 87 LLC,",
       "address": "169 William DR",
       "acres": 0.05330190879506209,
+      "reported_acres": 0.05330190879506209,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -362,6 +1138,10 @@
       "owner": "ODG 87 LLC,",
       "address": "164 William DR",
       "acres": 0.05343541785843561,
+      "reported_acres": 0.05343541785843561,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -375,6 +1155,10 @@
       "owner": "ODG 87 LLC,",
       "address": "243 William DR",
       "acres": 0.05371701717314413,
+      "reported_acres": 0.05371701717314413,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -388,6 +1172,10 @@
       "owner": "ODG 87 LLC,",
       "address": "267 William DR",
       "acres": 0.05371709629513971,
+      "reported_acres": 0.05371709629513971,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -401,6 +1189,10 @@
       "owner": "ODG 87 LLC,",
       "address": "255 William DR",
       "acres": 0.05378588456736877,
+      "reported_acres": 0.05378588456736877,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -414,6 +1206,10 @@
       "owner": "ODG 87 LLC,",
       "address": "231 William DR",
       "acres": 0.053786064833023166,
+      "reported_acres": 0.053786064833023166,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -427,6 +1223,10 @@
       "owner": "NVR INC,",
       "address": "236 William DR",
       "acres": 0.055340127780268644,
+      "reported_acres": 0.055340127780268644,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -440,6 +1240,10 @@
       "owner": "NVR INC,",
       "address": "250 William DR",
       "acres": 0.055340184058773466,
+      "reported_acres": 0.055340184058773466,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -453,6 +1257,10 @@
       "owner": "NVR INC,",
       "address": "242 William DR",
       "acres": 0.05599311705294706,
+      "reported_acres": 0.05599311705294706,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -466,6 +1274,10 @@
       "owner": "NVR INC,",
       "address": "246 William DR",
       "acres": 0.05599313391709617,
+      "reported_acres": 0.05599313391709617,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -479,6 +1291,10 @@
       "owner": "ODG 87 LLC,",
       "address": "210 William DR",
       "acres": 0.05609400525656017,
+      "reported_acres": 0.05609400525656017,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -492,6 +1308,10 @@
       "owner": "ODG 87 LLC,",
       "address": "206 William DR",
       "acres": 0.05718438491930603,
+      "reported_acres": 0.05718438491930603,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -505,6 +1325,10 @@
       "owner": "ODG 87 LLC,",
       "address": "202 William DR",
       "acres": 0.05765878179748896,
+      "reported_acres": 0.05765878179748896,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -518,6 +1342,10 @@
       "owner": "ODG 87 LLC,",
       "address": "198 William DR",
       "acres": 0.05770625776998845,
+      "reported_acres": 0.05770625776998845,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -531,6 +1359,10 @@
       "owner": "ODG 87 LLC,",
       "address": "182 William DR",
       "acres": 0.07713573117184985,
+      "reported_acres": 0.07713573117184985,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -544,6 +1376,10 @@
       "owner": "ODG 87 LLC,",
       "address": "191 William DR",
       "acres": 0.07747566350896529,
+      "reported_acres": 0.07747566350896529,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -557,6 +1393,10 @@
       "owner": "ODG 87 LLC,",
       "address": "165 William DR",
       "acres": 0.07759017500404365,
+      "reported_acres": 0.07759017500404365,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -570,6 +1410,10 @@
       "owner": "ODG 87 LLC,",
       "address": "205 William DR",
       "acres": 0.07770033068363215,
+      "reported_acres": 0.07770033068363215,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -583,6 +1427,10 @@
       "owner": "NVR INC,",
       "address": "254 William DR",
       "acres": 0.07800237791999405,
+      "reported_acres": 0.07800237791999405,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -596,6 +1444,10 @@
       "owner": "ODG 87 LLC,",
       "address": "271 William DR",
       "acres": 0.08039878664460808,
+      "reported_acres": 0.08039878664460808,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -609,6 +1461,10 @@
       "owner": "ODG 87 LLC,",
       "address": "225 William DR",
       "acres": 0.0805690328606463,
+      "reported_acres": 0.0805690328606463,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -622,6 +1478,10 @@
       "owner": "ODG 87 LLC,",
       "address": "160 William DR",
       "acres": 0.083273696248824,
+      "reported_acres": 0.083273696248824,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -635,6 +1495,10 @@
       "owner": "ODG 87 LLC,",
       "address": "192 William DR",
       "acres": 0.08393591366969787,
+      "reported_acres": 0.08393591366969787,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -648,6 +1512,10 @@
       "owner": "ODG 87 LLC,",
       "address": "183 William DR",
       "acres": 0.0853065203407609,
+      "reported_acres": 0.0853065203407609,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -661,6 +1529,10 @@
       "owner": "NVR INC,",
       "address": "232 William DR",
       "acres": 0.08782853117490948,
+      "reported_acres": 0.08782853117490948,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -674,6 +1546,10 @@
       "owner": "ODG 87 LLC,",
       "address": "220 William DR",
       "acres": 0.09220420946547346,
+      "reported_acres": 0.09220420946547346,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -687,6 +1563,10 @@
       "owner": "ODG 87 LLC,",
       "address": "247 William DR",
       "acres": 0.09357869048688038,
+      "reported_acres": 0.09357869048688038,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -700,6 +1580,10 @@
       "owner": "ODG 87 LLC,",
       "address": "251 William DR",
       "acres": 0.09387384612636952,
+      "reported_acres": 0.09387384612636952,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -713,6 +1597,10 @@
       "owner": "ODG 87 LLC,",
       "address": "14 Griffin Farm DR",
       "acres": 0.21637901893517986,
+      "reported_acres": 0.21637901893517986,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -726,6 +1614,10 @@
       "owner": "ODG 87 LLC,",
       "address": "262 William DR",
       "acres": 2.7498685611352656,
+      "reported_acres": 2.7498685611352656,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -739,6 +1631,10 @@
       "owner": "ODG 87 LLC,",
       "address": "Griffin Farm DR",
       "acres": 3.7122351173908568,
+      "reported_acres": 3.7122351173908568,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
@@ -752,6 +1648,1234 @@
       "owner": "CHATHAM PARK INVESTORS LLC,",
       "address": "35 Parkland DR",
       "acres": 0.4400431646415485,
+      "reported_acres": 0.4400431646415485,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098193",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "38 Daley DR",
+      "acres": 0.12396657200804616,
+      "reported_acres": 0.12396657200804616,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098192",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "28 Daley DR",
+      "acres": 0.1239666797007354,
+      "reported_acres": 0.1239666797007354,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098196",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "64 Daley DR",
+      "acres": 0.12396653009172327,
+      "reported_acres": 0.12396653009172327,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098259",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.12396674466450482,
+      "reported_acres": 0.12396674466450482,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098260",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.12396683783071843,
+      "reported_acres": 0.12396683783071843,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098194",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "46 Daley DR",
+      "acres": 0.12396693840139074,
+      "reported_acres": 0.12396693840139074,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098195",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "54 Daley DR",
+      "acres": 0.12396703156159666,
+      "reported_acres": 0.12396703156159666,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098220",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.12396715817696458,
+      "reported_acres": 0.12396715817696458,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098261",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.1239674644678582,
+      "reported_acres": 0.1239674644678582,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098258",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.12396729737595437,
+      "reported_acres": 0.12396729737595437,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098257",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.12396764263875193,
+      "reported_acres": 0.12396764263875193,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098203",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "108 Daley DR",
+      "acres": 0.12396967005839017,
+      "reported_acres": 0.12396967005839017,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098221",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.12679635766837888,
+      "reported_acres": 0.12679635766837888,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098240",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.12687327022005926,
+      "reported_acres": 0.12687327022005926,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098197",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "72 Daley DR",
+      "acres": 0.12779501351026348,
+      "reported_acres": 0.12779501351026348,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098239",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.13023618234692286,
+      "reported_acres": 0.13023618234692286,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098256",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.1352478261527456,
+      "reported_acres": 0.1352478261527456,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098205",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "128 Daley DR",
+      "acres": 0.13661565803862008,
+      "reported_acres": 0.13661565803862008,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098241",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.13665596570764993,
+      "reported_acres": 0.13665596570764993,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098209",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "176 Daley DR",
+      "acres": 0.13842355676870907,
+      "reported_acres": 0.13842355676870907,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098206",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "142 Daley DR",
+      "acres": 0.13981584745688008,
+      "reported_acres": 0.13981584745688008,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098207",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "154 Daley DR",
+      "acres": 0.14003371331269754,
+      "reported_acres": 0.14003371331269754,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098208",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "166 Daley DR",
+      "acres": 0.14023897635414873,
+      "reported_acres": 0.14023897635414873,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098204",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "118 Daley DR",
+      "acres": 0.1402709960640365,
+      "reported_acres": 0.1402709960640365,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098198",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "80 Daley DR",
+      "acres": 0.14036243920615413,
+      "reported_acres": 0.14036243920615413,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098227",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.14196491551763238,
+      "reported_acres": 0.14196491551763238,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098222",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.14247156950958273,
+      "reported_acres": 0.14247156950958273,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098226",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.14250088626966342,
+      "reported_acres": 0.14250088626966342,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098225",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.1425167711812751,
+      "reported_acres": 0.1425167711812751,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098224",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.14252722264664242,
+      "reported_acres": 0.14252722264664242,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098223",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.1425369975015387,
+      "reported_acres": 0.1425369975015387,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098228",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.14303267803228575,
+      "reported_acres": 0.14303267803228575,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098199",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "88 Daley DR",
+      "acres": 0.1441472310667178,
+      "reported_acres": 0.1441472310667178,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098242",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.14518297120812032,
+      "reported_acres": 0.14518297120812032,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098255",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.14666376842618692,
+      "reported_acres": 0.14666376842618692,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098216",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.15151486153948568,
+      "reported_acres": 0.15151486153948568,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098217",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.15151509898144755,
+      "reported_acres": 0.15151509898144755,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098218",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.15151520852418146,
+      "reported_acres": 0.15151520852418146,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098215",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.1515155192531598,
+      "reported_acres": 0.1515155192531598,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098210",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.15442725590503284,
+      "reported_acres": 0.15442725590503284,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098254",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.1589834226759661,
+      "reported_acres": 0.1589834226759661,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098202",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "104 Daley DR",
+      "acres": 0.16206292153996266,
+      "reported_acres": 0.16206292153996266,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098200",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "96 Daley DR",
+      "acres": 0.16414180861903038,
+      "reported_acres": 0.16414180861903038,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098252",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.16502007486221668,
+      "reported_acres": 0.16502007486221668,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098234",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.16657345737121187,
+      "reported_acres": 0.16657345737121187,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098214",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.16905008673202218,
+      "reported_acres": 0.16905008673202218,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098246",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.17033531727512596,
+      "reported_acres": 0.17033531727512596,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098235",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.1727040487385265,
+      "reported_acres": 0.1727040487385265,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098245",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.18803469982906107,
+      "reported_acres": 0.18803469982906107,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098211",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.1914703043142206,
+      "reported_acres": 0.1914703043142206,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098212",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.19153076768396612,
+      "reported_acres": 0.19153076768396612,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098213",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.19233876471302414,
+      "reported_acres": 0.19233876471302414,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098236",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.1928066464113472,
+      "reported_acres": 0.1928066464113472,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098238",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.19390442386092793,
+      "reported_acres": 0.19390442386092793,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098233",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.196496333396247,
+      "reported_acres": 0.196496333396247,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098253",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.2008682433581693,
+      "reported_acres": 0.2008682433581693,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098237",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.20465846144530467,
+      "reported_acres": 0.20465846144530467,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098244",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.2051704508746509,
+      "reported_acres": 0.2051704508746509,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098229",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.21231966606990985,
+      "reported_acres": 0.21231966606990985,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098219",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.21412211914917278,
+      "reported_acres": 0.21412211914917278,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098230",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.21717309686328376,
+      "reported_acres": 0.21717309686328376,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098231",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.21717344904453803,
+      "reported_acres": 0.21717344904453803,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098232",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.2241851116121305,
+      "reported_acres": 0.2241851116121305,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098243",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.22462189728822132,
+      "reported_acres": 0.22462189728822132,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098248",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.22473306731330084,
+      "reported_acres": 0.22473306731330084,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098251",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.22551671202427462,
+      "reported_acres": 0.22551671202427462,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098247",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.2262149760581975,
+      "reported_acres": 0.2262149760581975,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098201",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "100 Daley DR",
+      "acres": 0.22693871661733753,
+      "reported_acres": 0.22693871661733753,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098249",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.2577709861174056,
+      "reported_acres": 0.2577709861174056,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098250",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.25946499530300565,
+      "reported_acres": 0.25946499530300565,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098263",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 0.3789029213360753,
+      "reported_acres": 0.3789029213360753,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": null,
+      "value_per_acre": null,
+      "anomaly_flags": [
+        "missing_value"
+      ],
+      "anomaly_reason": "missing_value",
+      "action": "exclude"
+    },
+    {
+      "parcel_id": "0098262",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "",
+      "acres": 5.9206955010830296,
+      "reported_acres": 5.9206955010830296,
+      "allocated_shared_acres": 0.0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
       "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
