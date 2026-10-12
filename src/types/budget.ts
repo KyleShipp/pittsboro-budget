@@ -199,6 +199,7 @@ export interface TaxBaseHistoryPoint {
   fiscalYear: string;
   taxablePropertyValue: number;
   pennyValue: number;
+  taxRate: number;
   revaluation: boolean;
 }
 
