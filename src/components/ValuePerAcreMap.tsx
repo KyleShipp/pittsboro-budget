@@ -113,7 +113,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
   const leafletMapRef = useRef<L.Map | null>(null);
   const geoLayerRef = useRef<L.GeoJSON | null>(null);
-  const analysisLayerRef = useRef<L.Polygon | L.Polyline | null>(null);
+  const analysisLayerRef = useRef<L.LayerGroup | null>(null);
+  const guideLayerRef = useRef<L.Polyline | null>(null);
 
   const [geojson, setGeojson] = useState<ValuePerAcreGeoJSON | null>(null);
   const [breaks, setBreaks] = useState<number[]>([]);
@@ -132,7 +133,9 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   const [drawPoints, setDrawPoints] = useState<Array<[number, number]>>([]);
   const [analysis, setAnalysis] = useState<{
     parcels: number;
+    acres: number;
     value: number;
+    valuePerAcre: number;
     totalValue: number;
     percent: number;
   } | null>(null);
@@ -240,6 +243,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     if (!map || !isDrawing) return;
 
     const handleMapClick = (event: L.LeafletMouseEvent) => {
+      map.closePopup();
       setDrawPoints((points) => [...points, [event.latlng.lat, event.latlng.lng]]);
     };
 
@@ -259,25 +263,82 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       analysisLayerRef.current.remove();
       analysisLayerRef.current = null;
     }
-    if (drawPoints.length < 2) return;
+    if (drawPoints.length === 0) return;
 
     import('leaflet').then((L) => {
       if (!leafletMapRef.current) return;
-      analysisLayerRef.current =
-        drawPoints.length >= 3
-          ? L.polygon(drawPoints, {
-              color: '#7c3aed',
-              fillColor: '#8b5cf6',
-              fillOpacity: 0.14,
-              weight: 3,
-            }).addTo(leafletMapRef.current)
-          : L.polyline(drawPoints, {
-              color: '#7c3aed',
-              weight: 3,
-              dashArray: '6 5',
-            }).addTo(leafletMapRef.current);
+      const group = L.layerGroup().addTo(leafletMapRef.current);
+      if (drawPoints.length >= 3) {
+        L.polygon(drawPoints, {
+          color: '#7c3aed',
+          fillColor: '#8b5cf6',
+          fillOpacity: 0.14,
+          weight: 3,
+        }).addTo(group);
+      } else if (drawPoints.length === 2) {
+        L.polyline(drawPoints, {
+          color: '#7c3aed',
+          weight: 3,
+        }).addTo(group);
+      }
+      drawPoints.forEach((point) => {
+        L.circleMarker(point, {
+          radius: 6,
+          color: '#ffffff',
+          weight: 2,
+          fillColor: '#7c3aed',
+          fillOpacity: 1,
+          interactive: false,
+        }).addTo(group);
+      });
+      analysisLayerRef.current = group;
     });
   }, [drawPoints]);
+
+  useEffect(() => {
+    const map = leafletMapRef.current;
+    if (!map || !isDrawing || drawPoints.length === 0) {
+      guideLayerRef.current?.remove();
+      guideLayerRef.current = null;
+      return;
+    }
+
+    let disposed = false;
+    let updateGuide: ((event: L.LeafletMouseEvent) => void) | null = null;
+    let resetGuide: (() => void) | null = null;
+    const lastPoint = drawPoints[drawPoints.length - 1];
+    import('leaflet').then((L) => {
+      if (disposed || !leafletMapRef.current) return;
+      const guide = L.polyline([lastPoint, lastPoint], {
+              color: '#7c3aed',
+              weight: 2,
+              dashArray: '6 5',
+              interactive: false,
+            }).addTo(leafletMapRef.current);
+      guideLayerRef.current = guide;
+
+      updateGuide = (event: L.LeafletMouseEvent) => {
+        guide.setLatLngs([lastPoint, event.latlng]);
+      };
+      resetGuide = () => guide.setLatLngs([lastPoint, lastPoint]);
+      map.on('mousemove', updateGuide);
+      map.on('mouseout', resetGuide);
+
+      if (disposed) {
+        map.off('mousemove', updateGuide);
+        map.off('mouseout', resetGuide);
+        guide.remove();
+      }
+    });
+
+    return () => {
+      disposed = true;
+      if (updateGuide) map.off('mousemove', updateGuide);
+      if (resetGuide) map.off('mouseout', resetGuide);
+      guideLayerRef.current?.remove();
+      guideLayerRef.current = null;
+    };
+  }, [drawPoints, isDrawing]);
 
   const clearAnalysis = useCallback(() => {
     setIsDrawing(false);
@@ -287,6 +348,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       analysisLayerRef.current.remove();
       analysisLayerRef.current = null;
     }
+    guideLayerRef.current?.remove();
+    guideLayerRef.current = null;
   }, []);
 
   const analyzeDrawnArea = useCallback(() => {
@@ -314,10 +377,16 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       (sum, feature) => sum + (feature.properties.tax_value ?? 0),
       0
     );
+    const acres = encompassed.reduce(
+      (sum, feature) => sum + (feature.properties.acres ?? 0),
+      0
+    );
 
     setAnalysis({
       parcels: encompassed.length,
+      acres,
       value,
+      valuePerAcre: acres > 0 ? value / acres : 0,
       totalValue,
       percent: totalValue > 0 ? (value / totalValue) * 100 : 0,
     });
@@ -347,6 +416,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     const layer = L.geoJSON(
       { type: 'FeatureCollection', features: filtered } as GeoJSON.FeatureCollection,
       {
+        interactive: !isDrawing,
         style: (feature) => {
           const p = feature?.properties as ParcelProperties | undefined;
           const isReview = p?.action === 'review';
@@ -399,7 +469,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     if (layer.getBounds().isValid()) {
       leafletMapRef.current.fitBounds(layer.getBounds(), { padding: [20, 20] });
     }
-  }, [geojson, breaks, filters]);
+  }, [geojson, breaks, filters, isDrawing]);
 
   useEffect(() => {
     renderLayer();
@@ -709,13 +779,21 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
           </div>
 
           {analysis && (
-            <div className="mt-3 grid sm:grid-cols-3 gap-3 rounded-lg border border-violet-200 bg-violet-50 p-4">
+            <div className="mt-3 grid sm:grid-cols-5 gap-3 rounded-lg border border-violet-200 bg-violet-50 p-4">
               <div>
                 <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
                   Fully encompassed parcels
                 </p>
                 <p className="text-xl font-bold text-gray-900">
                   {analysis.parcels.toLocaleString()}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
+                  Total acres
+                </p>
+                <p className="text-xl font-bold text-gray-900">
+                  {formatAcres(analysis.acres)}
                 </p>
               </div>
               <div>
@@ -728,13 +806,21 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
               </div>
               <div>
                 <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
+                  Value per acre
+                </p>
+                <p className="text-xl font-bold text-gray-900">
+                  {formatCurrency(analysis.valuePerAcre)}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
                   Share of Town parcel value
                 </p>
                 <p className="text-xl font-bold text-gray-900">
                   {analysis.percent.toFixed(2)}%
                 </p>
               </div>
-              <p className="sm:col-span-3 text-xs text-gray-600">
+              <p className="sm:col-span-5 text-xs text-gray-600">
                 Only parcels whose complete geometry falls inside the polygon are counted.
                 Percentage compares {formatCurrency(analysis.value)} with{' '}
                 {formatCurrency(analysis.totalValue)} across the full Town parcel dataset.
