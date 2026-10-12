@@ -1,9 +1,9 @@
 {
-  "generated": "2026-06-23",
+  "generated": "2026-10-09",
   "source": "https://gisservices.chathamcountync.gov/opendataagol/rest/services/Cadastral/Chatham_CamaParcels/MapServer/0",
   "total_anomalies": 58,
-  "iqr_low_threshold": 2358.15,
-  "iqr_high_threshold": 934089394.43,
+  "iqr_low_threshold": 2544.77,
+  "iqr_high_threshold": 830891102.17,
   "iqr_multiplier": 3.0,
   "records": [
     {
@@ -47,7 +47,7 @@
     },
     {
       "parcel_id": "0006702",
-      "owner": "MCMASTERS, BARBARA H;GLOSSON, LINDA H",
+      "owner": "GLOSSON, LINDA H;MCMASTERS, BARBARA H",
       "address": "Hillsboro St",
       "acres": 5.333717990734888,
       "tax_value": 9497.0,
@@ -138,7 +138,7 @@
     },
     {
       "parcel_id": "0073000",
-      "owner": "LOEW, MYRON C;LOEW, ROSLYN",
+      "owner": "LOEW, ROSLYN;LOEW, MYRON C",
       "address": "OFF SANFORD RD",
       "acres": 0.005110972013583391,
       "tax_value": 8.0,
@@ -748,16 +748,16 @@
       "action": "exclude"
     },
     {
-      "parcel_id": "0097767",
-      "owner": "DEPARTMENT OF TRANSPORTATION, STATE OF NORTH CAROLINA",
-      "address": "Hillsboro St",
-      "acres": 0.03764848582544704,
-      "tax_value": 0.0,
+      "parcel_id": "0097991",
+      "owner": "CHATHAM PARK INVESTORS LLC,",
+      "address": "35 Parkland DR",
+      "acres": 0.4400431646415485,
+      "tax_value": null,
       "value_per_acre": null,
       "anomaly_flags": [
-        "zero_value_taxable"
+        "missing_value"
       ],
-      "anomaly_reason": "zero_value_taxable",
+      "anomaly_reason": "missing_value",
       "action": "exclude"
     }
   ]

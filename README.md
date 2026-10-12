@@ -11,6 +11,8 @@ An interactive budget transparency tool for the Town of Pittsboro, NC. Explore t
 - **Tax Base** — Property tax base mix by type (Residential, Commercial, Industrial, Exempt, Other) with each type's share of assessed value and estimated annual tax split between Town and County
 - **Value per Acre Map** — Choropleth map of assessed value per acre for every Town parcel. Includes a data-quality/anomaly review step: parcels with zero acres, missing geometry, missing value, duplicate IDs, or extreme statistical outliers (IQR method on log scale) are flagged before mapping. An *Anomaly Review* sub-page lists every flagged parcel with parcel ID, owner, address, acres, tax value, value/acre, anomaly reason, and suggested action (exclude / review / include). Only clean parcels and explicitly flagged-but-reviewable ones appear on the map.
 - **Your Receipt** — Look up your property by address (live Chatham County GIS lookup) to see your tax bill split between Town and County, with a per-department breakdown
+- **Tax Base** — Review five years of taxable property and one-penny value, with County revaluation years highlighted
+- **Value per Acre** — Draw an analysis polygon and total parcels completely encompassed by it
 - **Capital Plan** — 5-year Capital Improvement Plan ($37.2M in projects + $3.5M in vehicles) with department filtering
 - **Fee Schedule** — Searchable General Fund fee schedule including facility rentals, athletic fees, and admin charges
 - **Mobile Navigation** — Responsive Menu/Close toggle in the header so all pages are reachable on phones and small tablets
@@ -92,6 +94,10 @@ The script fetches Pittsboro parcels (with geometry) from the Chatham County
 ArcGIS CAMA Parcels service, calculates `value_per_acre = jan1_total_ASV / acres`,
 flags anomalies (zero acres, missing geometry, IQR outliers on log scale, duplicate
 parcel IDs, etc.), and writes the two output files above.
+
+The map's polygon analysis uses complete parcel geometry rather than parcel
+centroids. Its percentage compares the selected assessed value with the total
+assessed value of all parcels included in the map dataset.
 
 To update for a new fiscal year:
 1. Add the new fiscal year's line items to `public/data/budget.json`
