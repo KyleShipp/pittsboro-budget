@@ -445,6 +445,10 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                <table class="w-full text-xs border-t pt-1">
                  <tr><td class="text-gray-500 pr-2">Acres</td>
                      <td class="text-right font-medium">${formatAcres(p.acres)}</td></tr>
+                 ${p.allocated_shared_acres
+                   ? `<tr><td class="text-gray-500 pr-2">Shared acres</td>
+                        <td class="text-right font-medium">+${formatAcres(p.allocated_shared_acres)}</td></tr>`
+                   : ''}
                  <tr><td class="text-gray-500 pr-2">Tax Value</td>
                      <td class="text-right font-medium">${formatCurrency(p.tax_value)}</td></tr>
                  <tr><td class="text-gray-500 pr-2 font-semibold">Value/Acre</td>

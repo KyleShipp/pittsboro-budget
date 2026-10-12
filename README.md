@@ -91,9 +91,14 @@ python pittsboro_value_per_acre.py
 ```
 
 The script fetches Pittsboro parcels (with geometry) from the Chatham County
-ArcGIS CAMA Parcels service, calculates `value_per_acre = jan1_total_ASV / acres`,
-flags anomalies (zero acres, missing geometry, IQR outliers on log scale, duplicate
-parcel IDs, etc.), and writes the two output files above.
+ArcGIS CAMA Parcels service, allocates taxable-zero condominium common land
+equally among units linked by mapped-parcel or declaration references, and
+calculates `value_per_acre = jan1_total_ASV / effective_acres`. Allocated units
+remain flagged for review. It also flags zero acres, missing geometry, IQR
+outliers on a log scale, duplicate parcel IDs, and other data-quality issues.
+
+The anomaly review table supports user-resizable columns and exports the current
+filtered and sorted rows as an Excel-compatible CSV.
 
 The map's polygon analysis uses complete parcel geometry rather than parcel
 centroids. Its percentage compares the selected assessed value with the total
