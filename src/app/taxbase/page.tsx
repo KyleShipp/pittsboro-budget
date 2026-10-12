@@ -1,5 +1,6 @@
 import { getTaxBase } from '@/lib/data';
 import { formatCurrency, formatPercentPlain } from '@/lib/format';
+import TaxBaseHistoryChart from '@/components/TaxBaseHistoryChart';
 
 const taxBase = getTaxBase();
 
@@ -13,8 +14,17 @@ const GROUP_COLORS: Record<string, string> = {
 };
 
 export default function TaxBasePage() {
-  const { groups, total, townRate, countyRate, fiscalYear, source, generated } =
-    taxBase;
+  const {
+    groups,
+    total,
+    townRate,
+    countyRate,
+    fiscalYear,
+    source,
+    generated,
+    history,
+    historySource,
+  } = taxBase;
 
   return (
     <div>
@@ -29,6 +39,21 @@ export default function TaxBasePage() {
           assessed value across {total.parcels.toLocaleString()} parcels
         </p>
       </div>
+
+      <section className="bg-white rounded-xl border p-5 mb-8">
+        <div className="mb-3">
+          <h2 className="text-xl font-semibold text-gray-900">
+            Tax Base and Value of One Penny
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Five-year history. Gold bars mark Chatham County revaluation years.
+          </p>
+        </div>
+        <TaxBaseHistoryChart data={history} />
+        <p className="text-xs text-gray-500 mt-2">
+          <strong>History source:</strong> {historySource}
+        </p>
+      </section>
 
       {/* Composition bar */}
       <div className="bg-white rounded-xl border p-5 mb-8">

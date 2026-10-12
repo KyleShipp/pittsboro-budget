@@ -11,6 +11,7 @@
  */
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import booleanWithin from '@turf/boolean-within';
 import type { ValuePerAcreGeoJSON, ParcelFeature, ParcelProperties } from '@/types/budget';
 
 // ── Color scale (7-class Blues, low → high value/acre) ─────────────────────
@@ -112,6 +113,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
   const leafletMapRef = useRef<L.Map | null>(null);
   const geoLayerRef = useRef<L.GeoJSON | null>(null);
+  const analysisLayerRef = useRef<L.Polygon | L.Polyline | null>(null);
 
   const [geojson, setGeojson] = useState<ValuePerAcreGeoJSON | null>(null);
   const [breaks, setBreaks] = useState<number[]>([]);
@@ -121,10 +123,19 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     showReview: true,
   });
   const [loading, setLoading] = useState(true);
+  const [mapReady, setMapReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState<{ min: number; max: number; median: number; q1: number; q3: number } | null>(null);
   const [sortedVpa, setSortedVpa] = useState<number[]>([]);
   const [rangePos, setRangePos] = useState<{ min: number; max: number }>({ min: 250, max: 750 });
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [drawPoints, setDrawPoints] = useState<Array<[number, number]>>([]);
+  const [analysis, setAnalysis] = useState<{
+    parcels: number;
+    value: number;
+    totalValue: number;
+    percent: number;
+  } | null>(null);
 
   const distribution = useMemo(() => {
     if (!geojson || !stats) return [] as number[];
@@ -211,16 +222,100 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       }).addTo(map);
 
       leafletMapRef.current = map;
+      setMapReady(true);
     });
 
     return () => {
       if (leafletMapRef.current) {
         leafletMapRef.current.remove();
         leafletMapRef.current = null;
+        setMapReady(false);
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geojson]);
+
+  useEffect(() => {
+    const map = leafletMapRef.current;
+    if (!map || !isDrawing) return;
+
+    const handleMapClick = (event: L.LeafletMouseEvent) => {
+      setDrawPoints((points) => [...points, [event.latlng.lat, event.latlng.lng]]);
+    };
+
+    map.getContainer().style.cursor = 'crosshair';
+    map.on('click', handleMapClick);
+    return () => {
+      map.off('click', handleMapClick);
+      map.getContainer().style.cursor = '';
+    };
+  }, [isDrawing, mapReady]);
+
+  useEffect(() => {
+    const map = leafletMapRef.current;
+    if (!map) return;
+
+    if (analysisLayerRef.current) {
+      analysisLayerRef.current.remove();
+      analysisLayerRef.current = null;
+    }
+    if (drawPoints.length < 2) return;
+
+    import('leaflet').then((L) => {
+      if (!leafletMapRef.current) return;
+      analysisLayerRef.current =
+        drawPoints.length >= 3
+          ? L.polygon(drawPoints, {
+              color: '#7c3aed',
+              fillColor: '#8b5cf6',
+              fillOpacity: 0.14,
+              weight: 3,
+            }).addTo(leafletMapRef.current)
+          : L.polyline(drawPoints, {
+              color: '#7c3aed',
+              weight: 3,
+              dashArray: '6 5',
+            }).addTo(leafletMapRef.current);
+    });
+  }, [drawPoints]);
+
+  const clearAnalysis = useCallback(() => {
+    setIsDrawing(false);
+    setDrawPoints([]);
+    setAnalysis(null);
+    if (analysisLayerRef.current) {
+      analysisLayerRef.current.remove();
+      analysisLayerRef.current = null;
+    }
+  }, []);
+
+  const analyzeDrawnArea = useCallback(() => {
+    if (!geojson || drawPoints.length < 3) return;
+
+    const ring = drawPoints.map(([lat, lng]) => [lng, lat]);
+    ring.push(ring[0]);
+    const analysisArea: GeoJSON.Feature<GeoJSON.Polygon> = {
+      type: 'Feature',
+      properties: {},
+      geometry: { type: 'Polygon', coordinates: [ring] },
+    };
+    const encompassed = geojson.features.filter((feature) =>
+      booleanWithin(feature as GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>, analysisArea)
+    );
+    const totalValue = geojson.metadata.total_tax_value;
+    const value = encompassed.reduce(
+      (sum, feature) => sum + (feature.properties.tax_value ?? 0),
+      0
+    );
+
+    setAnalysis({
+      parcels: encompassed.length,
+      value,
+      totalValue,
+      percent: totalValue > 0 ? (value / totalValue) * 100 : 0,
+    });
+    setIsDrawing(false);
+  }, [drawPoints, geojson]);
 
   // ── Render / re-render GeoJSON layer when data or filters change ────────
   const renderLayer = useCallback(async () => {
@@ -549,6 +644,96 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
           <label htmlFor="showReview" className="text-sm text-gray-700">
             Show flagged parcels (orange on map)
           </label>
+        </div>
+
+        <div className="mt-4 pt-4 border-t">
+          <div className="flex flex-wrap items-center gap-2">
+            {!isDrawing && drawPoints.length === 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setAnalysis(null);
+                  setIsDrawing(true);
+                }}
+                className="px-3 py-2 rounded-lg bg-violet-700 text-white text-sm font-medium hover:bg-violet-800 transition-colors"
+              >
+                Draw value analysis area
+              </button>
+            )}
+            {isDrawing && (
+              <>
+                <button
+                  type="button"
+                  onClick={analyzeDrawnArea}
+                  disabled={drawPoints.length < 3}
+                  className="px-3 py-2 rounded-lg bg-violet-700 text-white text-sm font-medium enabled:hover:bg-violet-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  Analyze polygon
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDrawPoints((points) => points.slice(0, -1))}
+                  disabled={drawPoints.length === 0}
+                  className="px-3 py-2 rounded-lg border text-sm font-medium text-gray-700 enabled:hover:bg-gray-50 disabled:opacity-40"
+                >
+                  Undo point
+                </button>
+                <button
+                  type="button"
+                  onClick={clearAnalysis}
+                  className="px-3 py-2 rounded-lg border text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <span className="text-sm text-gray-500">
+                  Click at least three points on the map ({drawPoints.length} placed).
+                </span>
+              </>
+            )}
+            {!isDrawing && drawPoints.length > 0 && (
+              <button
+                type="button"
+                onClick={clearAnalysis}
+                className="px-3 py-2 rounded-lg border text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Clear analysis
+              </button>
+            )}
+          </div>
+
+          {analysis && (
+            <div className="mt-3 grid sm:grid-cols-3 gap-3 rounded-lg border border-violet-200 bg-violet-50 p-4">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
+                  Fully encompassed parcels
+                </p>
+                <p className="text-xl font-bold text-gray-900">
+                  {analysis.parcels.toLocaleString()}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
+                  Total assessed value
+                </p>
+                <p className="text-xl font-bold text-gray-900">
+                  {formatCurrency(analysis.value)}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
+                  Share of Town parcel value
+                </p>
+                <p className="text-xl font-bold text-gray-900">
+                  {analysis.percent.toFixed(2)}%
+                </p>
+              </div>
+              <p className="sm:col-span-3 text-xs text-gray-600">
+                Only parcels whose complete geometry falls inside the polygon are counted.
+                Percentage compares {formatCurrency(analysis.value)} with{' '}
+                {formatCurrency(analysis.totalValue)} across the full Town parcel dataset.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 

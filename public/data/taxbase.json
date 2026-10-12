@@ -4,6 +4,39 @@
   "townRate": 0.44,
   "countyRate": 0.6,
   "source": "Chatham County CAMA Parcels (parcel_year 2027), PITTSBORO CITY municipal tax district",
+  "historySource": "NC Department of Revenue LG55 municipal taxable valuation reports (FY22-23 through FY25-26); Town of Pittsboro FY26-27 adopted budget. Penny values are total taxable property divided by 10,000.",
+  "history": [
+    {
+      "fiscalYear": "FY22-23",
+      "taxablePropertyValue": 875658778,
+      "pennyValue": 87566,
+      "revaluation": false
+    },
+    {
+      "fiscalYear": "FY23-24",
+      "taxablePropertyValue": 1023916417,
+      "pennyValue": 102392,
+      "revaluation": false
+    },
+    {
+      "fiscalYear": "FY24-25",
+      "taxablePropertyValue": 1214870162,
+      "pennyValue": 121487,
+      "revaluation": false
+    },
+    {
+      "fiscalYear": "FY25-26",
+      "taxablePropertyValue": 1742286365,
+      "pennyValue": 174229,
+      "revaluation": true
+    },
+    {
+      "fiscalYear": "FY26-27",
+      "taxablePropertyValue": 1852610000,
+      "pennyValue": 185261,
+      "revaluation": false
+    }
+  ],
   "groups": [
     {
       "group": "Residential",

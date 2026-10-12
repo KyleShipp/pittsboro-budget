@@ -195,12 +195,21 @@ export interface TaxBaseGroup {
   totalTax: number;
 }
 
+export interface TaxBaseHistoryPoint {
+  fiscalYear: string;
+  taxablePropertyValue: number;
+  pennyValue: number;
+  revaluation: boolean;
+}
+
 export interface TaxBaseData {
   fiscalYear: string;
   generated: string;
   townRate: number;
   countyRate: number;
   source: string;
+  historySource: string;
+  history: TaxBaseHistoryPoint[];
   groups: TaxBaseGroup[];
   total: TaxBaseGroup;
 }
@@ -248,6 +257,7 @@ export interface ValuePerAcreGeoJSON {
     total_features: number;
     included: number;
     review: number;
+    total_tax_value: number;
   };
 }
 

@@ -102,6 +102,11 @@ export default function ValuePerAcrePage() {
             Anomaly Review Table
           </Link>.
         </p>
+        <p className="mt-2">
+          Use <strong>Draw value analysis area</strong> to outline a custom area. The
+          result includes only parcels whose complete geometry is inside the polygon
+          and compares their assessed value with the full Town parcel tax value.
+        </p>
       </div>
 
       {/* Map */}
