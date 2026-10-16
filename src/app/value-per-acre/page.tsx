@@ -104,8 +104,16 @@ export default function ValuePerAcrePage() {
         </p>
         <p className="mt-2">
           Use <strong>Draw value analysis area</strong> to outline a custom area. The
+          map keeps your current view while drawing. Double-click the final point
+          to close and analyze, or use <strong>Analyze polygon</strong> after placing
+          at least three points. The
           result includes only parcels whose complete geometry is inside the polygon
           and compares their assessed value with the full Town parcel tax value.
+          After analysis, purple shading marks the exact parcels counted instead
+          of the drawn selection outline.
+          It also estimates annual Town and County property taxes using the rates
+          shown in the summary. Building square footage is not available from the
+          source parcel data.
         </p>
       </div>
 

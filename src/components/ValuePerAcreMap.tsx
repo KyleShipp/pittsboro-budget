@@ -12,7 +12,11 @@
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import booleanWithin from '@turf/boolean-within';
+import { calculateTaxBill } from '@/lib/calculations';
+import { getTaxBase } from '@/lib/data';
 import type { ValuePerAcreGeoJSON, ParcelFeature, ParcelProperties } from '@/types/budget';
+
+const { fiscalYear, townRate, countyRate } = getTaxBase();
 
 // ── Color scale (7-class Blues, low → high value/acre) ─────────────────────
 const PALETTE = [
@@ -115,6 +119,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   const geoLayerRef = useRef<L.GeoJSON | null>(null);
   const analysisLayerRef = useRef<L.LayerGroup | null>(null);
   const guideLayerRef = useRef<L.Polyline | null>(null);
+  const hasFitBoundsRef = useRef(false);
+  const drawPointsRef = useRef<Array<[number, number]>>([]);
 
   const [geojson, setGeojson] = useState<ValuePerAcreGeoJSON | null>(null);
   const [breaks, setBreaks] = useState<number[]>([]);
@@ -131,14 +137,22 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   const [rangePos, setRangePos] = useState<{ min: number; max: number }>({ min: 250, max: 750 });
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawPoints, setDrawPoints] = useState<Array<[number, number]>>([]);
+  const updateDrawPoints = useCallback((points: Array<[number, number]>) => {
+    drawPointsRef.current = points;
+    setDrawPoints(points);
+  }, []);
   const [analysis, setAnalysis] = useState<{
     parcels: number;
+    features: ParcelFeature[];
     acres: number;
     value: number;
     valuePerAcre: number;
     totalValue: number;
     percent: number;
   } | null>(null);
+
+  const townTax = analysis ? calculateTaxBill(analysis.value, townRate, 1) : 0;
+  const countyTax = analysis ? calculateTaxBill(analysis.value, countyRate, 1) : 0;
 
   const distribution = useMemo(() => {
     if (!geojson || !stats) return [] as number[];
@@ -218,6 +232,9 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
         zoom: 14,
         scrollWheelZoom: true,
       });
+      const analysisPane = map.createPane('analysis');
+      analysisPane.style.zIndex = '450';
+      analysisPane.style.pointerEvents = 'none';
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -232,6 +249,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       if (leafletMapRef.current) {
         leafletMapRef.current.remove();
         leafletMapRef.current = null;
+        hasFitBoundsRef.current = false;
         setMapReady(false);
       }
     };
@@ -240,60 +258,68 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
 
   useEffect(() => {
     const map = leafletMapRef.current;
-    if (!map || !isDrawing) return;
+    if (!map || !mapReady || (!analysis && drawPoints.length === 0)) return;
 
-    const handleMapClick = (event: L.LeafletMouseEvent) => {
-      map.closePopup();
-      setDrawPoints((points) => [...points, [event.latlng.lat, event.latlng.lng]]);
-    };
-
-    map.getContainer().style.cursor = 'crosshair';
-    map.on('click', handleMapClick);
-    return () => {
-      map.off('click', handleMapClick);
-      map.getContainer().style.cursor = '';
-    };
-  }, [isDrawing, mapReady]);
-
-  useEffect(() => {
-    const map = leafletMapRef.current;
-    if (!map) return;
-
-    if (analysisLayerRef.current) {
-      analysisLayerRef.current.remove();
-      analysisLayerRef.current = null;
-    }
-    if (drawPoints.length === 0) return;
-
+    let disposed = false;
+    let group: L.LayerGroup | null = null;
     import('leaflet').then((L) => {
-      if (!leafletMapRef.current) return;
-      const group = L.layerGroup().addTo(leafletMapRef.current);
+      if (disposed) return;
+      const layerGroup = L.layerGroup().addTo(map);
+      group = layerGroup;
+      analysisLayerRef.current = layerGroup;
+      if (analysis && !isDrawing) {
+        const selectedParcels: GeoJSON.FeatureCollection = {
+          type: 'FeatureCollection',
+          features: analysis.features,
+        };
+        L.geoJSON(selectedParcels, {
+          pane: 'analysis',
+          interactive: false,
+          style: {
+            color: '#7c3aed',
+            fillColor: '#8b5cf6',
+            fillOpacity: 0.65,
+            weight: 2,
+          },
+        }).addTo(layerGroup);
+        return;
+      }
       if (drawPoints.length >= 3) {
         L.polygon(drawPoints, {
+          pane: 'analysis',
           color: '#7c3aed',
           fillColor: '#8b5cf6',
           fillOpacity: 0.14,
           weight: 3,
-        }).addTo(group);
+          interactive: false,
+        }).addTo(layerGroup);
       } else if (drawPoints.length === 2) {
         L.polyline(drawPoints, {
+          pane: 'analysis',
           color: '#7c3aed',
           weight: 3,
-        }).addTo(group);
+          interactive: false,
+        }).addTo(layerGroup);
       }
       drawPoints.forEach((point) => {
         L.circleMarker(point, {
+          pane: 'analysis',
           radius: 6,
           color: '#ffffff',
           weight: 2,
           fillColor: '#7c3aed',
           fillOpacity: 1,
           interactive: false,
-        }).addTo(group);
+        }).addTo(layerGroup);
       });
-      analysisLayerRef.current = group;
     });
-  }, [drawPoints]);
+
+    return () => {
+      disposed = true;
+      group?.remove();
+      if (analysisLayerRef.current === group) analysisLayerRef.current = null;
+    };
+  }, [drawPoints, analysis, isDrawing, mapReady]);
 
   useEffect(() => {
     const map = leafletMapRef.current;
@@ -342,7 +368,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
 
   const clearAnalysis = useCallback(() => {
     setIsDrawing(false);
-    setDrawPoints([]);
+    updateDrawPoints([]);
     setAnalysis(null);
     if (analysisLayerRef.current) {
       analysisLayerRef.current.remove();
@@ -350,12 +376,13 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     }
     guideLayerRef.current?.remove();
     guideLayerRef.current = null;
-  }, []);
+  }, [updateDrawPoints]);
 
   const analyzeDrawnArea = useCallback(() => {
-    if (!geojson || drawPoints.length < 3) return;
+    const points = drawPointsRef.current;
+    if (!geojson || points.length < 3) return;
 
-    const ring = drawPoints.map(([lat, lng]) => [lng, lat]);
+    const ring = points.map(([lat, lng]) => [lng, lat]);
     ring.push(ring[0]);
     const analysisArea: GeoJSON.Feature<GeoJSON.Polygon> = {
       type: 'Feature',
@@ -384,6 +411,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
 
     setAnalysis({
       parcels: encompassed.length,
+      features: encompassed,
       acres,
       value,
       valuePerAcre: acres > 0 ? value / acres : 0,
@@ -391,11 +419,39 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       percent: totalValue > 0 ? (value / totalValue) * 100 : 0,
     });
     setIsDrawing(false);
-  }, [drawPoints, geojson]);
+  }, [geojson]);
+
+  useEffect(() => {
+    const map = leafletMapRef.current;
+    if (!map || !isDrawing) return;
+
+    const handleMapClick = (event: L.LeafletMouseEvent) => {
+      // A double-click's first click supplies the final vertex; ignore its second click.
+      if (event.originalEvent.detail > 1) return;
+      map.closePopup();
+      const points = drawPointsRef.current;
+      const last = points[points.length - 1];
+      if (last?.[0] === event.latlng.lat && last?.[1] === event.latlng.lng) return;
+      updateDrawPoints([...points, [event.latlng.lat, event.latlng.lng]]);
+    };
+    const handleDoubleClick = () => analyzeDrawnArea();
+    const doubleClickZoomEnabled = map.doubleClickZoom.enabled();
+
+    map.doubleClickZoom.disable();
+    map.getContainer().style.cursor = 'crosshair';
+    map.on('click', handleMapClick);
+    map.on('dblclick', handleDoubleClick);
+    return () => {
+      map.off('click', handleMapClick);
+      map.off('dblclick', handleDoubleClick);
+      if (doubleClickZoomEnabled) map.doubleClickZoom.enable();
+      map.getContainer().style.cursor = '';
+    };
+  }, [isDrawing, mapReady, analyzeDrawnArea, updateDrawPoints]);
 
   // ── Render / re-render GeoJSON layer when data or filters change ────────
   const renderLayer = useCallback(async () => {
-    if (!geojson || !leafletMapRef.current || breaks.length === 0) return;
+    if (!geojson || !mapReady || !leafletMapRef.current || breaks.length === 0) return;
     const L = await import('leaflet');
 
     if (geoLayerRef.current) {
@@ -470,10 +526,11 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     geoLayerRef.current = layer;
 
     // Fit to bounds on first render.
-    if (layer.getBounds().isValid()) {
+    if (!hasFitBoundsRef.current && layer.getBounds().isValid()) {
       leafletMapRef.current.fitBounds(layer.getBounds(), { padding: [20, 20] });
+      hasFitBoundsRef.current = true;
     }
-  }, [geojson, breaks, filters, isDrawing]);
+  }, [geojson, mapReady, breaks, filters, isDrawing]);
 
   useEffect(() => {
     renderLayer();
@@ -753,7 +810,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setDrawPoints((points) => points.slice(0, -1))}
+                  onClick={() => updateDrawPoints(drawPointsRef.current.slice(0, -1))}
                   disabled={drawPoints.length === 0}
                   className="px-3 py-2 rounded-lg border text-sm font-medium text-gray-700 enabled:hover:bg-gray-50 disabled:opacity-40"
                 >
@@ -767,7 +824,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                   Cancel
                 </button>
                 <span className="text-sm text-gray-500">
-                  Click at least three points on the map ({drawPoints.length} placed).
+                  Click to add points; double-click the final point to close and analyze
+                  (at least 3 points; {drawPoints.length} placed).
                 </span>
               </>
             )}
@@ -783,7 +841,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
           </div>
 
           {analysis && (
-            <div className="mt-3 grid sm:grid-cols-5 gap-3 rounded-lg border border-violet-200 bg-violet-50 p-4">
+            <div className="mt-3 grid sm:grid-cols-2 lg:grid-cols-5 gap-3 rounded-lg border border-violet-200 bg-violet-50 p-4">
               <div>
                 <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
                   Fully encompassed parcels
@@ -824,10 +882,58 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                   {analysis.percent.toFixed(2)}%
                 </p>
               </div>
-              <p className="sm:col-span-5 text-xs text-gray-600">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
+                  Built floor area (sq ft)
+                </p>
+                <p className="text-xl font-bold text-gray-900">Not available</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
+                  Estimated annual Town tax
+                </p>
+                <p className="text-xl font-bold text-gray-900">{formatCurrency(townTax)}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
+                  Estimated annual County tax
+                </p>
+                <p className="text-xl font-bold text-gray-900">{formatCurrency(countyTax)}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
+                  Estimated annual combined tax
+                </p>
+                <p className="text-xl font-bold text-gray-900">
+                  {formatCurrency(townTax + countyTax)}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
+                  Estimated annual Town tax / acre
+                </p>
+                <p className="text-xl font-bold text-gray-900">
+                  {analysis.acres > 0 ? formatCurrency(townTax / analysis.acres) : '—'}
+                </p>
+              </div>
+              <p className="sm:col-span-2 lg:col-span-5 text-xs text-gray-600">
                 Only parcels whose complete geometry falls inside the polygon are counted.
+                Counted parcels are shaded purple, including those hidden by the map filters;
+                the drawn selection outline is removed.
                 Percentage compares {formatCurrency(analysis.value)} with{' '}
                 {formatCurrency(analysis.totalValue)} across the full Town parcel dataset.
+              </p>
+              <p className="sm:col-span-2 lg:col-span-5 text-xs text-gray-600">
+                {fiscalYear} estimated annual property tax = selected assessed value &divide; 100
+                &times; tax rate: Town ${townRate.toFixed(2)}, County ${countyRate.toFixed(2)} per
+                $100. Combined tax includes both jurisdictions; only Town tax goes to Pittsboro.
+                These are rate-based estimates, not actual bills or collections; parcel-specific
+                exemptions, relief, special districts, fees, and collection losses are not modeled.
+              </p>
+              <p className="sm:col-span-2 lg:col-span-5 text-xs text-gray-600">
+                Building square footage is not included in the map dataset or its source parcel
+                service. Parcel acreage measures land area, not building footprint or floor area,
+                and cannot be used to calculate built square feet.
               </p>
             </div>
           )}
@@ -837,7 +943,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       {/* ── Map + Legend layout ─────────────────────────────────────────── */}
       <div className="relative">
         {/* Leaflet map container */}
-        <div ref={mapRef} style={{ height: '560px' }} className="rounded-xl border overflow-hidden z-0" />
+        <div ref={mapRef} style={{ height: '720px' }} className="rounded-xl border overflow-hidden z-0" />
 
         {/* Legend overlay */}
         {legendLabels.length > 0 && (
@@ -855,6 +961,14 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                 <span className="text-gray-700 whitespace-nowrap">{label}</span>
               </div>
             ))}
+            {analysis && (
+              <div className="flex items-center gap-1.5 mt-2 pt-2 border-t">
+                <span
+                  className="inline-block w-4 h-4 rounded-sm border border-violet-700 flex-shrink-0 bg-violet-500"
+                />
+                <span className="text-gray-700 whitespace-nowrap">Parcels counted in analysis</span>
+              </div>
+            )}
           </div>
         )}
       </div>

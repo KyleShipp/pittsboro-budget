@@ -12,7 +12,7 @@ An interactive budget transparency tool for the Town of Pittsboro, NC. Explore t
 - **Value per Acre Map** — Choropleth map of assessed value per acre for every Town parcel. Includes a data-quality/anomaly review step: parcels with zero acres, missing geometry, missing value, duplicate IDs, or extreme statistical outliers (IQR method on log scale) are flagged before mapping. An *Anomaly Review* sub-page lists every flagged parcel with parcel ID, owner, address, acres, tax value, value/acre, anomaly reason, and suggested action (exclude / review / include). Only clean parcels and explicitly flagged-but-reviewable ones appear on the map.
 - **Your Receipt** — Look up your property by address (live Chatham County GIS lookup) to see your tax bill split between Town and County, with a per-department breakdown
 - **Tax Base** — Review ten years of taxable property, one-penny value, and tax rates, with County revaluation years highlighted
-- **Value per Acre** — Draw an analysis polygon and total parcels completely encompassed by it
+- **Value per Acre** — Draw an analysis polygon and total parcels completely encompassed by it, with estimated annual Town, County, and combined property taxes and Town tax per acre
 - **Capital Plan** — 5-year Capital Improvement Plan ($37.2M in projects + $3.5M in vehicles) with department filtering
 - **Fee Schedule** — Searchable General Fund fee schedule including facility rentals, athletic fees, and admin charges
 - **Mobile Navigation** — Responsive Menu/Close toggle in the header so all pages are reachable on phones and small tablets
@@ -101,8 +101,29 @@ The anomaly review table supports user-resizable columns and exports the current
 filtered and sorted rows as an Excel-compatible CSV.
 
 The map's polygon analysis uses complete parcel geometry rather than parcel
-centroids. Its percentage compares the selected assessed value with the total
+centroids. Starting, completing, or clearing an analysis preserves the current
+map view. Click to place vertices, then double-click the final point to close
+and analyze the polygon, or click **Analyze polygon** after placing at least
+three points. Normal double-click zoom is disabled only while drawing.
+Its percentage compares the selected assessed value with the total
 assessed value of all parcels included in the map dataset.
+Analysis includes all encompassed parcels, even those hidden by map filters.
+After analysis, the drawn polygon and its vertices are removed and the exact
+parcel geometries counted in the results are shaded purple above the base map.
+This highlight includes counted parcels hidden by filters, remains visible
+when filters change, and is removed by **Clear analysis**.
+Estimated annual taxes use the fiscal year and Town/County rates in
+`public/data/taxbase.json`: selected assessed value divided by 100, multiplied
+by each rate. These estimates do not apply a collection-rate discount and are
+not actual tax bills or collections; parcel-specific exemptions, relief,
+special districts, and fees are not modeled. Only the Town portion goes to
+Pittsboro.
+
+Built floor area is shown as unavailable: neither the generated map dataset
+nor the source CAMA parcel service supplies building square footage. Parcel
+acreage (or its square-foot equivalent) measures land, not building footprint
+or total floor area. Supporting built square feet requires an additional
+building-level source linked to parcel IDs.
 
 To update for a new fiscal year:
 1. Add the new fiscal year's line items to `public/data/budget.json`
