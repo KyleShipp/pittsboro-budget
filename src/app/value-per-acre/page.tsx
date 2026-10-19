@@ -103,6 +103,11 @@ export default function ValuePerAcrePage() {
           </Link>.
         </p>
         <p className="mt-2">
+          Choose a <strong>Neighborhood</strong> button to zoom to a curated parcel
+          selection and see its assessed value and tax analysis. Neighborhoods use
+          explicit parcel lists; the selection source is shown with the results.
+        </p>
+        <p className="mt-2">
           Use <strong>Draw value analysis area</strong> to outline a custom area. The
           map keeps your current view while drawing. Double-click the final point
           to close and analyze, or use <strong>Analyze polygon</strong> after placing

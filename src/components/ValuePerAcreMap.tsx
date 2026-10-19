@@ -11,12 +11,20 @@
  */
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import booleanWithin from '@turf/boolean-within';
 import { calculateTaxBill } from '@/lib/calculations';
 import { getTaxBase } from '@/lib/data';
-import type { ValuePerAcreGeoJSON, ParcelFeature, ParcelProperties } from '@/types/budget';
+import { getFinishedAreaValuation, summarizeParcels } from '@/lib/parcel-analysis';
+import { resolveNeighborhood } from '@/lib/neighborhoods';
+import neighborhoodDefinitions from '../../public/data/neighborhoods.json';
+import type { ValuePerAcreGeoJSON, ParcelFeature, ParcelProperties, NeighborhoodPreset } from '@/types/budget';
 
 const { fiscalYear, townRate, countyRate } = getTaxBase();
+const neighborhoods: NeighborhoodPreset[] = neighborhoodDefinitions;
+const NeighborhoodSetupPanel = process.env.NODE_ENV === 'development'
+  ? dynamic(() => import('@/components/NeighborhoodSetupPanel'))
+  : null;
 
 // ── Color scale (7-class Blues, low → high value/acre) ─────────────────────
 const PALETTE = [
@@ -50,13 +58,13 @@ function getColor(vpa: number | null, breaks: number[], isReview: boolean): stri
   return PALETTE[PALETTE.length - 1];
 }
 
-function formatCurrency(v: number | null): string {
+function formatCurrency(v: number | null, fractionDigits = 0): string {
   if (v === null || v === undefined) return '—';
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
   }).format(v);
 }
 
@@ -141,15 +149,47 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     drawPointsRef.current = points;
     setDrawPoints(points);
   }, []);
-  const [analysis, setAnalysis] = useState<{
-    parcels: number;
-    features: ParcelFeature[];
-    acres: number;
-    value: number;
-    valuePerAcre: number;
-    totalValue: number;
-    percent: number;
-  } | null>(null);
+  const [analysis, setAnalysis] = useState<ReturnType<typeof summarizeParcels> | null>(null);
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState<NeighborhoodPreset | null>(null);
+  const [selectionMethod, setSelectionMethod] = useState<'polygon' | 'preset' | 'manual'>('polygon');
+  const [isSettingUp, setIsSettingUp] = useState(false);
+  const [neighborhoodName, setNeighborhoodName] = useState('');
+  const resolvedNeighborhoods = useMemo(() => {
+    if (!geojson) return [];
+    return neighborhoods.map((preset) => {
+      const resolved = resolveNeighborhood(preset, geojson.features);
+      if (neighborhoods.filter((item) => item.id === preset.id).length > 1) {
+        resolved.issues.push(`Duplicate neighborhood ID: ${preset.id}.`);
+        resolved.features = [];
+      }
+      return { preset, ...resolved };
+    });
+  }, [geojson]);
+
+  const toggleSetupParcel = useCallback((feature: ParcelFeature) => {
+    if (!geojson) return;
+    setAnalysis((current) => {
+      const features = current?.features ?? [];
+      const id = feature.properties.parcel_id;
+      const selected = features.some((item) => item.properties.parcel_id === id);
+      return summarizeParcels(
+        selected ? features.filter((item) => item.properties.parcel_id !== id) : [...features, feature],
+        geojson,
+      );
+    });
+    setSelectedNeighborhood(null);
+    setSelectionMethod('manual');
+  }, [geojson]);
+
+  const removeSetupParcel = useCallback((id: string) => {
+    if (!geojson) return;
+    setAnalysis((current) => summarizeParcels(
+      (current?.features ?? []).filter((item) => item.properties.parcel_id !== id),
+      geojson,
+    ));
+    setSelectedNeighborhood(null);
+    setSelectionMethod('manual');
+  }, [geojson]);
 
   const townTax = analysis ? calculateTaxBill(analysis.value, townRate, 1) : 0;
   const countyTax = analysis ? calculateTaxBill(analysis.value, countyRate, 1) : 0;
@@ -370,6 +410,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     setIsDrawing(false);
     updateDrawPoints([]);
     setAnalysis(null);
+    setSelectedNeighborhood(null);
+    setSelectionMethod('polygon');
     if (analysisLayerRef.current) {
       analysisLayerRef.current.remove();
       analysisLayerRef.current = null;
@@ -377,6 +419,21 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     guideLayerRef.current?.remove();
     guideLayerRef.current = null;
   }, [updateDrawPoints]);
+
+  const selectNeighborhood = useCallback((preset: NeighborhoodPreset, features: ParcelFeature[]) => {
+    if (!geojson) return;
+    clearAnalysis();
+    setAnalysis(summarizeParcels(features, geojson));
+    setSelectedNeighborhood(preset);
+    setSelectionMethod('preset');
+    setNeighborhoodName(preset.name);
+    leafletMapRef.current?.closePopup();
+    import('leaflet').then((L) => {
+      const parcels: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features };
+      const bounds = L.geoJSON(parcels).getBounds();
+      if (bounds.isValid()) leafletMapRef.current?.fitBounds(bounds, { padding: [24, 24] });
+    });
+  }, [geojson, clearAnalysis]);
 
   const analyzeDrawnArea = useCallback(() => {
     const points = drawPointsRef.current;
@@ -392,32 +449,9 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     const encompassed = geojson.features.filter((feature) =>
       booleanWithin(feature as GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>, analysisArea)
     );
-    const metadataTotal = geojson.metadata.total_tax_value;
-    const totalValue =
-      typeof metadataTotal === 'number' && Number.isFinite(metadataTotal) && metadataTotal > 0
-        ? metadataTotal
-        : geojson.features.reduce(
-            (sum, feature) => sum + (feature.properties.tax_value ?? 0),
-            0
-          );
-    const value = encompassed.reduce(
-      (sum, feature) => sum + (feature.properties.tax_value ?? 0),
-      0
-    );
-    const acres = encompassed.reduce(
-      (sum, feature) => sum + (feature.properties.acres ?? 0),
-      0
-    );
-
-    setAnalysis({
-      parcels: encompassed.length,
-      features: encompassed,
-      acres,
-      value,
-      valuePerAcre: acres > 0 ? value / acres : 0,
-      totalValue,
-      percent: totalValue > 0 ? (value / totalValue) * 100 : 0,
-    });
+    setAnalysis(summarizeParcels(encompassed, geojson));
+    setSelectedNeighborhood(null);
+    setSelectionMethod('polygon');
     setIsDrawing(false);
   }, [geojson]);
 
@@ -463,6 +497,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     const maxVpa = filters.maxVpa;
 
     const filtered = geojson.features.filter((f) => {
+      if (isSettingUp) return true;
       const { value_per_acre, action } = f.properties;
       if (!filters.showReview && action === 'review') return false;
       if (value_per_acre === null || value_per_acre < minVpa || value_per_acre > maxVpa) return false;
@@ -487,12 +522,25 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
         },
         onEachFeature: (feature, lyr) => {
           const p = feature.properties as ParcelProperties;
+          if (isSettingUp && !isDrawing) {
+            lyr.bindTooltip(() => {
+              const label = document.createElement('span');
+              label.textContent = `${p.parcel_id} ${p.address || 'No address'} - Click to add or remove`;
+              return label;
+            });
+            lyr.on('click', (event: L.LeafletMouseEvent) => {
+              L.DomEvent.stopPropagation(event.originalEvent);
+              toggleSetupParcel(feature as ParcelFeature);
+            });
+            return;
+          }
           const anomalyBadge =
             p.anomaly_reason
               ? `<div class="mt-1 text-xs font-semibold text-orange-600">
                    ⚠ ${p.anomaly_reason.replace(/;/g, '<br>⚠ ')}
                  </div>`
               : '';
+          const valuation = getFinishedAreaValuation(p);
           lyr.bindPopup(
             `<div class="text-sm leading-snug min-w-[220px]">
                <div class="font-semibold text-gray-900 mb-1">${p.parcel_id}</div>
@@ -507,9 +555,35 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                    : ''}
                  <tr><td class="text-gray-500 pr-2">Tax Value</td>
                      <td class="text-right font-medium">${formatCurrency(p.tax_value)}</td></tr>
+                 <tr><td class="text-gray-500 pr-2">Finished area (sq ft)</td>
+                     <td class="text-right font-medium">${p.finished_area?.sq_ft == null
+                       ? 'Not available'
+                       : p.finished_area.sq_ft.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td></tr>
+                 <tr><td class="text-gray-500 pr-2">Value per finished sq ft</td>
+                     <td class="text-right font-medium">${valuation
+                       ? formatCurrency(valuation.valuePerSqFt, 2) : 'Not available'}</td></tr>
                  <tr><td class="text-gray-500 pr-2 font-semibold">Value/Acre</td>
                      <td class="text-right font-bold text-pittsboro-green">${formatCurrency(p.value_per_acre)}</td></tr>
                </table>
+               <div class="mt-2 text-xs text-gray-600">
+                 ${geojson.metadata.finished_area ? `${geojson.metadata.finished_area.tax_year} County structures data. ` : ''}
+                 ${p.finished_area?.status === 'partial'
+                   ? 'Known subtotal; source coverage is incomplete.'
+                   : p.finished_area?.status === 'reported'
+                     ? 'Reported finished/living area, not building footprint.'
+                     : 'No reported finished area; this is not a confirmed zero.'}
+               </div>
+               <div class="mt-1 text-xs text-gray-600">
+                 ${valuation
+                   ? 'Value per sq ft includes assessed land and buildings, not a sale price or construction cost.'
+                   : 'Value per sq ft requires complete, positive finished area and a known assessed value.'}
+               </div>
+               ${p.assessment_rollup
+                 ? `<div class="mt-2 text-xs text-gray-600">
+                      ${p.assessment_rollup.accounts.length} condominium tax accounts,
+                      ${p.assessment_rollup.tax_year} assessments; parent land counted once.
+                    </div>`
+                 : ''}
                ${anomalyBadge}
              </div>`,
             { maxWidth: 280 }
@@ -530,7 +604,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       leafletMapRef.current.fitBounds(layer.getBounds(), { padding: [20, 20] });
       hasFitBoundsRef.current = true;
     }
-  }, [geojson, mapReady, breaks, filters, isDrawing]);
+  }, [geojson, mapReady, breaks, filters, isDrawing, isSettingUp, toggleSetupParcel]);
 
   useEffect(() => {
     renderLayer();
@@ -785,8 +859,45 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
         </div>
 
         <div className="mt-4 pt-4 border-t">
+          <div className="mb-4">
+            <h2 className="text-sm font-semibold text-gray-800">Neighborhoods</h2>
+            <p className="mt-1 text-xs text-gray-500">
+              Choose a curated parcel selection to zoom to its boundaries and view its value and tax analysis.
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {resolvedNeighborhoods.map(({ preset, features, issues }, index) => (
+                <button
+                  key={`${preset.id}-${index}`}
+                  type="button"
+                  disabled={!mapReady || issues.length > 0}
+                  aria-pressed={selectedNeighborhood?.id === preset.id}
+                  onClick={() => selectNeighborhood(preset, features)}
+                  className="rounded-lg border border-violet-300 px-3 py-2 text-sm font-medium text-violet-800 aria-pressed:bg-violet-100 enabled:hover:bg-violet-50 disabled:opacity-40"
+                >
+                  {preset.name}
+                </button>
+              ))}
+              {NeighborhoodSetupPanel && (
+                <button
+                  type="button"
+                  aria-pressed={isSettingUp}
+                  disabled={!mapReady || isDrawing}
+                  onClick={() => setIsSettingUp((current) => !current)}
+                  className="rounded-lg border border-amber-400 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900 disabled:opacity-40"
+                >
+                  Neighborhood setup (local only)
+                </button>
+              )}
+            </div>
+            {resolvedNeighborhoods.filter(({ issues }) => issues.length > 0).map(({ preset, issues }, index) => (
+              <div key={`${preset.id}-${index}`} role="alert" className="mt-2 rounded border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+                <p className="font-medium">{preset.name} is unavailable until its parcel definition is reviewed.</p>
+                <ul className="list-disc pl-5">{issues.map((issue) => <li key={issue}>{issue}</li>)}</ul>
+              </div>
+            ))}
+          </div>
           <div className="flex flex-wrap items-center gap-2">
-            {!isDrawing && drawPoints.length === 0 && (
+            {!isDrawing && !analysis && drawPoints.length === 0 && (
               <button
                 type="button"
                 onClick={() => {
@@ -829,7 +940,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                 </span>
               </>
             )}
-            {!isDrawing && drawPoints.length > 0 && (
+            {!isDrawing && (analysis || drawPoints.length > 0) && (
               <button
                 type="button"
                 onClick={clearAnalysis}
@@ -840,11 +951,42 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
             )}
           </div>
 
+          {NeighborhoodSetupPanel && isSettingUp && geojson && (
+            <NeighborhoodSetupPanel
+              name={neighborhoodName}
+              onNameChange={setNeighborhoodName}
+              features={analysis?.features ?? []}
+              parcels={geojson.features}
+              generated={geojson.metadata.generated}
+              selectedPreset={selectedNeighborhood}
+              onSelect={selectNeighborhood}
+              onStartNew={() => {
+                clearAnalysis();
+                setSelectionMethod('manual');
+              }}
+              onShowMap={() => mapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              onRemove={removeSetupParcel}
+              onExit={() => setIsSettingUp(false)}
+            />
+          )}
+
           {analysis && (
+            <>
+            <div className="mt-4">
+              <h2 className="font-semibold text-gray-900">
+                {isSettingUp ? neighborhoodName.trim() || 'Neighborhood setup selection' : selectedNeighborhood?.name || 'Custom area analysis'}
+              </h2>
+              {selectedNeighborhood && (
+                <>
+                  <p className="mt-1 text-sm text-gray-600">{selectedNeighborhood.description}</p>
+                  <p className="mt-1 break-words text-xs text-gray-500">Selection source: {selectedNeighborhood.source}</p>
+                </>
+              )}
+            </div>
             <div className="mt-3 grid sm:grid-cols-2 lg:grid-cols-5 gap-3 rounded-lg border border-violet-200 bg-violet-50 p-4">
               <div>
                 <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
-                  Fully encompassed parcels
+                  {selectionMethod === 'polygon' ? 'Fully encompassed parcels' : 'Selected parcels'}
                 </p>
                 <p className="text-xl font-bold text-gray-900">
                   {analysis.parcels.toLocaleString()}
@@ -884,9 +1026,38 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
               </div>
               <div>
                 <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
-                  Built floor area (sq ft)
+                  Finished area (sq ft)
                 </p>
-                <p className="text-xl font-bold text-gray-900">Not available</p>
+                <p className="text-xl font-bold text-gray-900">
+                  {analysis.finishedArea.sqFt === null
+                    ? 'Not available'
+                    : analysis.finishedArea.sqFt.toLocaleString('en-US', { maximumFractionDigits: 2 })}
+                </p>
+                <p className="text-xs text-gray-600">
+                  {analysis.finishedArea.completeParcels < analysis.finishedArea.totalParcels && 'Known subtotal. '}
+                  {analysis.finishedArea.knownParcels.toLocaleString()} of{' '}
+                  {analysis.finishedArea.totalParcels.toLocaleString()} unique parcels have reported area.
+                  {analysis.finishedArea.partialParcels > 0 &&
+                    ` ${analysis.finishedArea.partialParcels.toLocaleString()} have only partial coverage.`}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
+                  Value per finished sq ft
+                </p>
+                <p className="text-xl font-bold text-gray-900">
+                  {analysis.finishedAreaValuation.valuePerSqFt === null
+                    ? 'Not available'
+                    : formatCurrency(analysis.finishedAreaValuation.valuePerSqFt, 2)}
+                </p>
+                <p className="text-xs text-gray-600">
+                  {analysis.finishedAreaValuation.parcels.toLocaleString()} of{' '}
+                  {analysis.finishedArea.totalParcels.toLocaleString()} unique parcels qualify.
+                  {analysis.finishedAreaValuation.parcels > 0
+                    ? <> Uses {formatCurrency(analysis.finishedAreaValuation.assessedValue)} assessed value
+                      {' '}&divide; {analysis.finishedAreaValuation.sqFt.toLocaleString('en-US', { maximumFractionDigits: 2 })} sq ft.</>
+                    : ' Complete, positive finished area and a known assessed value are required.'}
+                </p>
               </div>
               <div>
                 <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
@@ -917,7 +1088,9 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                 </p>
               </div>
               <p className="sm:col-span-2 lg:col-span-5 text-xs text-gray-600">
-                Only parcels whose complete geometry falls inside the polygon are counted.
+                {selectionMethod === 'polygon'
+                  ? 'Only parcels whose complete geometry falls inside the polygon are counted. '
+                  : 'This analysis uses an explicit list of selected parcels, not a boundary polygon. '}
                 Counted parcels are shaded purple, including those hidden by the map filters;
                 the drawn selection outline is removed.
                 Percentage compares {formatCurrency(analysis.value)} with{' '}
@@ -930,12 +1103,41 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                 These are rate-based estimates, not actual bills or collections; parcel-specific
                 exemptions, relief, special districts, fees, and collection losses are not modeled.
               </p>
+              {analysis.features.map((feature) => {
+                const rollup = feature.properties.assessment_rollup;
+                if (!rollup) return null;
+                return (
+                  <p key={feature.properties.parcel_id} className="sm:col-span-2 lg:col-span-5 text-xs text-gray-600">
+                    Parcel {feature.properties.parcel_id} includes {rollup.accounts.length} separately
+                    assessed condominium accounts from tax year {rollup.tax_year}, verified {rollup.verified}.
+                    Their assessed values are combined; the parent&apos;s land acreage is counted once.
+                    The base GIS parent assessment is {formatCurrency(rollup.parent_tax_value)}.{' '}
+                    <a href={rollup.source} target="_blank" rel="noopener noreferrer" className="underline">
+                      View unit tax records
+                    </a>.
+                  </p>
+                );
+              })}
               <p className="sm:col-span-2 lg:col-span-5 text-xs text-gray-600">
-                Building square footage is not included in the map dataset or its source parcel
-                service. Parcel acreage measures land area, not building footprint or floor area,
-                and cannot be used to calculate built square feet.
+                {geojson?.metadata.finished_area ? <>
+                  Finished area comes from{' '}
+                  <a href={geojson.metadata.finished_area.source} target="_blank" rel="noopener noreferrer" className="underline">
+                    County DEVNET Structures
+                  </a>, tax year {geojson.metadata.finished_area.tax_year}, downloaded {geojson.metadata.finished_area.retrieved}.
+                  {' '}The <code>gross_living_area</code> field matches tax-record Total Finished Area.
+                  This is reported finished/living floor area, not land area or building footprint;
+                  garages, porches, unfinished spaces, and outbuildings may not be represented.
+                  Missing records are unknown, not zero or proof of vacant land, and are excluded
+                  from the known subtotal. This snapshot may lag newer development.
+                  Condominium unit areas are counted once on their mapped parent.
+                  {' '}Value per finished sq ft divides the combined assessed value of qualifying
+                  parcels (land and buildings) by their combined finished area, not an average of
+                  parcel ratios. Missing, partial, and zero-area records are excluded from both
+                  sides of that calculation. It is not a sale price or construction cost.
+                </> : 'No finished-area source snapshot is attached to these map data.'}
               </p>
             </div>
+            </>
           )}
         </div>
       </div>
@@ -944,6 +1146,16 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       <div className="relative">
         {/* Leaflet map container */}
         <div ref={mapRef} style={{ height: '720px' }} className="rounded-xl border overflow-hidden z-0" />
+
+        {isSettingUp && (
+          <div className="absolute top-3 right-3 z-[400] max-w-[70%] rounded-lg border border-amber-300 bg-white/95 p-3 text-sm shadow">
+            <p className="font-medium">{neighborhoodName.trim() || 'Neighborhood setup'}</p>
+            <p>{(analysis?.parcels ?? 0).toLocaleString()} parcels selected. Click parcels to add or remove.</p>
+            <a href="#neighborhood-setup-heading" className="mt-1 inline-block font-medium text-violet-800 underline">
+              Back to setup and export
+            </a>
+          </div>
+        )}
 
         {/* Legend overlay */}
         {legendLabels.length > 0 && (

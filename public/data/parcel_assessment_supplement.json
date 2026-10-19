@@ -1,0 +1,203 @@
+{
+  "base_map_generated": "2026-10-12",
+  "verified": "2026-10-18",
+  "tax_year": 2026,
+  "geometry_source": "https://gisservices.chathamcountync.gov/opendataagol/rest/services/Cadastral/Chatham_CamaParcels/MapServer/0",
+  "geometry_parcel_year": 2027,
+  "coverage_source": "https://chathamnc.devnetwedge.com/search/quick?q=0094073",
+  "coverage_note": "Public tax search lists the parent and these 14 accounts for 2026. The former 0094073-300 account is historical (2024) and is not included. Unit assessed values, not construction costs, were verified on each account page. The 2027 GIS parent has a zero assessment; the explicit 2026 unit supplement is used instead.",
+  "parent_feature": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -79.16418079161275,
+            35.75759302621245
+          ],
+          [
+            -79.16424505176236,
+            35.75760331051707
+          ],
+          [
+            -79.16499799020825,
+            35.757602292765476
+          ],
+          [
+            -79.16499787816328,
+            35.757547346531325
+          ],
+          [
+            -79.16499689404337,
+            35.757064736301245
+          ],
+          [
+            -79.16499681001076,
+            35.75702352661862
+          ],
+          [
+            -79.16520267069443,
+            35.757023247545035
+          ],
+          [
+            -79.16520247437403,
+            35.7569270916172
+          ],
+          [
+            -79.16520192532158,
+            35.756658169574216
+          ],
+          [
+            -79.16520177994305,
+            35.75658696388423
+          ],
+          [
+            -79.16505819753817,
+            35.756604240084634
+          ],
+          [
+            -79.1647400580005,
+            35.75660521796697
+          ],
+          [
+            -79.16474091037102,
+            35.75702387304198
+          ],
+          [
+            -79.16471007503456,
+            35.75704951674061
+          ],
+          [
+            -79.1646431605646,
+            35.75710516473093
+          ],
+          [
+            -79.16433094729418,
+            35.75710558640951
+          ],
+          [
+            -79.16417145853806,
+            35.757105801507834
+          ],
+          [
+            -79.16416801167573,
+            35.757143688119704
+          ],
+          [
+            -79.16415873251522,
+            35.75718058220323
+          ],
+          [
+            -79.16414384546303,
+            35.7572155915148
+          ],
+          [
+            -79.16412371054645,
+            35.75724786939195
+          ],
+          [
+            -79.16409881470673,
+            35.757276635229054
+          ],
+          [
+            -79.16392594761675,
+            35.75745486963307
+          ],
+          [
+            -79.16418079161275,
+            35.75759302621245
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "parcel_id": "0094073",
+      "owner": "MOSAIC LOT 6 LLC,",
+      "address": "120 100 Mosaic Blvd",
+      "acres": 1.6825008125297818,
+      "reported_acres": 1.6825008125297818,
+      "allocated_shared_acres": 0,
+      "shared_land_parcels": [],
+      "acreage_method": "parcel",
+      "tax_value": 0,
+      "value_per_acre": null,
+      "use_code": "C",
+      "tax_status": "",
+      "action": "exclude",
+      "anomaly_reason": "zero_value_taxable"
+    }
+  },
+  "accounts": [
+    {
+      "parcel_id": "0094073-100",
+      "tax_value": 1849057,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-100/2026"
+    },
+    {
+      "parcel_id": "0094073-200",
+      "tax_value": 1941143,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-200/2026"
+    },
+    {
+      "parcel_id": "0094073-301",
+      "tax_value": 462098,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-301/2026"
+    },
+    {
+      "parcel_id": "0094073-302",
+      "tax_value": 420423,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-302/2026"
+    },
+    {
+      "parcel_id": "0094073-303",
+      "tax_value": 593183,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-303/2026"
+    },
+    {
+      "parcel_id": "0094073-304",
+      "tax_value": 457823,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-304/2026"
+    },
+    {
+      "parcel_id": "0094073-305",
+      "tax_value": 446865,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-305/2026"
+    },
+    {
+      "parcel_id": "0094073-306",
+      "tax_value": 461590,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-306/2026"
+    },
+    {
+      "parcel_id": "0094073-307",
+      "tax_value": 437283,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-307/2026"
+    },
+    {
+      "parcel_id": "0094073-308",
+      "tax_value": 338228,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-308/2026"
+    },
+    {
+      "parcel_id": "0094073-309",
+      "tax_value": 919469,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-309/2026"
+    },
+    {
+      "parcel_id": "0094073-310",
+      "tax_value": 690625,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-310/2026"
+    },
+    {
+      "parcel_id": "0094073-311",
+      "tax_value": 325855,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-311/2026"
+    },
+    {
+      "parcel_id": "0094073-B",
+      "tax_value": 475290,
+      "source": "https://chathamnc.devnetwedge.com/parcel/view/0094073-B/2026"
+    }
+  ]
+}
