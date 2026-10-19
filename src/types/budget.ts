@@ -219,6 +219,23 @@ export interface TaxBaseData {
 
 export type AnomalyAction = 'include' | 'review' | 'exclude';
 
+export interface ParcelAssessmentRollup {
+  tax_year: number;
+  verified: string;
+  parent_tax_value: number;
+  accounts: Array<{ parcel_id: string; tax_value: number; source: string }>;
+  source: string;
+}
+
+export interface ParcelFinishedArea {
+  sq_ft: number | null;
+  status: 'reported' | 'partial' | 'unavailable';
+  structures: number;
+  accounts: number;
+  matched_accounts: number;
+  missing_area_records: number;
+}
+
 export interface ParcelProperties {
   parcel_id: string;
   owner: string;
@@ -234,12 +251,26 @@ export interface ParcelProperties {
   tax_status: string;
   action: AnomalyAction;
   anomaly_reason: string;
+  assessment_rollup?: ParcelAssessmentRollup;
+  finished_area?: ParcelFinishedArea;
 }
 
 export interface ParcelFeature {
   type: 'Feature';
   geometry: GeoJsonPolygon | GeoJsonMultiPolygon;
   properties: ParcelProperties;
+}
+
+export interface NeighborhoodPreset {
+  id: string;
+  name: string;
+  description: string;
+  source: string;
+  parcelIds: string[];
+}
+
+export interface NeighborhoodReviewCandidate extends NeighborhoodPreset {
+  unmappedParcelIds: string[];
 }
 
 export interface GeoJsonPolygon {
@@ -263,6 +294,12 @@ export interface ValuePerAcreGeoJSON {
     included: number;
     review: number;
     total_tax_value?: number;
+    finished_area?: {
+      source: string;
+      field: 'gross_living_area';
+      tax_year: number;
+      retrieved: string;
+    };
   };
 }
 
@@ -280,6 +317,7 @@ export interface AnomalyRecord {
   anomaly_flags: string[];
   anomaly_reason: string;
   action: AnomalyAction;
+  assessment_rollup?: ParcelAssessmentRollup;
 }
 
 export interface ValuePerAcreAnomalies {

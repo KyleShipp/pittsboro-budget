@@ -46,6 +46,7 @@ const FLAG_LABELS: Record<string, string> = {
   missing_value:       'Missing value',
   zero_value_taxable:  'Zero value (taxable)',
   shared_land_allocated: 'Shared land allocated',
+  condo_assessment_rollup: 'Condominium assessments aggregated',
   duplicate_parcel_id: 'Duplicate parcel ID',
   extreme_high_vpa:    'Extreme high value/acre',
   extreme_low_vpa:     'Extreme low value/acre',

@@ -4,9 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prepare:parcels": "node scripts/apply-parcel-assessments.cjs && node scripts/parcel-finished-area.cjs",
+    "refresh:finished-area": "node scripts/parcel-finished-area.cjs --refresh",
+    "predev": "npm run prepare:parcels",
     "dev": "next dev",
+    "prebuild": "npm run prepare:parcels",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "node --test"
   },
   "keywords": [],
   "author": "",
