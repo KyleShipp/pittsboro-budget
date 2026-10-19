@@ -121,6 +121,33 @@ Pittsboro.
 
 ### Finished floor area
 
+The map starts at **Show All**. Finished-area and value-per-finished-square-foot
+cards show the figures without calculation paragraphs or partial-data badges.
+Parcels without reported structures are expected; floor area and acreage measure
+different things. **About this map**, **Analysis notes
+and sources**, parcel popup notes, and data-source footnotes are collapsed by
+default. Expand them for coverage counts, calculation bases, tax assumptions,
+and source provenance.
+
+After selecting a neighborhood or analyzing an area, **Export JPEG** downloads
+the current summary and parcel map at twice screen resolution, with the current
+viewport, parcel shading, legend, and OpenStreetMap attribution. The VaraGov
+logo appears in the upper-right corner of the JPEG only. Controls and
+explanatory footnotes are omitted even if expanded. Export is unavailable during
+drawing, local editing, map movement, or tile loading. Missing map tiles or
+capture failures produce a visible error rather than an incomplete image.
+
+Shared-land allocation alone is an informational adjustment, not an orange
+anomaly. These parcels retain normal quantile colors and remain visible when
+review parcels are hidden. Other genuine review reasons remain flagged.
+The underlying source flags are preserved for auditing; the review table and
+CSV classify allocation-only records as included adjustments. Analysis notes
+give a brief general explanation rather than a parcel-by-parcel allocation list.
+In the underlying data,
+`shared_common` uses the allocated share without adding the unit footprint again;
+`parcel_plus_shared_common` adds reported acreage and the allocated share.
+Neither changes the assessed value or the calculation results.
+
 Parcel popups and every analysis workflow (drawn polygons, public presets,
 and local manual selections) show **Finished area (sq ft)** using the County's
 [DEVNET Structures table](https://gisservices.chathamcountync.gov/opendataagol/rest/services/Cadastral/Chatham_PropertyImprovements/MapServer/0).
@@ -136,8 +163,8 @@ explicitly report zero. Multiple structures on one account are summed.
 Building IDs are scoped by parcel and property class because mixed-use
 parcels can reuse a building ID in different classes.
 
-The analysis displays coverage and labels incomplete totals as a **known
-subtotal**. A missing structure record or null area is unknown, not zero or
+Coverage counts and source limitations remain in the collapsed analysis notes,
+not as caveats on the metric cards. A missing structure record or null area is unknown, not zero or
 proof that land is vacant. Reported zero is preserved as zero. Finished/living
 area is not a building footprint, land area, or a complete measure of every
 garage, porch, unfinished space, or outbuilding. This 2026 source can lag

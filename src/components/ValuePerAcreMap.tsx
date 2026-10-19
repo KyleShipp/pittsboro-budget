@@ -17,6 +17,8 @@ import { calculateTaxBill } from '@/lib/calculations';
 import { getTaxBase } from '@/lib/data';
 import { getFinishedAreaValuation, summarizeParcels } from '@/lib/parcel-analysis';
 import { resolveNeighborhood } from '@/lib/neighborhoods';
+import { normalizeMapReviews } from '@/lib/parcel-review';
+import VaraGovLogo from '@/components/VaraGovLogo';
 import neighborhoodDefinitions from '../../public/data/neighborhoods.json';
 import type { ValuePerAcreGeoJSON, ParcelFeature, ParcelProperties, NeighborhoodPreset } from '@/types/budget';
 
@@ -123,6 +125,9 @@ interface Props {
 
 export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
+  const captureRef = useRef<HTMLDivElement>(null);
+  const exportBrandRef = useRef<HTMLDivElement>(null);
+  const tileLayerRef = useRef<L.TileLayer | null>(null);
   const leafletMapRef = useRef<L.Map | null>(null);
   const geoLayerRef = useRef<L.GeoJSON | null>(null);
   const analysisLayerRef = useRef<L.LayerGroup | null>(null);
@@ -142,7 +147,11 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState<{ min: number; max: number; median: number; q1: number; q3: number } | null>(null);
   const [sortedVpa, setSortedVpa] = useState<number[]>([]);
-  const [rangePos, setRangePos] = useState<{ min: number; max: number }>({ min: 250, max: 750 });
+  const [rangePos, setRangePos] = useState<{ min: number; max: number }>({ min: 0, max: SLIDER_STEPS });
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
+  const [mapMoving, setMapMoving] = useState(false);
+  const [tilesLoading, setTilesLoading] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawPoints, setDrawPoints] = useState<Array<[number, number]>>([]);
   const updateDrawPoints = useCallback((points: Array<[number, number]>) => {
@@ -223,7 +232,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json() as Promise<ValuePerAcreGeoJSON>;
       })
-      .then((data) => {
+      .then((raw) => {
+        const data = normalizeMapReviews(raw);
         setGeojson(data);
         const vpas = data.features
           .map((f) => f.properties.value_per_acre)
@@ -239,9 +249,8 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
         const q3 = sorted[Math.floor(sorted.length * 0.75)] ?? max;
         
         setStats({ min, max, median, q1, q3 });
-        // Set default range: show middle 50% so map is populated on first load.
-        setFilters((f) => ({ ...f, minVpa: q1, maxVpa: q3 }));
-        setRangePos({ min: 250, max: 750 });
+        setFilters((f) => ({ ...f, minVpa: min, maxVpa: max }));
+        setRangePos({ min: 0, max: SLIDER_STEPS });
         
         onLoad?.(data.metadata);
         setLoading(false);
@@ -256,8 +265,10 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
   useEffect(() => {
     if (!geojson || !mapRef.current || leafletMapRef.current) return;
 
+    let disposed = false;
     // Leaflet is browser-only; we import it dynamically here.
     import('leaflet').then((L) => {
+      if (disposed || !mapRef.current || leafletMapRef.current) return;
       // Fix broken default icon path (common Leaflet + webpack issue).
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -276,16 +287,24 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
       analysisPane.style.zIndex = '450';
       analysisPane.style.pointerEvents = 'none';
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 19,
+        crossOrigin: true,
       }).addTo(map);
+      tileLayerRef.current = tiles;
+      tiles.on('loading', () => setTilesLoading(true));
+      tiles.on('load', () => setTilesLoading(false));
+      map.on('movestart', () => setMapMoving(true));
+      map.on('moveend', () => setMapMoving(false));
 
       leafletMapRef.current = map;
       setMapReady(true);
     });
 
     return () => {
+      disposed = true;
+      tileLayerRef.current = null;
       if (leafletMapRef.current) {
         leafletMapRef.current.remove();
         leafletMapRef.current = null;
@@ -295,6 +314,56 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geojson]);
+
+  const exportJpeg = async () => {
+    setExportError(null);
+    if (!captureRef.current || !mapRef.current || !analysis || !mapReady) {
+      setExportError('Select a neighborhood or analyze an area before exporting.');
+      return;
+    }
+    if (mapMoving || tileLayerRef.current?.isLoading()) {
+      setExportError('Wait for the map to finish moving and loading, then try again.');
+      return;
+    }
+    setIsExporting(true);
+    const container = captureRef.current.parentElement;
+    const wasInert = container?.inert ?? false;
+    if (container) container.inert = true;
+    const expandedNotes = [...captureRef.current.querySelectorAll<HTMLDetailsElement>('details[open]')];
+    expandedNotes.forEach((note) => { note.open = false; });
+    if (exportBrandRef.current) exportBrandRef.current.hidden = false;
+    try {
+      const tiles = [...mapRef.current.querySelectorAll<HTMLImageElement>('img.leaflet-tile')];
+      if (!tiles.length || tiles.some((tile) => !tile.complete || tile.naturalWidth === 0)) {
+        throw new Error('Some map tiles have not loaded. Wait or reload the map, then retry.');
+      }
+      const { toJpeg } = await import('html-to-image');
+      const image = await toJpeg(captureRef.current, {
+        backgroundColor: '#ffffff',
+        quality: 0.95,
+        pixelRatio: 2,
+        skipFonts: true,
+        onImageErrorHandler: () => { throw new Error('A map image could not be embedded. Reload the map and retry.'); },
+        filter: (node) => !(node instanceof Element &&
+          (node.hasAttribute('data-export-exclude') || node.classList.contains('leaflet-control-zoom'))),
+      });
+      const link = document.createElement('a');
+      link.href = image;
+      const name = selectedNeighborhood?.name || 'custom-area';
+      link.download = `pittsboro-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-parcel-analysis.jpg`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (cause) {
+      console.error('Parcel JPEG export failed', cause);
+      setExportError(`JPEG export failed: ${cause instanceof Error ? cause.message : String(cause)}`);
+    } finally {
+      expandedNotes.forEach((note) => { note.open = true; });
+      if (exportBrandRef.current) exportBrandRef.current.hidden = true;
+      if (container) container.inert = wasInert;
+      setIsExporting(false);
+    }
+  };
 
   useEffect(() => {
     const map = leafletMapRef.current;
@@ -535,7 +604,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
             return;
           }
           const anomalyBadge =
-            p.anomaly_reason
+            p.action === 'review' && p.anomaly_reason
               ? `<div class="mt-1 text-xs font-semibold text-orange-600">
                    ⚠ ${p.anomaly_reason.replace(/;/g, '<br>⚠ ')}
                  </div>`
@@ -549,10 +618,6 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                <table class="w-full text-xs border-t pt-1">
                  <tr><td class="text-gray-500 pr-2">Acres</td>
                      <td class="text-right font-medium">${formatAcres(p.acres)}</td></tr>
-                 ${p.allocated_shared_acres
-                   ? `<tr><td class="text-gray-500 pr-2">Shared acres</td>
-                        <td class="text-right font-medium">+${formatAcres(p.allocated_shared_acres)}</td></tr>`
-                   : ''}
                  <tr><td class="text-gray-500 pr-2">Tax Value</td>
                      <td class="text-right font-medium">${formatCurrency(p.tax_value)}</td></tr>
                  <tr><td class="text-gray-500 pr-2">Finished area (sq ft)</td>
@@ -565,7 +630,9 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                  <tr><td class="text-gray-500 pr-2 font-semibold">Value/Acre</td>
                      <td class="text-right font-bold text-pittsboro-green">${formatCurrency(p.value_per_acre)}</td></tr>
                </table>
-               <div class="mt-2 text-xs text-gray-600">
+               <details class="mt-2 text-xs text-gray-600">
+               <summary class="cursor-pointer font-medium">Parcel notes and sources</summary>
+               <div class="mt-2">
                  ${geojson.metadata.finished_area ? `${geojson.metadata.finished_area.tax_year} County structures data. ` : ''}
                  ${p.finished_area?.status === 'partial'
                    ? 'Known subtotal; source coverage is incomplete.'
@@ -585,6 +652,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                     </div>`
                  : ''}
                ${anomalyBadge}
+               </details>
              </div>`,
             { maxWidth: 280 }
           );
@@ -949,7 +1017,16 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                 Clear analysis
               </button>
             )}
+            <button
+              type="button"
+              onClick={exportJpeg}
+              disabled={!analysis || !mapReady || isDrawing || isSettingUp || isExporting || mapMoving || tilesLoading}
+              className="px-3 py-2 rounded-lg border text-sm font-medium text-gray-700 enabled:hover:bg-gray-50 disabled:opacity-40"
+            >
+              {isExporting ? 'Exporting JPEG...' : 'Export JPEG'}
+            </button>
           </div>
+          {exportError && <p role="alert" className="mt-2 text-sm text-red-700">{exportError}</p>}
 
           {NeighborhoodSetupPanel && isSettingUp && geojson && (
             <NeighborhoodSetupPanel
@@ -970,18 +1047,21 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
             />
           )}
 
+        </div>
+      </div>
+      <div ref={captureRef} aria-busy={isExporting} className="flow-root rounded-xl bg-white">
           {analysis && (
             <>
-            <div className="mt-4">
+            <div className="mt-4 flex items-start justify-between gap-4">
+              <div className="min-w-0">
               <h2 className="font-semibold text-gray-900">
                 {isSettingUp ? neighborhoodName.trim() || 'Neighborhood setup selection' : selectedNeighborhood?.name || 'Custom area analysis'}
               </h2>
-              {selectedNeighborhood && (
-                <>
-                  <p className="mt-1 text-sm text-gray-600">{selectedNeighborhood.description}</p>
-                  <p className="mt-1 break-words text-xs text-gray-500">Selection source: {selectedNeighborhood.source}</p>
-                </>
-              )}
+              <p className="text-xs text-gray-500">Town of Pittsboro parcel analysis</p>
+              </div>
+              <div ref={exportBrandRef} hidden className="shrink-0">
+                <VaraGovLogo />
+              </div>
             </div>
             <div className="mt-3 grid sm:grid-cols-2 lg:grid-cols-5 gap-3 rounded-lg border border-violet-200 bg-violet-50 p-4">
               <div>
@@ -1033,13 +1113,6 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                     ? 'Not available'
                     : analysis.finishedArea.sqFt.toLocaleString('en-US', { maximumFractionDigits: 2 })}
                 </p>
-                <p className="text-xs text-gray-600">
-                  {analysis.finishedArea.completeParcels < analysis.finishedArea.totalParcels && 'Known subtotal. '}
-                  {analysis.finishedArea.knownParcels.toLocaleString()} of{' '}
-                  {analysis.finishedArea.totalParcels.toLocaleString()} unique parcels have reported area.
-                  {analysis.finishedArea.partialParcels > 0 &&
-                    ` ${analysis.finishedArea.partialParcels.toLocaleString()} have only partial coverage.`}
-                </p>
               </div>
               <div>
                 <p className="text-xs font-medium uppercase tracking-wide text-violet-700">
@@ -1049,14 +1122,6 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                   {analysis.finishedAreaValuation.valuePerSqFt === null
                     ? 'Not available'
                     : formatCurrency(analysis.finishedAreaValuation.valuePerSqFt, 2)}
-                </p>
-                <p className="text-xs text-gray-600">
-                  {analysis.finishedAreaValuation.parcels.toLocaleString()} of{' '}
-                  {analysis.finishedArea.totalParcels.toLocaleString()} unique parcels qualify.
-                  {analysis.finishedAreaValuation.parcels > 0
-                    ? <> Uses {formatCurrency(analysis.finishedAreaValuation.assessedValue)} assessed value
-                      {' '}&divide; {analysis.finishedAreaValuation.sqFt.toLocaleString('en-US', { maximumFractionDigits: 2 })} sq ft.</>
-                    : ' Complete, positive finished area and a known assessed value are required.'}
                 </p>
               </div>
               <div>
@@ -1087,7 +1152,23 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                   {analysis.acres > 0 ? formatCurrency(townTax / analysis.acres) : '—'}
                 </p>
               </div>
-              <p className="sm:col-span-2 lg:col-span-5 text-xs text-gray-600">
+              <details data-export-exclude className="sm:col-span-2 lg:col-span-5 text-xs text-gray-600">
+              <summary className="cursor-pointer font-medium text-violet-800">Analysis notes and sources</summary>
+              <div className="mt-2 space-y-2">
+              {selectedNeighborhood && <>
+                <p>{selectedNeighborhood.description}</p>
+                <p className="break-words">Selection source: {selectedNeighborhood.source}</p>
+              </>}
+              <p>
+                Finished area: {analysis.finishedArea.knownParcels.toLocaleString()} of{' '}
+                {analysis.finishedArea.totalParcels.toLocaleString()} unique parcels have reported area;
+                {' '}{analysis.finishedArea.partialParcels.toLocaleString()} have only partial records.
+                Value per finished sq ft uses {analysis.finishedAreaValuation.parcels.toLocaleString()} qualifying parcels:
+                {' '}{formatCurrency(analysis.finishedAreaValuation.assessedValue)} assessed value &divide;{' '}
+                {analysis.finishedAreaValuation.sqFt.toLocaleString('en-US', { maximumFractionDigits: 2 })} sq ft.
+                If no parcels qualify, the ratio is not available.
+              </p>
+              <p>
                 {selectionMethod === 'polygon'
                   ? 'Only parcels whose complete geometry falls inside the polygon are counted. '
                   : 'This analysis uses an explicit list of selected parcels, not a boundary polygon. '}
@@ -1136,11 +1217,15 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
                   sides of that calculation. It is not a sale price or construction cost.
                 </> : 'No finished-area source snapshot is attached to these map data.'}
               </p>
+              {analysis.features.some((feature) => feature.properties.shared_land_parcels?.length) && (
+                <p>Shared-space allocations are included in effective acreage without double-counting
+                  common land. They do not change assessed values.</p>
+              )}
+              </div>
+              </details>
             </div>
             </>
           )}
-        </div>
-      </div>
 
       {/* ── Map + Legend layout ─────────────────────────────────────────── */}
       <div className="relative">
@@ -1183,6 +1268,7 @@ export default function ValuePerAcreMap({ dataUrl, onLoad }: Props) {
             )}
           </div>
         )}
+      </div>
       </div>
     </div>
   );

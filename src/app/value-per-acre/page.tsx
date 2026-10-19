@@ -86,8 +86,9 @@ export default function ValuePerAcrePage() {
       </div>
 
       {/* Explainer */}
-      <div className="bg-pittsboro-green/5 border border-pittsboro-green/20 rounded-xl p-4 mb-6 text-sm text-gray-700">
-        <p>
+      <details className="bg-pittsboro-green/5 border border-pittsboro-green/20 rounded-xl p-4 mb-6 text-sm text-gray-700">
+        <summary className="cursor-pointer font-medium text-pittsboro-green">About this map</summary>
+        <p className="mt-2">
           <strong className="text-pittsboro-green">Value per Acre</strong> = Total Assessed Value ÷ Parcel Acres.
           Higher values indicate more intensively used or more expensive land.
           Parcels are colored by quantile (7 equal-count classes).
@@ -117,21 +118,34 @@ export default function ValuePerAcrePage() {
           After analysis, purple shading marks the exact parcels counted instead
           of the drawn selection outline.
           It also estimates annual Town and County property taxes using the rates
-          shown in the summary. Building square footage is not available from the
-          source parcel data.
+          shown in the summary. Finished square footage is linked from the County
+          improvements records; coverage and calculation details are available in
+          the collapsed analysis notes.
         </p>
-      </div>
+        <p className="mt-2">
+          Shared-space allocations use normal parcel colors, unless another data-quality
+          issue requires review. Analysis notes briefly explain shared acreage
+          without parcel-by-parcel breakdowns.
+          The initial range is <strong>Show All</strong>.
+          Use <strong>Export JPEG</strong> after analyzing an area to download the current
+          map and summary, including the legend and map attribution, without controls or footnotes.
+        </p>
+      </details>
 
       {/* Map */}
       <ValuePerAcreMap dataUrl={DATA_URL} onLoad={handleLoad} />
 
       {/* Footer note */}
-      <p className="mt-4 text-xs text-gray-400">
+      <details className="mt-4 text-xs text-gray-500">
+      <summary className="cursor-pointer">Data sources and updates</summary>
+      <p className="mt-2">
         Source: Chatham County CAMA Parcels ArcGIS service. Calculations and
         anomaly detection performed by{' '}
         <code>PittsboroTaxBase/pittsboro_value_per_acre.py</code>.
-        Re-run that script to refresh data.
+        Re-run that script to refresh parcel data, then reverify the checked-in
+        assessment supplement and refresh finished area before rebuilding.
       </p>
+      </details>
     </div>
   );
 }

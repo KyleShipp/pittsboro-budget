@@ -19,6 +19,7 @@ function loadLibrary(name) {
 
 const { resolveNeighborhood, createNeighborhoodDefinition } = loadLibrary('neighborhoods');
 const { getFinishedAreaValuation, summarizeParcels } = loadLibrary('parcel-analysis');
+const { normalizeMapReviews, parcelReviewAction } = loadLibrary('parcel-review');
 const readData = (name) => JSON.parse(fs.readFileSync(path.join(root, 'public', 'data', name), 'utf8'));
 const plain = (value) => JSON.parse(JSON.stringify(value));
 function parcel(id, value = 100000, acres = 1) {
@@ -43,6 +44,37 @@ test('explicit membership selects only listed parcels and preserves leading zero
   assert.equal(result.issues.length, 0);
   assert.equal(result.features.length, 1);
   assert.equal(result.features[0], b);
+});
+
+test('shared-space allocation alone is informational; genuine review reasons are preserved', () => {
+  const item = {
+    ...parcel('0000001').properties, action: 'review', anomaly_reason: 'shared_land_allocated',
+    allocated_shared_acres: 0.1, shared_land_parcels: ['0000002'],
+  };
+  assert.equal(parcelReviewAction(item), 'include');
+  assert.equal(parcelReviewAction({ ...item, anomaly_reason: 'shared_land_allocated;extreme_high_vpa' }), 'review');
+  assert.equal(parcelReviewAction({ ...item, action: 'exclude' }), 'exclude');
+  assert.equal(parcelReviewAction({ ...item, shared_land_parcels: [] }), 'review');
+  assert.equal(parcelReviewAction({ ...item, allocated_shared_acres: 0 }), 'review');
+  assert.equal(parcelReviewAction({ ...item, anomaly_reason: 'condo_assessment_rollup' }), 'review');
+});
+
+test('map presentation reclassifies all 32 documented shared allocations without changing values or source data', () => {
+  const data = readData('value_per_acre.geojson');
+  const before = structuredClone(data);
+  const normalized = normalizeMapReviews(data);
+  assert.deepEqual(data, before);
+  assert.equal(normalized.metadata.review, data.metadata.review - 32);
+  assert.equal(normalized.metadata.included, data.metadata.included + 32);
+  assert.equal(normalized.metadata.total_tax_value, data.metadata.total_tax_value);
+  const cottage = normalized.features.find((feature) => feature.properties.parcel_id === '0094042');
+  assert.equal(cottage.properties.action, 'include');
+  for (let i = 0; i < data.features.length; i++) {
+    const { action, ...properties } = plain(normalized.features[i].properties);
+    const { action: previous, ...originalProperties } = data.features[i].properties;
+    assert.deepEqual(properties, originalProperties);
+    assert.deepEqual(plain(normalized.features[i].geometry), data.features[i].geometry);
+  }
 });
 
 test('missing IDs block the entire preset instead of returning partial totals', () => {
