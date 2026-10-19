@@ -11,6 +11,7 @@
 import Link from 'next/link';
 import { useEffect, useState, useMemo } from 'react';
 import type { AnomalyRecord, ValuePerAcreAnomalies } from '@/types/budget';
+import { parcelReviewAction } from '@/lib/parcel-review';
 
 // ── Data URL (handles Next.js basePath) ─────────────────────────────────────
 const BASE_PATH = process.env.NODE_ENV === 'production' ? '/pittsboro-budget' : '';
@@ -83,7 +84,7 @@ export default function AnomaliesPage() {
   const [error, setError] = useState<string | null>(null);
 
   // Filter state
-  const [actionFilter, setActionFilter] = useState<'all' | 'exclude' | 'review'>('all');
+  const [actionFilter, setActionFilter] = useState<'all' | 'exclude' | 'review' | 'include'>('all');
   const [flagFilter, setFlagFilter] = useState<string>('all');
   const [search, setSearch] = useState('');
 
@@ -99,7 +100,10 @@ export default function AnomaliesPage() {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json() as Promise<ValuePerAcreAnomalies>;
       })
-      .then((d) => { setData(d); setLoading(false); })
+      .then((d) => {
+        setData({ ...d, records: d.records.map((record) => ({ ...record, action: parcelReviewAction(record) })) });
+        setLoading(false);
+      })
       .catch((e) => { setError(String(e)); setLoading(false); });
   }, []);
 
@@ -266,6 +270,7 @@ export default function AnomaliesPage() {
   const byCounts = {
     exclude: data.records.filter((r) => r.action === 'exclude').length,
     review:  data.records.filter((r) => r.action === 'review').length,
+    include: data.records.filter((r) => r.action === 'include').length,
   };
 
   return (
@@ -282,14 +287,14 @@ export default function AnomaliesPage() {
         </div>
         <h1 className="text-3xl font-bold text-gray-900">Anomaly Review</h1>
         <p className="text-lg text-gray-600 mt-1">
-          Parcels flagged during value-per-acre data quality checks
+          Parcel data-quality checks and documented shared-space adjustments
         </p>
       </div>
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
         <div className="bg-white rounded-xl border p-4">
-          <p className="text-xs text-gray-500 uppercase tracking-wide">Total Flagged</p>
+          <p className="text-xs text-gray-500 uppercase tracking-wide">Review and Adjustment Records</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.total_anomalies.toLocaleString()}</p>
         </div>
         <div className="bg-white rounded-xl border p-4">
@@ -305,23 +310,30 @@ export default function AnomaliesPage() {
           <p className="text-xs text-gray-400 mt-0.5">Shown in orange</p>
         </div>
         <div className="bg-white rounded-xl border p-4">
-          <p className="text-xs text-gray-500 uppercase tracking-wide">IQR Multiplier</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{data.iqr_multiplier}×</p>
-          <p className="text-xs text-gray-400 mt-0.5">Log-scale outlier threshold</p>
+          <p className="text-xs text-gray-500 uppercase tracking-wide">Included Adjustments</p>
+          <p className="text-2xl font-bold text-green-700 mt-1">{byCounts.include.toLocaleString()}</p>
+          <p className="text-xs text-gray-400 mt-0.5">Normal parcel colors</p>
         </div>
       </div>
 
       {/* IQR thresholds info */}
-      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-sm text-amber-800">
-        <p>
-          <strong>Outlier thresholds (IQR method, log scale):</strong>{' '}
+      <details className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-sm text-amber-800">
+        <summary className="cursor-pointer font-medium">Review thresholds and allocation notes</summary>
+        <p className="mt-2">
+          <strong>Outlier thresholds (IQR method, log scale; {data.iqr_multiplier}× multiplier):</strong>{' '}
           Parcels with value/acre below{' '}
           <strong>{fmtCurrency(data.iqr_low_threshold)}/ac</strong> or above{' '}
           <strong>{fmtCurrency(data.iqr_high_threshold)}/ac</strong> are flagged for review
           (action = &quot;review&quot;) and shown on the map in orange. They are not automatically excluded
           because the value may be genuine (e.g. downtown commercial land or large rural tracts).
         </p>
-      </div>
+        <p className="mt-2">
+          Shared-land allocation alone is an included adjustment, not an anomaly.
+          Its original source flag is retained here for auditing, with effective acreage,
+          allocated acreage and source parcel IDs available in the table and CSV.
+          Other review flags still use orange.
+        </p>
+      </details>
 
       {/* Filters */}
       <div className="bg-white rounded-xl border p-4 mb-4 flex flex-wrap gap-4 items-end">
@@ -335,6 +347,7 @@ export default function AnomaliesPage() {
             <option value="all">All actions</option>
             <option value="exclude">Exclude ({byCounts.exclude})</option>
             <option value="review">Review ({byCounts.review})</option>
+            <option value="include">Included adjustments ({byCounts.include})</option>
           </select>
         </div>
         <div>
